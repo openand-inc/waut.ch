@@ -1,0 +1,327 @@
+﻿Version=6.5
+NumberOfModules=1
+Module1=wautch_service
+Build1=Default,ch.waut
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="15"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~
+IconFile=
+NumberOfFiles=9
+File1=busybox
+File2=cb.sh
+File3=cb_init.sh
+File4=cb_io.sh
+File5=CB_RunHaveged
+File6=cb_weekly.sh
+File7=haveged
+File8=Main.bal
+File9=sqlite3
+NumberOfLibraries=5
+Library1=core
+Library2=clocks
+Library3=b4arootcmd
+Library4=mlfiles
+Library5=reflection
+@EndOfDesignText@
+#Region  Project Attributes 
+	#ApplicationLabel: waut.ch!
+	#VersionCode: 0
+	#VersionName: 0b7ad9a2-d208-44c0-a1f8-6972c85a4b30
+	'SupportedOrientations possible values: unspecified, landscape or portrait.
+	#SupportedOrientations: unspecified
+	#CanInstallToExternalStorage: False
+#End Region
+
+#Region  Activity Attributes 
+	#FullScreen: False
+	#IncludeTitle: False
+#End Region
+
+Sub Process_Globals
+	'These global variables will be declared once when the application starts.
+	'These variables can be accessed from all modules.	
+End Sub
+
+Sub Globals
+	'These global variables will be redeclared each time the activity is created.
+	'These variables can only be accessed from this module.
+
+	Dim Aclock As AnalogClock	
+
+'	Dim rc_main As RootCmd
+
+'	Dim fs_main As MLfiles
+	
+	Private Panel1 As Panel
+	
+	Private Label1 As Label
+	Private Button2 As Button
+	Private CheckBox1 As CheckBox
+	Private Button1 As Button
+
+	Dim time_I, time_II, time_III As Long
+
+End Sub
+
+Sub random12() As Int
+	If(Rnd(1,64) <= 32 ) Then
+		Return 2
+	Else
+		Return 1
+	End If
+End Sub
+
+
+Sub random13() As Int
+
+	Dim i As Int
+	
+	i = Rnd(1,64)
+	
+	If(i > 0 ) And (i <= 18 )  Then
+		Return 2
+	End If
+	
+	If(i > 18 ) And (i <= 36 )  Then
+		Return 3
+	End If
+	
+	If(i > 36 ) And (i <= 64 )  Then
+		Return 1
+	End If
+	
+	
+End Sub
+
+Sub SetRandom_Local()
+	Dim random,l As Long
+	Dim str As String
+	Dim i,a,b,c,d,j As Int
+	
+'Put throw
+'Put choose
+'If
+	For j = 1 To 64
+
+		For i = 1 To 64
+			If(Rnd(1,64) > 45 ) Then
+				random = Rnd(1,1+Rnd(1,922337203685477))
+				random = Rnd(1+random12,9-random12)
+				random = Rnd(1+random12,9-random12)
+				random = random13
+			End If
+		Next
+
+		'				random = random - Rnd(1+random12,9-random12) * Power(Rnd(1+random12,9-random12),i+1-random12)
+		For i = 1 To 64
+			If(Rnd(1,64) < 19 ) Then
+				random = Rnd(1,1+Rnd(1,922337203685477))
+				random = Rnd(1+random12,9-random12)
+				random = Rnd(1+random12,9-random12)
+				random = random13
+				Label1.Text = Rnd(1,64)
+			End If
+		Next
+		
+		Label1.Text = Rnd(1,64)
+
+	i = random13	
+	Label1.Top = Activity.Height / 2 - (i-2)*10
+
+	i = random13
+	Label1.Left = Activity.Width / 2 - 40 - (i-2)*10
+	
+	Next
+
+	Label1.Text = Rnd(1,64)
+	
+End Sub
+
+Sub Activity_Create(isFirst As Boolean)
+	'Do not forget to load the layout file created with the visual designer. For example:
+
+	Activity.LoadLayout("Main")
+	
+	Activity.Title = "waut.ch! running... ? for help, space to clear page"
+	
+	Aclock.Initialize("Aclock")
+'	Activity.AddView(Aclock, 200dip, 110dip, 100dip, 100dip)
+	Activity.AddView(Aclock, 0dip, 0dip, 100dip, 100dip)
+	
+	Aclock.Color = Colors.Transparent
+
+	Label1.Top = Activity.Height / 2 
+	Label1.Left = Activity.Width / 2 - 40
+
+	Label1.BringToFront
+	
+	Label1.TextSize = 18
+	Button2.TextSize = 14
+	
+	SetRandom_Local
+
+'	ToastMessageShow("check",False)
+
+	SetRandom_Local
+	
+	time_I = DateTime.Now
+	time_II = 0
+	time_III = 0
+	
+	StartService(wautch_service)
+	
+End Sub
+
+Sub StartService_Local()
+'	StartServiceAt(wautch_service,(DateTime.GetDayOfYear+1)*DateTime.TicksPerDay)	
+End Sub
+
+Sub Activity_Pause(UserClosed As Boolean)
+	'Do not forget to load the layout file created with the visual designer. For example:
+
+	SetRandom_Local
+
+	If ( UserClosed = True ) Then
+		Activity.Finish
+'	Else
+'		ToastMessageShow("close",False)
+	End If
+
+	SetRandom_Local
+
+	Label1.TextSize = 18	
+End Sub
+
+Sub Activity_Resume()
+	'Do not forget to load the layout file created with the visual designer. For example:
+	SetRandom_Local
+	Label1.TextSize = 18
+	SetRandom_Local
+	
+'	ToastMessageShow("turn",False)
+End Sub
+
+Sub Aclock_Click
+	SetRandom_Local
+	ToastMessageShow( DateTime.Time(DateTime.Now), False )
+	SetRandom_Local	
+End Sub
+
+Sub Button2_Click
+	
+	Button2.Enabled = False
+
+	Dim random_long As Long
+	Dim i As Int
+
+	time_I = DateTime.Now
+	
+	SetRandom_Local
+				
+	If ( time_I > ( time_II + 1500 ) ) Then
+		ToastMessageShow( "utility for background calibration, curation and tuning of the device towards an intuitive interface. subsystems being battery, entropy, encryption, disk, cpu, memory, filesystem, ui, scheduler, and network, all safe and open source technology. presented in this metric format with infinite feedback and an interestingly assymetric chance. scribble anywhere, check in some stress, or get lucky for that matter!", True )
+		time_II = DateTime.Now
+	End If
+	
+	SetRandom_Local
+		
+	Button2.Enabled = True
+		
+End Sub
+
+Sub Label1_Click
+	Dim dummy As Boolean
+	SetRandom_Local
+	ToastMessageShow( "click!", False )
+	SetRandom_Local
+End Sub
+
+Sub Panel1_Click
+	SetRandom_Local
+End Sub
+
+Sub CheckBox1_CheckedChange(Checked As Boolean)
+	
+'	ToastMessageShow(Rnd(0,9) & Rnd(0,9) & Rnd(0,9) & Rnd(0,9) & Rnd(0,9) & Rnd(0,9), True )
+	SetRandom_Local
+'	ToastMessageShow("check",False)
+	CheckBox1.Enabled = False
+	CheckBox1.Visible = False
+	
+    CheckBox1.Checked = False
+	
+	Aclock.Visible = False
+	Button2.Visible = False
+	
+'	CheckBox1.Visible = True
+	CheckBox1.Enabled = True
+	
+	Button1.Visible = True
+	Button1.BringToFront
+	CheckBox1.SendToBack
+	Activity.Title = "waut.ch! running... ! to redraw elements"
+	SetRandom_Local
+	
+End Sub
+
+Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
+	Dim random_long As Long
+
+	If Aclock.Visible = False Then
+		For j = 1 To 64
+
+			For i = 1 To 64
+				random_long = Rnd(1,2+Abs(Action)+(Abs(X)*Abs(Y)))
+				If(Rnd(1,64) > 45 ) Then
+					random_long = Rnd(1,1+Rnd(1,922337203685477))
+					random_long = Rnd(1+random12,9-random12)
+					random_long = Rnd(1+random12,9-random12)
+					random_long = random13
+				End If
+			Next
+
+			For i = 1 To 64
+				random_long = Rnd(1,2+Abs(Action)+(Abs(X)*Abs(Y)))
+				If(Rnd(1,64) < 19 ) Then
+					random_long = Rnd(1,1+Rnd(1,922337203685477))
+					random_long = Rnd(1+random12,9-random12)
+					random_long = Rnd(1+random12,9-random12)
+					random_long = random13
+				End If
+			Next
+
+'			random_long = Rnd(1,Abs(X)+Abs(Y)) + random_long - Rnd(1+random12,9-random12) * Power(Rnd(1+random12,9-random12),i+1-random12)
+				
+			Label1.Text = Rnd(1,64)
+		
+		Next
+
+		i = random13
+		Label1.Top = Activity.Height / 2 - (i-2)*10
+		
+		i = random13
+		Label1.Left = Activity.Width / 2 - 40 - (i-2)*10
+		
+		Label1.Text = Rnd(1,64)
+		
+	End If
+	
+End Sub
+
+Sub Button1_Click
+	SetRandom_Local
+	'	ToastMessageShow(Rnd(0,9) & Rnd(0,9) & Rnd(0,9) & Rnd(0,9) & Rnd(0,9) & Rnd(0,9), True )
+	CheckBox1.Enabled = True
+	CheckBox1.Visible = True
+	
+	CheckBox1.Checked = False
+	
+	Aclock.Visible = True
+	Button2.Visible = True
+		
+	Button1.Visible = False
+	Button1.SendToBack
+	CheckBox1.BringToFront
+	
+	Activity.Title = "waut.ch! running... ? for help, space to clear page"
+	SetRandom_Local
+	
+End Sub
