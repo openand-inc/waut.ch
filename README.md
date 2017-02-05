@@ -2,7 +2,7 @@ Utility for background calibration, curation and tuning of the device towards an
 
 Subsystems being battery, entropy, encryption, disk, cpu, memory, filesystem, ui, scheduler, and network, all safe and open source technology. 
 
-Presented in this metric format with infinite feedback and an interestingly assymetric chance. scribble anywhere, check in some stress, or get lucky for that matter!
+Presented in this gaming metric format with infinite feedback and an interestingly assymetric chance. scribble anywhere, check in some stress, or get lucky for that matter!
 
 -----
 
