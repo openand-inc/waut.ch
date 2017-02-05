@@ -23,3 +23,5 @@ Please feel free to view and analyze source and functionality and report bugs an
 Please visit: /data/data/ch.waut/files/bin on the device itself for partial shell source code and XDA Downloads section and Github for full source code.
 
 Thanks.
+
+Donation Link: paypal.me/checktrend
