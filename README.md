@@ -24,4 +24,4 @@ Please visit: /data/data/ch.waut/files/bin on the device itself for partial shel
 
 Thanks.
 
-Donation Link: paypal.me/checktrend
+Donation Link: https://paypal.me/checktrend
