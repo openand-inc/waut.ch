@@ -29,11 +29,11 @@ busybox killall -9 haveged >/dev/null 2>&1
 #( busybox nice -n -1 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
 ( busybox nice -n +1 CB_RunHaveged ) <&- >/dev/null &
 
-SETPROP persist.sys.scrollingcache 1
+SETPROP persist.sys.scrollingcache 4
 
-SETPROP windowsmgr.max_events_per_sec 180
-SETPROP ro.max.fling_velocity 10000
-SETPROP ro.min.fling_velocity 8000
+SETPROP windowsmgr.max_events_per_sec 108
+SETPROP ro.max.fling_velocity 6000
+SETPROP ro.min.fling_velocity 6000
 
 SYSCTL vm.laptop_mode=1
 
