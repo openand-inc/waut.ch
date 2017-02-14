@@ -23,8 +23,8 @@ Library5=reflection
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 0
-	#VersionName: 0b7ad9a2-d208-44c0-a1f8-6972c85a4b30
+	#VersionCode: 1
+	#VersionName: c0e836c8-c348-43e0-ad30-41b22c43d6e5
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -117,20 +117,23 @@ Sub SetRandom_Local()
 				random = Rnd(1+random12,9-random12)
 				random = Rnd(1+random12,9-random12)
 				random = random13
+				Label1.TextSize = 18 - random13
 				Label1.Text = Rnd(1,64)
 			End If
 		Next
 		
+		Label1.TextSize = 18 - random13
 		Label1.Text = Rnd(1,64)
 
 	i = random13	
-	Label1.Top = Activity.Height / 2 - (i-2)*10
+	Label1.Top = Activity.Height / 2 - (i-2)*3
 
 	i = random13
-	Label1.Left = Activity.Width / 2 - 40 - (i-2)*10
+	Label1.Left = Activity.Width / 2 - 40 - (i-2)*3
 	
 	Next
 
+	Label1.TextSize = 18 - random13
 	Label1.Text = Rnd(1,64)
 	
 End Sub
@@ -153,7 +156,7 @@ Sub Activity_Create(isFirst As Boolean)
 
 	Label1.BringToFront
 	
-	Label1.TextSize = 18
+	Label1.TextSize = 18 - random13
 	Button2.TextSize = 14
 	
 	SetRandom_Local
@@ -187,13 +190,13 @@ Sub Activity_Pause(UserClosed As Boolean)
 
 	SetRandom_Local
 
-	Label1.TextSize = 18	
+	Label1.TextSize = 18 - random13	
 End Sub
 
 Sub Activity_Resume()
 	'Do not forget to load the layout file created with the visual designer. For example:
 	SetRandom_Local
-	Label1.TextSize = 18
+	Label1.TextSize = 18 - random13
 	SetRandom_Local
 	
 '	ToastMessageShow("turn",False)
@@ -217,7 +220,7 @@ Sub Button2_Click
 	SetRandom_Local
 				
 	If ( time_I > ( time_II + 1500 ) ) Then
-		ToastMessageShow( "utility for background calibration, curation and tuning of the device towards an intuitive interface. subsystems being battery, entropy, encryption, disk, cpu, memory, filesystem, ui, scheduler, and network, all safe and open source technology. presented in this metric format with infinite feedback and an interestingly assymetric chance. scribble anywhere, check in some stress, or get lucky for that matter!", True )
+		ToastMessageShow( "utility for background calibration, curation and tuning of the device towards an intuitive interface. subsystems being battery, entropy, encryption, disk, cpu, memory, filesystem, ui, scheduler, and network, all safe and open source technology. presented in this gaming metric format with infinite feedback and an interestingly assymetric chance. scribble anywhere, check in some stress, or find the 8!", True )
 		time_II = DateTime.Now
 	End If
 	
@@ -289,17 +292,19 @@ Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
 			Next
 
 '			random_long = Rnd(1,Abs(X)+Abs(Y)) + random_long - Rnd(1+random12,9-random12) * Power(Rnd(1+random12,9-random12),i+1-random12)
-				
+			
+			Label1.TextSize = 18 - random13
 			Label1.Text = Rnd(1,64)
 		
 		Next
 
 		i = random13
-		Label1.Top = Activity.Height / 2 - (i-2)*10
+		Label1.Top = Activity.Height / 2 - (i-2)*3
 		
 		i = random13
-		Label1.Left = Activity.Width / 2 - 40 - (i-2)*10
+		Label1.Left = Activity.Width / 2 - 40 - (i-2)*3
 		
+		Label1.TextSize = 18 - random13
 		Label1.Text = Rnd(1,64)
 		
 	End If
