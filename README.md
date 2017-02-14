@@ -46,6 +46,10 @@ Please feel free to view and analyze source and functionality and report bugs an
 
 ( https://forum.xda-developers.com/android/apps-games/app-waut-ch-calibration-android-t3549967 )
 
+Google Play store:
+
+( https://play.google.com/store/apps/details?id=ch.waut )
+
 Please visit: /data/data/ch.waut/files/bin on the device itself for partial shell source code and XDA Downloads section and Github for full source code.
 
 Reboot at convenience liberally or sparingly to reseed the entropy pool or as is known in common parlance, for good luck!
