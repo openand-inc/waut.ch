@@ -24,7 +24,7 @@ In the Android device space:
 - OEMs
 - The Friendly Neighborhood Nerd/Technician.
 
-“Make the most of yourself....for waut is all there is of you.” - Ralph Waldo Emerson ( paraphrase )
+“Make the most of yourself....for waut.ch! is all there is of you.” - Ralph Waldo Emerson ( paraphrase )
 
 All along the waut.ch! tower - Bob Dylan
 
