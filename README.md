@@ -40,11 +40,11 @@ Root recommended, else reactivity metric is interesting and introduces uniquenes
 
 Also numerous other subsystems require careful calibration to facilitate this process.
 
-Rewritten code, subset of functionality for upstream project - CrossBreeder ( [url]https://forum.xda-developers.com/showthread.php?t=2113150[/url] )
+Rewritten code, subset of functionality for upstream project - CrossBreeder ( https://forum.xda-developers.com/showthread.php?t=2113150 )
 
 Please feel free to view and analyze source and functionality and report bugs and discuss etc on the XDA forum:
 
-( [url]https://forum.xda-developers.com/android/apps-games/app-waut-ch-calibration-android-t3549967[/url] )
+( https://forum.xda-developers.com/android/apps-games/app-waut-ch-calibration-android-t3549967 )
 
 Please visit: /data/data/ch.waut/files/bin on the device itself for partial shell source code and XDA Downloads section and Github for full source code.
 
