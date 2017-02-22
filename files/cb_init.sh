@@ -58,13 +58,13 @@ VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox busybox cut -d.
 
 HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
 
-UPDATE_TABLES GLOBAL transition_animation_scale 0.1
-UPDATE_TABLES GLOBAL window_animation_scale 0.1
-UPDATE_TABLES GLOBAL animator_duration_scale 0.1
+UPDATE_TABLES GLOBAL transition_animation_scale 0.5
+UPDATE_TABLES GLOBAL window_animation_scale 0.5
+UPDATE_TABLES GLOBAL animator_duration_scale 0.5
 
-UPDATE_TABLES SYSTEM transition_animation_scale 0.1
-UPDATE_TABLES SYSTEM window_animation_scale 0.1
-UPDATE_TABLES SYSTEM animator_duration_scale 0.1
+UPDATE_TABLES SYSTEM transition_animation_scale 0.5
+UPDATE_TABLES SYSTEM window_animation_scale 0.5
+UPDATE_TABLES SYSTEM animator_duration_scale 0.5
 
 if [ "x$MEM" != "x" ]; then 
   if [ "$MEM" -gt "800000" ]; then 		  
@@ -96,13 +96,13 @@ if [ "x$VERSION" != "x" ]; then
 			UPDATE_TABLES SYSTEM animator_duration_scale 0.4
 		  else		  
 		  
-			UPDATE_TABLES GLOBAL transition_animation_scale 0.2
-			UPDATE_TABLES GLOBAL window_animation_scale 0.2
-			UPDATE_TABLES GLOBAL animator_duration_scale 0.2
+			UPDATE_TABLES GLOBAL transition_animation_scale 0.25
+			UPDATE_TABLES GLOBAL window_animation_scale 0.25
+			UPDATE_TABLES GLOBAL animator_duration_scale 0.25
 
-			UPDATE_TABLES SYSTEM transition_animation_scale 0.2
-			UPDATE_TABLES SYSTEM window_animation_scale 0.2
-			UPDATE_TABLES SYSTEM animator_duration_scale 0.2
+			UPDATE_TABLES SYSTEM transition_animation_scale 0.25
+			UPDATE_TABLES SYSTEM window_animation_scale 0.25
+			UPDATE_TABLES SYSTEM animator_duration_scale 0.25
 		  fi
 		fi
 	fi
