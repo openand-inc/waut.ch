@@ -24,7 +24,7 @@ Library5=reflection
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
 	#VersionCode: 1
-	#VersionName: c0e836c8-c348-43e0-ad30-41b22c43d6e5
+	#VersionName: d6210cdc-e0f7-45b0-8d04-7d1b2805bda0
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -69,7 +69,6 @@ Sub random12() As Int
 	End If
 End Sub
 
-
 Sub random13() As Int
 
 	Dim i As Int
@@ -87,8 +86,7 @@ Sub random13() As Int
 	If(i > 36 ) And (i <= 64 )  Then
 		Return 1
 	End If
-	
-	
+		
 End Sub
 
 Sub SetRandom_Local()
@@ -102,7 +100,7 @@ Sub SetRandom_Local()
 	For j = 1 To 64
 
 		For i = 1 To 64
-			If(Rnd(1,64) > 45 ) Then
+			If(Rnd(1,64) > 30 ) Then
 				random = Rnd(1,1+Rnd(1,922337203685477))
 				random = Rnd(1+random12,9-random12)
 				random = Rnd(1+random12,9-random12)
@@ -112,7 +110,7 @@ Sub SetRandom_Local()
 
 		'				random = random - Rnd(1+random12,9-random12) * Power(Rnd(1+random12,9-random12),i+1-random12)
 		For i = 1 To 64
-			If(Rnd(1,64) < 19 ) Then
+			If(Rnd(1,64) < 30 ) Then
 				random = Rnd(1,1+Rnd(1,922337203685477))
 				random = Rnd(1+random12,9-random12)
 				random = Rnd(1+random12,9-random12)
@@ -125,11 +123,11 @@ Sub SetRandom_Local()
 		Label1.TextSize = 18 - random13
 		Label1.Text = Rnd(1,64)
 
-	i = random13	
-	Label1.Top = Activity.Height / 2 - (i-2)*3
-
 	i = random13
-	Label1.Left = Activity.Width / 2 - 40 - (i-2)*3
+	Label1.Top = Activity.Height / 2
+	
+	i = random13
+	Label1.Left = Activity.Width / 2 - 40
 	
 	Next
 
@@ -273,7 +271,7 @@ Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
 
 			For i = 1 To 64
 				random_long = Rnd(1,2+Abs(Action)+(Abs(X)*Abs(Y)))
-				If(Rnd(1,64) > 45 ) Then
+				If(Rnd(1,64) > 30 ) Then
 					random_long = Rnd(1,1+Rnd(1,922337203685477))
 					random_long = Rnd(1+random12,9-random12)
 					random_long = Rnd(1+random12,9-random12)
@@ -283,7 +281,7 @@ Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
 
 			For i = 1 To 64
 				random_long = Rnd(1,2+Abs(Action)+(Abs(X)*Abs(Y)))
-				If(Rnd(1,64) < 19 ) Then
+				If(Rnd(1,64) < 30 ) Then
 					random_long = Rnd(1,1+Rnd(1,922337203685477))
 					random_long = Rnd(1+random12,9-random12)
 					random_long = Rnd(1+random12,9-random12)
@@ -298,11 +296,13 @@ Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
 		
 		Next
 
-		i = random13
-		Label1.Top = Activity.Height / 2 - (i-2)*3
+		i = random12
+		j = random12
+		Label1.Top = Activity.Height / 2 - (i-3)*(j-3)*15
 		
-		i = random13
-		Label1.Left = Activity.Width / 2 - 40 - (i-2)*3
+		i = random12
+		j = random12
+		Label1.Left = Activity.Width / 2 + 10 - (i-3)*(j-3)*15
 		
 		Label1.TextSize = 18 - random13
 		Label1.Text = Rnd(1,64)
