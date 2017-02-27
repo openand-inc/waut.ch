@@ -108,6 +108,21 @@ if [ "x$VERSION" != "x" ]; then
 	fi
 fi
 
+SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
+if [ "x$SWAP" != "x" ]; then 
+  if [ "$SWAP" -gt "10000" ]; then 	
+  	SYSCTL vm.swappiness=100
+			UPDATE_TABLES GLOBAL transition_animation_scale 0.1
+			UPDATE_TABLES GLOBAL window_animation_scale 0.1
+			UPDATE_TABLES GLOBAL animator_duration_scale 0.1
+
+			UPDATE_TABLES SYSTEM transition_animation_scale 0.1
+			UPDATE_TABLES SYSTEM window_animation_scale 0.1
+			UPDATE_TABLES SYSTEM animator_duration_scale 0.1	
+  fi
+fi
+
+
 UPDATE_TABLES GLOBAL install_non_market_apps 0
 UPDATE_TABLES SYSTEM install_non_market_apps 0
 UPDATE_TABLES SECURE install_non_market_apps 0
