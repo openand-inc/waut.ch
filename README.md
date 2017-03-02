@@ -56,4 +56,4 @@ Reboot at convenience liberally or sparingly to reseed the entropy pool or as is
 
 Thanks.
 
-Donation Link: https://paypal.me/checktrend
+Donation Link: https://paypal.me/openand
