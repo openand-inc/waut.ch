@@ -49,7 +49,7 @@ do
   busybox mount -o remount,nodiratime $j 2>/dev/null
   busybox mount -o remount,discard $j 2>/dev/null
 #  busybox mount -o remount,barrier=0 $j 2>/dev/null
-  busybox mount -o remount,commit=10 $j 2>/dev/null
+  busybox mount -o remount,commit=6 $j 2>/dev/null
   busybox mount -o remount,data=writeback $j 2>/dev/null
   busybox mount -o remount,journal_async_commit $j 2>/dev/null
 #  busybox mount -o remount,journal_checksum $j 2>/dev/null
@@ -64,7 +64,7 @@ do
   busybox mount -o remount,nodiratime $j 2>/dev/null
   busybox mount -o remount,discard $j 2>/dev/null
 #  busybox mount -o remount,barrier=0 $j 2>/dev/null
-  busybox mount -o remount,commit=10 $j 2>/dev/null
+  busybox mount -o remount,commit=6 $j 2>/dev/null
   busybox mount -o remount,data=writeback $j 2>/dev/null
   busybox mount -o remount,journal_async_commit $j 2>/dev/null
 #  busybox mount -o remount,journal_checksum $j 2>/dev/null

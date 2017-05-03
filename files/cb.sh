@@ -27,9 +27,9 @@ busybox killall -9 haveged >/dev/null 2>&1
 
 #( busybox nice -n -1 haveged -r 0 -o ta8bcb ) <&- >/dev/null &
 #( busybox nice -n -1 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
-( busybox nice -n +1 CB_RunHaveged ) <&- >/dev/null &
+( busybox nice -n +5 CB_RunHaveged ) <&- >/dev/null &
 
-SETPROP persist.sys.scrollingcache 4
+SETPROP persist.sys.scrollingcache 1
 
 SETPROP windowsmgr.max_events_per_sec 108
 SETPROP ro.max.fling_velocity 6000
@@ -100,12 +100,12 @@ for pid in $(/system/bin/dumpsys activity services | busybox grep -i app=Process
  if [ "$pid" -gt "1024" ]; then 
   busybox renice 1 $pid 2>/dev/null
   busybox ionice -c 2 -n 2 -p $pid 2>/dev/null
-  busybox chrt -o -p 20 $pid 2>/dev/null
+  busybox chrt -o -p 80 $pid 2>/dev/null
  fi
 done
 
 if [ -e /dev/cpuctl/bg_non_interactive/cpu.shares ]; then 
-  ECHO 32 > /dev/cpuctl/bg_non_interactive/cpu.shares 2>/dev/null
+  ECHO 64 > /dev/cpuctl/bg_non_interactive/cpu.shares 2>/dev/null
 fi
 
 if [ -e /dev/cpuctl/cpu.shares ]; then 
@@ -155,17 +155,18 @@ if [ "$(busybox cat /proc/sys/kernel/random/read_wakeup_threshold 2>/dev/null)" 
    SYSCTL kernel.random.read_wakeup_threshold=8
 fi
 
+POOLSIZE=4064
 #POOLSIZE="$(busybox cat /proc/sys/kernel/random/poolsize 2>/dev/null)"
 #if [ "$(busybox cat /proc/sys/kernel/random/write_wakeup_threshold 2>/dev/null)" != "${POOLSIZE}" ]; then 
-#   SYSCTL kernel.random.write_wakeup_threshold="${POOLSIZE}"
+   SYSCTL kernel.random.write_wakeup_threshold="${POOLSIZE}"
 #fi
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name add_random -print 2>/dev/null); do ECHO 0 > $i; done 
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice +1 $pid 2>/dev/null
-  busybox ionice -c 2 -n 3 -p $pid 2>/dev/null
-  busybox chrt -o -p 50 $pid 2>/dev/null
+  busybox renice +15 $pid 2>/dev/null
+  busybox ionice -c 3 -n 7 -p $pid 2>/dev/null
+  busybox chrt -o -p 90 $pid 2>/dev/null
   if [ -f /proc/$pid/oom_adj ]; then
 	ECHO -17 > /proc/$pid/oom_adj 2>/dev/null
   fi
@@ -178,7 +179,7 @@ else
    SYSCTL kernel.random.read_wakeup_threshold=256
    SYSCTL kernel.random.write_wakeup_threshold=320
    
-  ( busybox nice -n +1 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
+  ( busybox nice -n +15 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
 fi
 
 #( busybox sh cb_io.sh ) <&- >/dev/null

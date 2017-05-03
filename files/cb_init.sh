@@ -111,44 +111,48 @@ fi
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 if [ "x$SWAP" != "x" ]; then 
   if [ "$SWAP" -gt "10000" ]; then 	
-  	SYSCTL vm.swappiness=100
-			UPDATE_TABLES GLOBAL transition_animation_scale 0.1
-			UPDATE_TABLES GLOBAL window_animation_scale 0.1
-			UPDATE_TABLES GLOBAL animator_duration_scale 0.1
+  	SYSCTL vm.swappiness=80
+	
+	UPDATE_TABLES GLOBAL transition_animation_scale 0.1
+	UPDATE_TABLES GLOBAL window_animation_scale 0.1
+	UPDATE_TABLES GLOBAL animator_duration_scale 0.1
 
-			UPDATE_TABLES SYSTEM transition_animation_scale 0.1
-			UPDATE_TABLES SYSTEM window_animation_scale 0.1
-			UPDATE_TABLES SYSTEM animator_duration_scale 0.1	
+	UPDATE_TABLES SYSTEM transition_animation_scale 0.1
+	UPDATE_TABLES SYSTEM window_animation_scale 0.1
+	UPDATE_TABLES SYSTEM animator_duration_scale 0.1	
   fi
 fi
-
 
 UPDATE_TABLES GLOBAL install_non_market_apps 0
 UPDATE_TABLES SYSTEM install_non_market_apps 0
 UPDATE_TABLES SECURE install_non_market_apps 0
 
-UPDATE_TABLES GLOBAL location_mode 2
-UPDATE_TABLES SYSTEM location_mode 2
-UPDATE_TABLES SECURE location_mode 2
-#UPDATE_TABLES SECURE location_mode 0
+#UPDATE_TABLES GLOBAL location_mode 2
+#UPDATE_TABLES SYSTEM location_mode 2
+#UPDATE_TABLES SECURE location_mode 2
+UPDATE_TABLES SECURE location_mode 0
+UPDATE_TABLES SYSTEM location_mode 0
+UPDATE_TABLES GLOBAL location_mode 0
 
 LPA=0
 if [ "x$VERSION" != "x" ]; then 
   if [ "$VERSION" -ge "6" ]; then 
     if [ -e /system/bin/settings ]; then 
 	  LPA=1
-	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +network
+#	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +network
+	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -network
 	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -gps
-	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +wifi
+	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -wifi
+#	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +wifi
 	fi
   fi	  
 fi
 
 if [ $LPA -eq 0 ]; then 
-#  UPDATE_TABLES GLOBAL location_providers_allowed ""
-#  UPDATE_TABLES SYSTEM location_providers_allowed ""
-#  UPDATE_TABLES SECURE location_providers_allowed ""
-  UPDATE_TABLES SECURE location_providers_allowed "wifi,network"
+  UPDATE_TABLES GLOBAL location_providers_allowed ""
+  UPDATE_TABLES SYSTEM location_providers_allowed ""
+  UPDATE_TABLES SECURE location_providers_allowed ""
+#  UPDATE_TABLES SECURE location_providers_allowed "wifi,network"
 fi
 
 UPDATE_TABLES GLOBAL adb_enabled 0
@@ -170,10 +174,10 @@ SETPROP ro.media.enc.jpeg.quality 100
 SETPROP pm.sleep_mode 1
 SETPROP ro.ril.disable.power.collapse 0
 
-SETPROP wifi.supplicant_scan_interval 300
+#SETPROP wifi.supplicant_scan_interval 0
 
-SYSCTL net.ipv4.icmp_echo_ignore_all=1
-SYSCTL net.ipv4.tcp_timestamps=0
+#SYSCTL net.ipv4.icmp_echo_ignore_all=1
+#SYSCTL net.ipv4.tcp_timestamps=0
 
 # Put outgoing only IPSEC logic here
 

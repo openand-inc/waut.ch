@@ -96,3 +96,11 @@ done;
 # There is a bug here with pathnames containing space. Upgrade busybox so that it does not crash on find exec and upgrade this script
 
 #( busybox sh oo_init.sh ) <&- >/dev/null
+
+if [ ! -e /data/data/ch.waut/files/REBOOT ]; then 
+  busybox touch /data/data/ch.waut/files/REBOOT
+  if [ -e /data/data/ch.waut/files/REBOOT ]; then 
+    busybox rm -fr /data/dalvik-cache
+    /system/bin/reboot
+  fi
+fi
