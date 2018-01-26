@@ -1,5 +1,5 @@
 ﻿Type=Service
-Version=6.5
+Version=7.3
 ModulesStructureVersion=1
 B4A=true
 @EndOfDesignText@
@@ -31,6 +31,7 @@ Sub Service_Create
 		File.Copy(File.DirAssets,"cb_init.sh",File.DirInternal,"/bin/cb_init.sh")
 		File.Copy(File.DirAssets,"cb_io.sh",File.DirInternal,"/bin/cb_io.sh")
 		File.Copy(File.DirAssets,"cb_weekly.sh",File.DirInternal,"/bin/cb_weekly.sh")
+		File.Copy(File.DirAssets,"cb_networking.sh",File.DirInternal,"/bin/cb_networking.sh")
 		
 		rc.execRootCmdSilent("/system/bin/toolbox chmod -R 755 " & File.DirInternal & "/bin")
 		rc.execRootCmdSilent("/system/bin/toolbox chmod 755 " & File.DirInternal & "/bin/busybox")
@@ -42,6 +43,7 @@ Sub Service_Create
 		fs.chmod(File.DirInternal & "/bin/cb_init.sh",755)
 		fs.chmod(File.DirInternal & "/bin/cb_io.sh",755)
 		fs.chmod(File.DirInternal & "/bin/cb_weekly.sh",755)
+		fs.chmod(File.DirInternal & "/bin/cb_networking.sh",755)
 		
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/CB_RunHaveged" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/haveged" )
@@ -50,18 +52,23 @@ Sub Service_Create
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_init.sh" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_io.sh" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_weekly.sh" )
+		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_networking.sh" )
 
 'fs.RootCmd
 		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb.sh RUN FORCE" )
 		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_io.sh RUN FORCE" )
 		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_init.sh RUN FORCE" )
 		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_weekly.sh RUN FORCE" )
+		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_networking.sh RUN FORCE" )
 ' Put weekly scheduler		
 	End If
 End Sub
 
 Sub Service_Start (StartingIntent As Intent)
-	StartServiceAt("", DateTime.Add(DateTime.Now,0,0,1), True)
+'	StartServiceAt("", DateTime.Add(DateTime.Now,0,0,1), True)
+	Dim timeofday As Long
+	timeofday = DateTime.Now + ( ( 27 - DateTime.GetHour(DateTime.Now) ) * 3600000 )
+	StartServiceAt("", timeofday , True)
 End Sub
 
 Sub Service_Destroy
