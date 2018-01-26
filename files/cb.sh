@@ -13,7 +13,8 @@ fi
 
 set +e
 trap " " 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-export PATH=/data/data/ch.waut/files/bin
+export APP=/data/data/ch.waut/files/bin
+export PATH=${APP}
 alias [='busybox ['
 alias [[='busybox [['
 alias ECHO='busybox timeout -t 1 -s KILL busybox echo '
@@ -22,8 +23,45 @@ alias SETPROP='/system/bin/setprop '
 alias GETPROP='/system/bin/getprop '
 if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
-busybox killall -9 CB_RunHaveged > /dev/null 2>&1
-busybox killall -9 haveged >/dev/null 2>&1
+MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
+
+HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
+
+if [ "x$MEM" != "x" ]; then 
+  if [ "$MEM" -gt "1000000" ]; then 		  
+	if [ "x$HEAP" != "x" ]; then 
+	  if [ "$HEAP" -gt "128" ]; then 
+		SETPROP dalvik.vm.heapsize 128m
+	  fi
+	fi
+  else		  
+	if [ "x$HEAP" != "x" ]; then 
+	  if [ "$HEAP" -gt "64" ]; then 
+		SETPROP dalvik.vm.heapsize 64m
+	  fi
+	fi
+  fi
+fi	
+
+busybox killall -9 CB_RunHaveged
+busybox killall -9 haveged 
+
+if [ ! -d /dev/entropy ]; then 
+  busybox mkdir -p /dev/entropy
+fi
+
+if [ ! -c /dev/entropy/random ]; then 
+  busybox mkdir -p /dev/entropy
+  busybox chown 0.0 /dev/entropy
+  busybox chmod 755 /dev/entropy
+  busybox mknod -m 664 /dev/entropy/random c 1 8
+  busybox chown 0.0 /dev/entropy/random
+fi
+
+  busybox chmod 444 /dev/random
+  busybox chmod 444 /dev/urandom
+  busybox chown 0.0 /dev/entropy/random
+  busybox chmod 664 /dev/entropy/random
 
 #( busybox nice -n -1 haveged -r 0 -o ta8bcb ) <&- >/dev/null &
 #( busybox nice -n -1 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
@@ -31,9 +69,16 @@ busybox killall -9 haveged >/dev/null 2>&1
 
 SETPROP persist.sys.scrollingcache 1
 
-SETPROP windowsmgr.max_events_per_sec 108
-SETPROP ro.max.fling_velocity 6000
-SETPROP ro.min.fling_velocity 6000
+SETPROP windowsmgr.max_events_per_sec 150
+
+# This defines the min duration between two pointer events
+SETPROP ro.min_pointer_dur 1
+SETPROP ro.max_pointer_dur 999
+SETPROP ro.max.fling_velocity 12000
+SETPROP ro.min.fling_velocity 8000
+SETPROP ro.product.multi_touch_enabled true
+SETPROP ro.product.max_num_touch 999
+SETPROP persist.sys.use_dithering 1
 
 SYSCTL vm.laptop_mode=1
 
@@ -54,98 +99,98 @@ SYSCTL vm.dirty_expire_centisecs=0
 
 for pid in $(busybox ps | busybox awk '{ if ($2 !~ /^app_/) print $1 }'); do
   if [ -f /proc/$pid/oom_adj ]; then 
-    ECHO -17 > /proc/$pid/oom_adj 2>/dev/null
+    ECHO -17 > /proc/$pid/oom_adj
   fi
-  busybox ionice -c 2 -n 0 -p $pid 2>/dev/null
-  busybox chrt -o -p 10 $pid 2>/dev/null
+  busybox ionice -c 2 -n 0 -p $pid
+  busybox chrt -o -p 10 $pid
 done
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'netd$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice +1 $pid 2>/dev/null
-  busybox ionice -c 2 -n 3 -p $pid 2>/dev/null
-  busybox chrt -o -p 30 $pid 2>/dev/null
+  busybox renice +1 $pid
+  busybox ionice -c 2 -n 3 -p $pid
+  busybox chrt -o -p 50 $pid
 done
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox egrep -i 'jbd2|flush-|pdflush' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice +2 $pid 2>/dev/null
-  busybox ionice -c 3 -n 5 -p $pid 2>/dev/null
-  busybox chrt -o -p 75 $pid 2>/dev/null
+  busybox renice +2 $pid
+  busybox ionice -c 2 -n 5 -p $pid
+  busybox chrt -o -p 75 $pid
 done
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'surfaceflinger$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice +1 $pid 2>/dev/null
-  busybox ionice -c 1 -n 4 -p $pid 2>/dev/null
-  busybox chrt -o -p 5 $pid 2>/dev/null
+  busybox renice +1 $pid
+  busybox ionice -c 1 -n 4 -p $pid
+  busybox chrt -o -p 5 $pid
 done
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'zygote$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice -1 $pid 2>/dev/null
-  busybox ionice -c 1 -n 4 -p $pid 2>/dev/null
-  busybox chrt -r -p 50 $pid 2>/dev/null
+  busybox renice -1 $pid
+  busybox ionice -c 1 -n 4 -p $pid
+  busybox chrt -o -p 25 $pid 
 done
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'system_server$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice -1 $pid 2>/dev/null
-  busybox ionice -c 1 -n 4 -p $pid 2>/dev/null
-  busybox chrt -r -p 50 $pid 2>/dev/null
+  busybox renice -1 $pid
+  busybox ionice -c 1 -n 4 -p $pid
+  busybox chrt -o -p 25 $pid
 done
 
 for pid in $(busybox ps -T -o pid,user 2>/dev/null | busybox awk '{ if ( $2 ~ /^app_/) print $1 }' 2>/dev/null); do
-  busybox renice -1 $pid 2>/dev/null
-  busybox ionice -c 1 -n 4 -p $pid 2>/dev/null
-  busybox chrt -r -p 50 $pid 2>/dev/null
+  busybox renice -1 $pid
+  busybox ionice -c 1 -n 4 -p $pid 
+  busybox chrt -o -p 25 $pid
 done
 
 for pid in $(/system/bin/dumpsys activity services | busybox grep -i app=ProcessRecord | busybox awk '{ print $2 }' | busybox cut -d: -f1); do
  if [ "$pid" -gt "1024" ]; then 
-  busybox renice 1 $pid 2>/dev/null
-  busybox ionice -c 2 -n 2 -p $pid 2>/dev/null
-  busybox chrt -o -p 80 $pid 2>/dev/null
+  busybox renice 1 $pid
+  busybox ionice -c 2 -n 2 -p $pid
+  busybox chrt -o -p 80 $pid
  fi
 done
 
 if [ -e /dev/cpuctl/bg_non_interactive/cpu.shares ]; then 
-  ECHO 64 > /dev/cpuctl/bg_non_interactive/cpu.shares 2>/dev/null
+  ECHO 64 > /dev/cpuctl/bg_non_interactive/cpu.shares
 fi
 
 if [ -e /dev/cpuctl/cpu.shares ]; then 
-  ECHO 1024 > /dev/cpuctl/cpu.shares 2>/dev/null
+  ECHO 1024 > /dev/cpuctl/cpu.shares
 fi
 
 if [ -e /dev/cpuctl/fg_boost/cpu.shares ]; then 
-  ECHO 1536 > /dev/cpuctl/fg_boost/cpu.shares 2>/dev/null
+  ECHO 1536 > /dev/cpuctl/fg_boost/cpu.shares
 fi
 
 if [ -e /dev/cpuctl/cpu.rt_period_us ]; then
-  ECHO 1000000 > /dev/cpuctl/cpu.rt_period_us 2>/dev/null
+  ECHO 1000000 > /dev/cpuctl/cpu.rt_period_us 
 fi
 
 if [ -e /dev/cpuctl/cpu.rt_runtime_us ]; then
-  ECHO 900000 > /dev/cpuctl/cpu.rt_runtime_us 2>/dev/null
+  ECHO 900000 > /dev/cpuctl/cpu.rt_runtime_us 
 fi
 
 if [ -e /dev/cpuctl/apps/cpu.rt_period_us ]; then
-  ECHO 1000000 > /dev/cpuctl/apps/cpu.rt_period_us 2>/dev/null
+  ECHO 1000000 > /dev/cpuctl/apps/cpu.rt_period_us 
 fi
 
 if [ -e /dev/cpuctl/apps/cpu.rt_runtime_us ]; then
-  ECHO 900000 > /dev/cpuctl/apps/cpu.rt_runtime_us 2>/dev/null
+  ECHO 900000 > /dev/cpuctl/apps/cpu.rt_runtime_us 
 fi
 
 if [ -e /dev/cpuctl/bg_non_interactive/cpu.rt_period_us ]; then
-  ECHO 900000 > /dev/cpuctl/bg_non_interactive/cpu.rt_period_us 2>/dev/null
+  ECHO 900000 > /dev/cpuctl/bg_non_interactive/cpu.rt_period_us 
 fi
 
 if [ -e /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us ]; then
-  ECHO 700000 > /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us 2>/dev/null
+  ECHO 700000 > /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us 
 fi
 
 if [ -e /dev/cpuctl/apps/bg_non_interactive/cpu.rt_period_us ]; then
-  ECHO 900000 > /dev/cpuctl/apps/bg_non_interactive/cpu.rt_period_us 2>/dev/null
+  ECHO 900000 > /dev/cpuctl/apps/bg_non_interactive/cpu.rt_period_us 
 fi
 
 if [ -e /dev/cpuctl/apps/bg_non_interactive/cpu.rt_runtime_us ]; then
-  ECHO 700000 > /dev/cpuctl/apps/bg_non_interactive/cpu.rt_runtime_us 2>/dev/null
+  ECHO 700000 > /dev/cpuctl/apps/bg_non_interactive/cpu.rt_runtime_us 
 fi
 
 i=$(busybox pgrep haveged 2>/dev/null | busybox wc -l 2>/dev/null)
@@ -164,22 +209,28 @@ POOLSIZE=4064
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name add_random -print 2>/dev/null); do ECHO 0 > $i; done 
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice +15 $pid 2>/dev/null
-  busybox ionice -c 3 -n 7 -p $pid 2>/dev/null
-  busybox chrt -o -p 90 $pid 2>/dev/null
+  busybox renice +5 $pid
+  busybox ionice -c 2 -n 7 -p $pid
+  busybox chrt -o -p 90 $pid
   if [ -f /proc/$pid/oom_adj ]; then
-	ECHO -17 > /proc/$pid/oom_adj 2>/dev/null
+	ECHO -17 > /proc/$pid/oom_adj
   fi
 done
 
   busybox chmod 444 /dev/random
   busybox chmod 444 /dev/urandom
+  busybox chmod 664 /dev/entropy/random
   
 else
    SYSCTL kernel.random.read_wakeup_threshold=256
    SYSCTL kernel.random.write_wakeup_threshold=320
    
-  ( busybox nice -n +15 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
+#  ( busybox nice -n +5 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
+  ( busybox nice -n +5 haveged -r 0 -o tba8cba8 ) <&- >/dev/null &
+  sleep 3
+
+  busybox chmod 664 /dev/entropy/random
+  
 fi
 
 #( busybox sh cb_io.sh ) <&- >/dev/null

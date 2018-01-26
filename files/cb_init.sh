@@ -13,7 +13,8 @@ fi
 
 set +e
 trap " " 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-export PATH=/data/data/ch.waut/files/bin
+export APP=/data/data/ch.waut/files/bin
+export PATH=${APP}
 alias [='busybox ['
 alias [[='busybox [['
 alias ECHO='busybox timeout -t 1 -s KILL busybox echo '
@@ -21,6 +22,29 @@ alias SYSCTL='busybox timeout -t 3 -s KILL busybox sysctl -e -w '
 alias SETPROP='/system/bin/setprop '
 alias GETPROP='/system/bin/getprop '
 if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
+
+MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
+
+HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
+
+if [ "x$MEM" != "x" ]; then 
+  if [ "$MEM" -gt "1000000" ]; then 		  
+	if [ "x$HEAP" != "x" ]; then 
+	  if [ "$HEAP" -gt "128" ]; then 
+		SETPROP dalvik.vm.heapsize 128m
+	  fi
+	fi
+  else		  
+	if [ "x$HEAP" != "x" ]; then 
+	  if [ "$HEAP" -gt "64" ]; then 
+		SETPROP dalvik.vm.heapsize 64m
+	  fi
+	fi
+  fi
+fi	
+
+#SETPROP dalvik.vm.checkjni false
+#SETPROP ro.kernel.android.checkjni 0
 
 SETTINGS_DB="/data/data/com.android.providers.settings/databases/settings.db"
 TABLE=""
@@ -52,57 +76,61 @@ UPDATE_TABLES() {
 
 # If Mem < 768 then . Also heap size = 128 if > 128 for > 768
 
-MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
-
 VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox busybox cut -d. -f1 2>/dev/null)
+
+MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
 HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
 
-UPDATE_TABLES GLOBAL transition_animation_scale 0.5
-UPDATE_TABLES GLOBAL window_animation_scale 0.5
-UPDATE_TABLES GLOBAL animator_duration_scale 0.5
-
-UPDATE_TABLES SYSTEM transition_animation_scale 0.5
-UPDATE_TABLES SYSTEM window_animation_scale 0.5
-UPDATE_TABLES SYSTEM animator_duration_scale 0.5
-
 if [ "x$MEM" != "x" ]; then 
-  if [ "$MEM" -gt "800000" ]; then 		  
-	if [ "x$HEAP" != "x" ]; then 
-	  if [ "$HEAP" -gt "192" ]; then 
-		SETPROP dalvik.vm.heapsize 192m
-	  fi
-	fi
-  else		  
+  if [ "$MEM" -gt "1000000" ]; then 		  
 	if [ "x$HEAP" != "x" ]; then 
 	  if [ "$HEAP" -gt "128" ]; then 
 		SETPROP dalvik.vm.heapsize 128m
 	  fi
 	fi
+  else		  
+	if [ "x$HEAP" != "x" ]; then 
+	  if [ "$HEAP" -gt "64" ]; then 
+		SETPROP dalvik.vm.heapsize 64m
+	  fi
+	fi
   fi
 fi	
+
+#SETPROP dalvik.vm.checkjni false
+#SETPROP ro.kernel.android.checkjni 0
+
+UPDATE_TABLES GLOBAL transition_animation_scale 0
+UPDATE_TABLES GLOBAL window_animation_scale 0
+UPDATE_TABLES GLOBAL animator_duration_scale 0
+
+UPDATE_TABLES SYSTEM transition_animation_scale 0
+UPDATE_TABLES SYSTEM window_animation_scale 0
+UPDATE_TABLES SYSTEM animator_duration_scale 0
 
 if [ "x$VERSION" != "x" ]; then 
 	if [ "$VERSION" -ge "5" ]; then	
 		if [ "x$MEM" != "x" ]; then 
 		  if [ "$MEM" -gt "800000" ]; then 		  
 			
-			UPDATE_TABLES GLOBAL transition_animation_scale 0.4
-			UPDATE_TABLES GLOBAL window_animation_scale 0.4
-			UPDATE_TABLES GLOBAL animator_duration_scale 0.4
+			UPDATE_TABLES GLOBAL transition_animation_scale 0
+			UPDATE_TABLES GLOBAL window_animation_scale 0
+			UPDATE_TABLES GLOBAL animator_duration_scale 0
 
-			UPDATE_TABLES SYSTEM transition_animation_scale 0.4
-			UPDATE_TABLES SYSTEM window_animation_scale 0.4
-			UPDATE_TABLES SYSTEM animator_duration_scale 0.4
+			UPDATE_TABLES SYSTEM transition_animation_scale 0
+			UPDATE_TABLES SYSTEM window_animation_scale 0
+			UPDATE_TABLES SYSTEM animator_duration_scale 0
 		  else		  
 		  
-			UPDATE_TABLES GLOBAL transition_animation_scale 0.25
-			UPDATE_TABLES GLOBAL window_animation_scale 0.25
-			UPDATE_TABLES GLOBAL animator_duration_scale 0.25
+			UPDATE_TABLES GLOBAL transition_animation_scale 0
+			UPDATE_TABLES GLOBAL window_animation_scale 0
+			UPDATE_TABLES GLOBAL animator_duration_scale 0
 
-			UPDATE_TABLES SYSTEM transition_animation_scale 0.25
-			UPDATE_TABLES SYSTEM window_animation_scale 0.25
-			UPDATE_TABLES SYSTEM animator_duration_scale 0.25
+			UPDATE_TABLES SYSTEM transition_animation_scale 0
+			UPDATE_TABLES SYSTEM window_animation_scale 0
+#			UPDATE_TABLES SYSTEM animator_duration_scale 0.25
+			UPDATE_TABLES SYSTEM animator_duration_scale 0
 		  fi
 		fi
 	fi
@@ -113,26 +141,19 @@ if [ "x$SWAP" != "x" ]; then
   if [ "$SWAP" -gt "10000" ]; then 	
   	SYSCTL vm.swappiness=80
 	
-	UPDATE_TABLES GLOBAL transition_animation_scale 0.1
-	UPDATE_TABLES GLOBAL window_animation_scale 0.1
-	UPDATE_TABLES GLOBAL animator_duration_scale 0.1
+	UPDATE_TABLES GLOBAL transition_animation_scale 0
+	UPDATE_TABLES GLOBAL window_animation_scale 0
+	UPDATE_TABLES GLOBAL animator_duration_scale 0
 
-	UPDATE_TABLES SYSTEM transition_animation_scale 0.1
-	UPDATE_TABLES SYSTEM window_animation_scale 0.1
-	UPDATE_TABLES SYSTEM animator_duration_scale 0.1	
+	UPDATE_TABLES SYSTEM transition_animation_scale 0
+	UPDATE_TABLES SYSTEM window_animation_scale 0
+	UPDATE_TABLES SYSTEM animator_duration_scale 0
   fi
 fi
 
-UPDATE_TABLES GLOBAL install_non_market_apps 0
-UPDATE_TABLES SYSTEM install_non_market_apps 0
-UPDATE_TABLES SECURE install_non_market_apps 0
-
-#UPDATE_TABLES GLOBAL location_mode 2
-#UPDATE_TABLES SYSTEM location_mode 2
-#UPDATE_TABLES SECURE location_mode 2
-UPDATE_TABLES SECURE location_mode 0
-UPDATE_TABLES SYSTEM location_mode 0
-UPDATE_TABLES GLOBAL location_mode 0
+UPDATE_TABLES GLOBAL location_mode 2
+UPDATE_TABLES SYSTEM location_mode 2
+UPDATE_TABLES SECURE location_mode 2
 
 LPA=0
 if [ "x$VERSION" != "x" ]; then 
@@ -141,23 +162,20 @@ if [ "x$VERSION" != "x" ]; then
 	  LPA=1
 #	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +network
 	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -network
+#	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +gps
 	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -gps
-	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -wifi
-#	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +wifi
+#	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -wifi
+	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +wifi
 	fi
   fi	  
 fi
 
 if [ $LPA -eq 0 ]; then 
-  UPDATE_TABLES GLOBAL location_providers_allowed ""
-  UPDATE_TABLES SYSTEM location_providers_allowed ""
-  UPDATE_TABLES SECURE location_providers_allowed ""
-#  UPDATE_TABLES SECURE location_providers_allowed "wifi,network"
+#  UPDATE_TABLES GLOBAL location_providers_allowed "wifi"
+#  UPDATE_TABLES SYSTEM location_providers_allowed "wifi"
+  UPDATE_TABLES SECURE location_providers_allowed "wifi"
+#  UPDATE_TABLES SECURE location_providers_allowed ""
 fi
-
-UPDATE_TABLES GLOBAL adb_enabled 0
-UPDATE_TABLES SYSTEM adb_enabled 0
-UPDATE_TABLES SECURE adb_enabled 0
 
 busybox fsync $SETTINGS_DB
 
@@ -166,6 +184,12 @@ busybox fsync $SETTINGS_DB
 # Put heap size logic here
 
 SETPROP ro.ril.enable.amr.wideband 1
+
+SETPROP persist.cust.tel.eons 1
+SETPROP ro.config.hw_fast_dormancy 1
+SETPROP ro.config.hw_quickpoweron true
+SETPROP persist.android.strictmode 0
+
 SETPROP ro.telephony.call_ring.delay 0
 SETPROP ring.delay 0
 
@@ -174,26 +198,33 @@ SETPROP ro.media.enc.jpeg.quality 100
 SETPROP pm.sleep_mode 1
 SETPROP ro.ril.disable.power.collapse 0
 
-#SETPROP wifi.supplicant_scan_interval 0
-
-#SYSCTL net.ipv4.icmp_echo_ignore_all=1
-#SYSCTL net.ipv4.tcp_timestamps=0
+SETPROP wifi.supplicant_scan_interval 180
 
 # Put outgoing only IPSEC logic here
 
-SETPROP persist.sys.ui.hw false
-SETPROP debug.sf.hw 0
+SETPROP persist.sys.ui.hw true
+SETPROP debug.sf.hw 1
+SETPROP debug.performance.tuning 1
+SETPROP video.accelerate.hw 1
+SETPROP debug.composition.type c2d
+SETPROP persist.sys.composition.type c2d
+
+SETPROP ro.media.dec.jpeg.memcap 8000000
+SETPROP ro.media.enc.hprof.vid.bps 8000000
+
+SETPROP ro.home_app_adj 1
+#SETPROP debug.sf.nobootanimation 1
+SETPROP persist.adb.notify 1
+
+UPDATE_TABLES GLOBAL adb_enabled 0
+UPDATE_TABLES SYSTEM adb_enabled 0
+UPDATE_TABLES SECURE adb_enabled 0
+
+UPDATE_TABLES GLOBAL install_non_market_apps 0
+UPDATE_TABLES SYSTEM install_non_market_apps 0
+UPDATE_TABLES SECURE install_non_market_apps 0
+
+SETPROP logcat.live disable
+busybox rm -f /dev/log/main
 
 /system/bin/stop adbd
-
-#SETPROP dalvik.vm.checkjni false
-#SETPROP ro.kernel.android.checkjni 0
-
-#if [ ! -e /system/xbin/busybox ]; then 
-#  busybox mount -o remount,rw /system 2>/dev/null   
-#  busybox cp /data/local/tmp/busybox /system/xbin/busybox
-#  busybox chown 0.0 /system/xbin/busybox 
-#  busybox chmod 755 /system/xbin/busybox
-# /system/xbin/busybox --install -s /system/xbin 2>/dev/null
-#  busybox mount -o remount,ro /system 2>/dev/null   
-#fi
