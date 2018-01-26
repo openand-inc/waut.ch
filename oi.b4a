@@ -1,19 +1,20 @@
-﻿Version=6.5
+﻿Version=7.3
 NumberOfModules=1
 Module1=wautch_service
 Build1=Default,ch.waut
 ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="15"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~
 IconFile=
-NumberOfFiles=9
+NumberOfFiles=10
 File1=busybox
 File2=cb.sh
 File3=cb_init.sh
 File4=cb_io.sh
-File5=CB_RunHaveged
-File6=cb_weekly.sh
-File7=haveged
-File8=Main.bal
-File9=sqlite3
+File5=cb_networking.sh
+File6=CB_RunHaveged
+File7=cb_weekly.sh
+File8=haveged
+File9=Main.bal
+File10=sqlite3
 NumberOfLibraries=5
 Library1=core
 Library2=clocks
@@ -23,8 +24,8 @@ Library5=reflection
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 1
-	#VersionName: d6210cdc-e0f7-45b0-8d04-7d1b2805bda0
+	#VersionCode: 5
+	#VersionName: 7a87b2bf-632e-44c4-b74e-39f26419178e
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -298,11 +299,11 @@ Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
 
 		i = random12
 		j = random12
-		Label1.Top = Activity.Height / 2 - (i-3)*(j-3)*15
+		Label1.Top = Activity.Height / 2 - 10 - (i-3)*(j-3)*15
 		
 		i = random12
 		j = random12
-		Label1.Left = Activity.Width / 2 + 10 - (i-3)*(j-3)*15
+		Label1.Left = Activity.Width / 2 + 20 - (i-3)*(j-3)*15
 		
 		Label1.TextSize = 18 - random13
 		Label1.Text = Rnd(1,64)
