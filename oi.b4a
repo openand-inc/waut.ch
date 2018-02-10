@@ -2,7 +2,7 @@
 NumberOfModules=1
 Module1=wautch_service
 Build1=Default,ch.waut
-ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="15"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="15"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")
 IconFile=
 NumberOfFiles=10
 File1=busybox
@@ -24,8 +24,8 @@ Library5=reflection
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 5
-	#VersionName: 7a87b2bf-632e-44c4-b74e-39f26419178e
+	#VersionCode: 12
+	#VersionName: 9fc7e7d1-1f44-44ed-883e-f32e7f101722
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -58,7 +58,7 @@ Sub Globals
 	Private CheckBox1 As CheckBox
 	Private Button1 As Button
 
-	Dim time_I, time_II, time_III As Long
+	Dim time_I, time_II, time_III, time_IV As Long
 
 End Sub
 
@@ -91,13 +91,13 @@ Sub random13() As Int
 End Sub
 
 Sub SetRandom_Local()
-	Dim random,l As Long
-	Dim str As String
-	Dim i,a,b,c,d,j As Int
 	
 'Put throw
 'Put choose
-'If
+
+	Dim i,j As Int
+	Dim random As Long
+
 	For j = 1 To 64
 
 		For i = 1 To 64
@@ -166,9 +166,10 @@ Sub Activity_Create(isFirst As Boolean)
 	
 	time_I = DateTime.Now
 	time_II = 0
-	time_III = 0
+	time_III = DateTime.Now
+	time_IV = 0 
 	
-	StartService(wautch_service)
+	StartServiceAt(wautch_service,DateTime.Now + 1 * 1000, True)
 	
 End Sub
 
@@ -181,15 +182,18 @@ Sub Activity_Pause(UserClosed As Boolean)
 
 	SetRandom_Local
 
-	If ( UserClosed = True ) Then
-		Activity.Finish
-'	Else
-'		ToastMessageShow("close",False)
-	End If
+	ToastMessageShow( Rnd(1,64) , True )
+	Activity.Finish
+	
+'	If ( UserClosed = True ) Then
+'		Activity.Finish
+''	Else
+''		ToastMessageShow("close",False)
+'	End If
 
-	SetRandom_Local
+'	SetRandom_Local
 
-	Label1.TextSize = 18 - random13	
+'	Label1.TextSize = 18 - random13	
 End Sub
 
 Sub Activity_Resume()
@@ -211,9 +215,6 @@ Sub Button2_Click
 	
 	Button2.Enabled = False
 
-	Dim random_long As Long
-	Dim i As Int
-
 	time_I = DateTime.Now
 	
 	SetRandom_Local
@@ -232,7 +233,7 @@ End Sub
 Sub Label1_Click
 	Dim dummy As Boolean
 	SetRandom_Local
-	ToastMessageShow( "click!", False )
+	ToastMessageShow( Rnd(1,64), True )
 	SetRandom_Local
 End Sub
 
@@ -267,7 +268,28 @@ End Sub
 Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
 	Dim random_long As Long
 
+	Dim i,j,k As Int
+
+'	time_III = DateTime.Now
+	
 	If Aclock.Visible = False Then
+
+		time_IV = DateTime.Now
+		
+'		If ( time_III > ( time_IV + 1500 ) ) Then
+'			ToastMessageShow( DateTime.Date(DateTime.Now) , False )
+'			time_IV = DateTime.Now
+'			Return 0
+'		End If
+		
+		If ( time_IV > ( time_III + 30000 ) ) Then
+			ToastMessageShow( Rnd(1,64) , True )
+'			ToastMessageShow( DateTime.Date(DateTime.Now) , False )
+'			time_III = DateTime.Now
+			Activity.Finish
+'			Return 0
+		End If
+		
 		For j = 1 To 64
 
 			For i = 1 To 64
@@ -297,13 +319,20 @@ Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
 		
 		Next
 
+		k = 40 
+		
+		If Activity.Height > 1000 Then k = 55
+
+		If Activity.Width > 1000 Then k = 55
+		 
 		i = random12
 		j = random12
-		Label1.Top = Activity.Height / 2 - 10 - (i-3)*(j-3)*15
+'		Label1.Top = Activity.Height / 2 + (i-3)*(j-3)*k
+		Label1.Top = Activity.Height / 2 + 2*k - (i+j)*k
 		
 		i = random12
 		j = random12
-		Label1.Left = Activity.Width / 2 + 20 - (i-3)*(j-3)*15
+		Label1.Left = Activity.Width / 2 + 2*k - (i+j)*k
 		
 		Label1.TextSize = 18 - random13
 		Label1.Text = Rnd(1,64)
