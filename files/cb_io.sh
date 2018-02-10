@@ -27,22 +27,6 @@ MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ p
 
 HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
 
-if [ "x$MEM" != "x" ]; then 
-  if [ "$MEM" -gt "1000000" ]; then 		  
-	if [ "x$HEAP" != "x" ]; then 
-	  if [ "$HEAP" -gt "128" ]; then 
-		SETPROP dalvik.vm.heapsize 128m
-	  fi
-	fi
-  else		  
-	if [ "x$HEAP" != "x" ]; then 
-	  if [ "$HEAP" -gt "64" ]; then 
-		SETPROP dalvik.vm.heapsize 64m
-	  fi
-	fi
-  fi
-fi	
-
 if [ 1 = 0 ]; then 
 
 for m in $(busybox mount | busybox awk '{ if ($5 ~ /^ext/) print $1,$3 }' | busybox grep "/data" | busybox awk '{ print $1 }');
@@ -73,18 +57,19 @@ busybox fsync /data
 busybox fsync /system 
 busybox fsync /cache 
 busybox fsync /sdcard 
-busybox sysctl -w vm.drop_caches=1 
-busybox sync 
 
+busybox touch ../IO_LOCK
+  
 for j in $(busybox df -aP 2>/dev/null | busybox awk '{ print $1, $NF }' 2>/dev/null);
 do
   busybox mount -o remount,sync $j   
   busybox mount -o remount,noatime $j 
   busybox mount -o remount,nodiratime $j 
   busybox mount -o remount,discard $j 
-  busybox mount -o remount,barrier=0 $j 
+  busybox mount -o remount,barrier=1 $j 
   busybox mount -o remount,commit=4 $j 
-  busybox mount -o remount,data=writeback $j 
+# busybox mount -o remount,data=writeback $j 
+  busybox mount -o remount,data=ordered $j 
   busybox mount -o remount,journal_async_commit $j 
 #  busybox mount -o remount,journal_checksum $j 
   busybox mount -o remount,journal_ioprio=5 $j 
@@ -92,17 +77,16 @@ do
   busybox mount -o remount,async $j   
 done;
 
-busybox mount -o remount,commit=60 /system
-
 for j in $(busybox mount 2>/dev/null | busybox awk '{ print $1, $3 }' 2>/dev/null);
 do
   busybox mount -o remount,sync $j   
   busybox mount -o remount,noatime $j 
   busybox mount -o remount,nodiratime $j 
   busybox mount -o remount,discard $j 
-  busybox mount -o remount,barrier=0 $j 
+  busybox mount -o remount,barrier=1 $j 
   busybox mount -o remount,commit=4 $j 
-  busybox mount -o remount,data=writeback $j 
+#  busybox mount -o remount,data=writeback $j 
+  busybox mount -o remount,data=ordered $j 
   busybox mount -o remount,journal_async_commit $j 
 #  busybox mount -o remount,journal_checksum $j 
   busybox mount -o remount,journal_ioprio=5 $j 
@@ -110,7 +94,12 @@ do
   busybox mount -o remount,async $j 
 done;
 
+busybox sysctl -w vm.drop_caches=1 
+busybox sync 
+
 busybox mount -o remount,commit=60 /system
+
+busybox rm -f ../IO_LOCK
 
 busybox mount -t debugfs -o rw none /sys/kernel/debug 
 
@@ -182,11 +171,10 @@ fi
 
 cd ${APP}
 
-SYSCTL vm.overcommit_ratio=49
+SYSCTL vm.overcommit_ratio=48
 SYSCTL vm.overcommit_memory=1
-
-# Increase swappiness to 70
 
 # Put heap size max = 128
 
 # Put GPU code here
+

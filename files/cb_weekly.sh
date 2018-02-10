@@ -25,21 +25,29 @@ MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ p
 
 HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
 
+if [ 1 = 0 ]; then 
+
 if [ "x$MEM" != "x" ]; then 
-  if [ "$MEM" -gt "1000000" ]; then 		  
-	if [ "x$HEAP" != "x" ]; then 
+  if [ "x$HEAP" != "x" ]; then 
+    if [ "$MEM" -gt "1000000" ]; then 		  
 	  if [ "$HEAP" -gt "128" ]; then 
 		SETPROP dalvik.vm.heapsize 128m
 	  fi
 	fi
-  else		  
-	if [ "x$HEAP" != "x" ]; then 
+    if [ "$MEM" -gt "500000" ]; then 		  
+	  if [ "$HEAP" -gt "72" ]; then 
+		SETPROP dalvik.vm.heapsize 72m
+	  fi
+	fi
+    if [ "$MEM" -lt "500000" ]; then 		  
 	  if [ "$HEAP" -gt "64" ]; then 
 		SETPROP dalvik.vm.heapsize 64m
 	  fi
 	fi
   fi
 fi	
+
+fi
 
 DATE=$(busybox date +%d 2>/dev/null)
 if [ "x$DATE" != "x" ]; then 
@@ -69,12 +77,16 @@ busybox sysctl -w vm.drop_caches=1
 
 busybox sync
 
+if [ -e ../IO_LOCK ]; then 
+  busybox sleep 5  
+fi
+  
 for j in $(busybox df -aP 2>/dev/null | busybox awk '{ print $1, $NF }' 2>/dev/null);
 do
   busybox mount -o remount,sync $j 2>&1
   busybox mount -o remount,discard $j 2>&1
   busybox mount -o remount,commit=1 $j 2>&1
-  busybox mount -o remount,async $j 2>&1
+#  busybox mount -o remount,async $j 2>&1
 done;
 
 for j in $(busybox mount 2>/dev/null | busybox awk '{ print $1, $3 }' 2>/dev/null);
@@ -82,45 +94,88 @@ do
   busybox mount -o remount,sync $j 2>&1
   busybox mount -o remount,discard $j 2>&1
   busybox mount -o remount,commit=1 $j 2>&1  
-  busybox mount -o remount,async $j 2>&1
+#  busybox mount -o remount,async $j 2>&1
 done;
 
-if [ ! -e ../CLEAR_DALVIK ]; then
+FOUND=1
 
-#  SETPROP dalvik.vm.checkjni false
-#  SETPROP ro.kernel.android.checkjni 0
+if [ ! -e ../CLEAR_DALVIK ]; then
 
   busybox touch ../CLEAR_DALVIK
   
   if [ -e ../CLEAR_DALVIK ]; then 
+    FOUND=0
+  fi
+fi
+
+if [ -e /data/CLEAR_DALVIK ]; then 
+  FOUND=1
+fi
+
+if [ ! -e /data/CLEAR_DALVIK ]; then
+
+  busybox touch /data/CLEAR_DALVIK
   
+  if [ -e /data/CLEAR_DALVIK ]; then 
+    FOUND=0
+  fi
+fi
+
+if [ ${FOUND} -eq 0 ]; then 
+  
+#  for APPDIR in $(busybox find /data/data -name cache 2>/dev/null); do 
   for APPDIR in $(busybox timeout -t 15 -s KILL busybox find /data/data -name cache 2>/dev/null); do 
      cd ${APPDIR}
 	 if [ "$(busybox pwd 2>/dev/null)" = "${APPDIR}" ]; then 
-	   busybox rm -fr ${APPDIR}/cache/*
+	   busybox rm -fr ${APPDIR}/*
 	 fi
 	 cd ${APP}
   done
   
    busybox rm -fr /data/dalvik-cache
+
+   busybox sysctl -w vm.drop_caches=3
    
    am broadcast android.intent.action.ACTION_SHUTDOWN
-   busybox sleep 5
+   busybox sleep 10
+   am broadcast android.intent.action.ACTION_SHUTDOWN
+   busybox sleep 10
    am start -a android.intent.action.REBOOT
-   busybox sleep 5
+   busybox sleep 10
+   am start -a android.intent.action.REBOOT
+   busybox sleep 10
+   if [ -x /system/bin/svc ]; then 
+     svc power reboot dalvik
+   fi
+   busybox sleep 10
    if [ -x /system/bin/svc ]; then 
      svc power reboot dalvik
    fi
 
-   busybox sleep 5
+   busybox sleep 10
    busybox reboot -f -n
 
-   busybox sleep 5
+   busybox sleep 10
    busybox halt -f -n
 
    exit 1   
-  fi
 fi
+
+for j in $(busybox df -aP 2>/dev/null | busybox awk '{ print $1, $NF }' 2>/dev/null);
+do
+  busybox mount -o remount,commit=4 $j 
+#  busybox mount -o remount,commit=3 $j 
+  busybox mount -o remount,async $j 2>&1
+done;
+
+for j in $(busybox mount 2>/dev/null | busybox awk '{ print $1, $3 }' 2>/dev/null);
+do
+  busybox mount -o remount,commit=4 $j 
+#  busybox mount -o remount,commit=3 $j 
+  busybox mount -o remount,async $j 2>&1
+done;
+
+busybox mount -o remount,commit=60 /system
 
 CHECK_SLEEP() {
 if [ "x$ARG" != "xFORCE" ]; then
@@ -161,8 +216,9 @@ fi
 
   busybox fsync "$DB"
 
-  busybox sleep 0.1
+#  busybox sleep 0.1
 
+  CHECK_SLEEP
 done
 
 busybox fstrim /system
@@ -183,6 +239,10 @@ busybox sysctl -w vm.drop_caches=1
 
 busybox sync
 
+if [ -e ../IO_LOCK ]; then 
+  busybox sleep 5  
+fi
+  
 for j in $(busybox df -aP  2>/dev/null | busybox awk '{ print $1, $NF }' 2>/dev/null);
 do
   busybox mount -o remount,sync $j
@@ -198,6 +258,8 @@ do
   busybox mount -o remount,commit=4 $j 
   busybox mount -o remount,async $j 
 done;
+
+busybox mount -o remount,commit=60 /system
 
 # There is a bug here with pathnames containing space. Upgrade busybox so that it does not crash on find exec and upgrade this script
 

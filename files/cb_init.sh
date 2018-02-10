@@ -27,22 +27,6 @@ MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ p
 
 HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
 
-if [ "x$MEM" != "x" ]; then 
-  if [ "$MEM" -gt "1000000" ]; then 		  
-	if [ "x$HEAP" != "x" ]; then 
-	  if [ "$HEAP" -gt "128" ]; then 
-		SETPROP dalvik.vm.heapsize 128m
-	  fi
-	fi
-  else		  
-	if [ "x$HEAP" != "x" ]; then 
-	  if [ "$HEAP" -gt "64" ]; then 
-		SETPROP dalvik.vm.heapsize 64m
-	  fi
-	fi
-  fi
-fi	
-
 #SETPROP dalvik.vm.checkjni false
 #SETPROP ro.kernel.android.checkjni 0
 
@@ -151,9 +135,13 @@ if [ "x$SWAP" != "x" ]; then
   fi
 fi
 
-UPDATE_TABLES GLOBAL location_mode 2
-UPDATE_TABLES SYSTEM location_mode 2
-UPDATE_TABLES SECURE location_mode 2
+#UPDATE_TABLES GLOBAL location_mode 2
+#UPDATE_TABLES SYSTEM location_mode 2
+#UPDATE_TABLES SECURE location_mode 2
+
+UPDATE_TABLES GLOBAL location_mode 0
+UPDATE_TABLES SYSTEM location_mode 0
+UPDATE_TABLES SECURE location_mode 0
 
 LPA=0
 if [ "x$VERSION" != "x" ]; then 
@@ -164,8 +152,8 @@ if [ "x$VERSION" != "x" ]; then
 	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -network
 #	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +gps
 	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -gps
-#	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -wifi
-	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +wifi
+	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -wifi
+#	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +wifi
 	fi
   fi	  
 fi
@@ -173,8 +161,8 @@ fi
 if [ $LPA -eq 0 ]; then 
 #  UPDATE_TABLES GLOBAL location_providers_allowed "wifi"
 #  UPDATE_TABLES SYSTEM location_providers_allowed "wifi"
-  UPDATE_TABLES SECURE location_providers_allowed "wifi"
-#  UPDATE_TABLES SECURE location_providers_allowed ""
+#  UPDATE_TABLES SECURE location_providers_allowed "wifi"
+  UPDATE_TABLES SECURE location_providers_allowed ""
 fi
 
 busybox fsync $SETTINGS_DB
@@ -190,15 +178,15 @@ SETPROP ro.config.hw_fast_dormancy 1
 SETPROP ro.config.hw_quickpoweron true
 SETPROP persist.android.strictmode 0
 
-SETPROP ro.telephony.call_ring.delay 0
-SETPROP ring.delay 0
+SETPROP ro.telephony.call_ring.delay 1000
+SETPROP ring.delay 1000
 
 SETPROP ro.media.enc.jpeg.quality 100
 
 SETPROP pm.sleep_mode 1
 SETPROP ro.ril.disable.power.collapse 0
 
-SETPROP wifi.supplicant_scan_interval 180
+SETPROP wifi.supplicant_scan_interval 120
 
 # Put outgoing only IPSEC logic here
 
@@ -212,9 +200,11 @@ SETPROP persist.sys.composition.type c2d
 SETPROP ro.media.dec.jpeg.memcap 8000000
 SETPROP ro.media.enc.hprof.vid.bps 8000000
 
-SETPROP ro.home_app_adj 1
+#SETPROP ro.home_app_adj 1
 #SETPROP debug.sf.nobootanimation 1
+
 SETPROP persist.adb.notify 1
+SETPROP persist.service.adb.enable 0
 
 UPDATE_TABLES GLOBAL adb_enabled 0
 UPDATE_TABLES SYSTEM adb_enabled 0

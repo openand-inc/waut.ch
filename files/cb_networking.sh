@@ -27,22 +27,6 @@ MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ p
 
 HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
 
-if [ "x$MEM" != "x" ]; then 
-  if [ "$MEM" -gt "800000" ]; then 		  
-	if [ "x$HEAP" != "x" ]; then 
-	  if [ "$HEAP" -gt "192" ]; then 
-		SETPROP dalvik.vm.heapsize 128m
-	  fi
-	fi
-  else		  
-	if [ "x$HEAP" != "x" ]; then 
-	  if [ "$HEAP" -gt "64" ]; then 
-		SETPROP dalvik.vm.heapsize 64m
-	  fi
-	fi
-  fi
-fi	
-
 #SETPROP dalvik.vm.checkjni false
 #SETPROP ro.kernel.android.checkjni 0
 
@@ -63,8 +47,8 @@ SETPROP persist.telephony.support.ipv4 1
 SYSCTL net.ipv4.tcp_tw_recycle=1
 SYSCTL net.ipv4.tcp_tw_reuse=1
 SYSCTL net.ipv4.tcp_moderate_rcvbuf=1
-SYSCTL net.ipv4.tcp_low_latency=1
-SYSCTL net.ipv4.tcp_slow_start_after_idle=1
+SYSCTL net.ipv4.tcp_low_latency=0
+SYSCTL net.ipv4.tcp_slow_start_after_idle=0
 SYSCTL net.ipv4.tcp_window_scaling=1
 SYSCTL net.ipv4.tcp_sack=1
 SYSCTL net.ipv4.tcp_fack=1
@@ -74,25 +58,26 @@ SYSCTL net.ipv4.tcp_thin_linear_timeouts=1
 SYSCTL net.ipv4.tcp_ecn=1
 SYSCTL net.ipv4.tcp_no_metrics_save=1
 
-SYSCTL net.core.somaxconn=256
+SYSCTL net.core.somaxconn=128
 SYSCTL net.core.netdev_max_backlog=262144
+SYSCTL net.ipv4.tcp_max_syn_backlog=128 
 
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_established=300
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_established=120
 SYSCTL net.netfilter.nf_conntrack_tcp_timeout_fin_wait=60
 SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close_wait=60
 SYSCTL net.netfilter.nf_conntrack_tcp_timeout_last_ack=60
 SYSCTL net.netfilter.nf_conntrack_tcp_timeout_time_wait=60
 SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close=60
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_established=300
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_established=120
 SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait=60
 SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait=60
 SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_last_ack=60
 SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait=60
 SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close=60
 
-SYSCTL net.ipv4.tcp_keepalive_time=180
+SYSCTL net.ipv4.tcp_keepalive_time=120
 SYSCTL net.ipv4.tcp_keepalive_probes=3
-SYSCTL net.ipv4.tcp_keepalive_intvl=180
+SYSCTL net.ipv4.tcp_keepalive_intvl=60
 SYSCTL net.ipv4.tcp_fin_timeout=60
 
 SYSCTL net.ipv4.tcp_syn_retries=3
@@ -102,8 +87,8 @@ SYSCTL net.ipv4.tcp_syncookies=1
 SYSCTL net.ipv4.ip_local_port_range='2048 65000'
 
 for interface in $(GETPROP | busybox grep -i net.tcp.buffersize | busybox cut -d\] -f1 | busybox cut -d\. -f4); do
-  SETPROP net.tcp.buffersize.${interface} 4096,65536,87380,4096,16384,87380
+  SETPROP net.tcp.buffersize.${interface} 4096,65536,87380,4096,16384,24576
 done
 
 SYSCTL net.ipv4.icmp_echo_ignore_all=1
-SYSCTL net.ipv4.tcp_timestamps=0
+SYSCTL net.ipv4.tcp_timestamps=1
