@@ -27,7 +27,8 @@ int fd[2];
 if (pipe(fd) < 0) return 1;
 
 //char *const parmList[] = {"/data/data/ch.waut/files/bin/haveged", "-F", "-o", "tbca8wbw", NULL}; 
-char *const parmList[] = {"/data/data/ch.waut/files/bin/haveged", "-F", "-o", "tba8cba8", NULL}; 
+//char *const parmList[] = {"/data/data/ch.waut/files/bin/haveged", "-F", "-o", "tba8cba8", NULL}; 
+char *const parmList[] = {"/data/data/ch.waut/files/bin/haveged", "-F", NULL}; 
 char *const envParms[2] = {"", NULL};
 int i=1;
 loop:
