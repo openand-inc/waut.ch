@@ -4,28 +4,30 @@ Module1=wautch_service
 Build1=Default,ch.waut
 ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="15"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")
 IconFile=
-NumberOfFiles=10
+NumberOfFiles=11
 File1=busybox
 File2=cb.sh
 File3=cb_init.sh
 File4=cb_io.sh
 File5=cb_networking.sh
 File6=CB_RunHaveged
-File7=cb_weekly.sh
-File8=haveged
-File9=Main.bal
-File10=sqlite3
-NumberOfLibraries=5
+File7=cb_sync.sh
+File8=cb_weekly.sh
+File9=haveged
+File10=Main.bal
+File11=sqlite3
+NumberOfLibraries=6
 Library1=core
 Library2=clocks
 Library3=b4arootcmd
 Library4=mlfiles
 Library5=reflection
+Library6=phone
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 12
-	#VersionName: 9fc7e7d1-1f44-44ed-883e-f32e7f101722
+	#VersionCode: 18
+	#VersionName: cf27f138-d56e-4b88-859a-9e639a860235
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -138,6 +140,7 @@ Sub SetRandom_Local()
 End Sub
 
 Sub Activity_Create(isFirst As Boolean)
+	
 	'Do not forget to load the layout file created with the visual designer. For example:
 
 	Activity.LoadLayout("Main")
@@ -160,8 +163,6 @@ Sub Activity_Create(isFirst As Boolean)
 	
 	SetRandom_Local
 
-'	ToastMessageShow("check",False)
-
 	SetRandom_Local
 	
 	time_I = DateTime.Now
@@ -170,7 +171,15 @@ Sub Activity_Create(isFirst As Boolean)
 	time_IV = 0 
 	
 	StartServiceAt(wautch_service,DateTime.Now + 1 * 1000, True)
-	
+
+    If ( isFirst = True ) Then 
+'#IF NOT(MAINTENANCE)
+		ToastMessageShow("reboot once at convenience...",True)
+'#ELSE
+'		ToastMessageShow("may reboot automatically! please connect charger...",True)
+'#END IF	  
+	End If
+		
 End Sub
 
 Sub StartService_Local()

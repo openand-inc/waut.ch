@@ -14,6 +14,17 @@ Sub Process_Globals
 	Dim rc As RootCmd
 	Dim fs As MLfiles
 	
+	Dim PE As PhoneEvents
+
+	Dim BatteryLevel As Int
+	Dim BatteryCharging As Boolean
+	
+End Sub
+
+Sub PE_BatteryChanged(Level As Int, Scale As Int, Plugged As Boolean, Intent As Intent)
+	BatteryLevel = Level
+	BatteryCharging = Plugged
+	'Log("Level: " & Level & "%, Scale: " & Scale & ", Plugged: " & Plugged)
 End Sub
 
 Sub Service_Create
@@ -32,6 +43,8 @@ Sub Service_Create
 		File.Copy(File.DirAssets,"cb_io.sh",File.DirInternal,"/bin/cb_io.sh")
 		File.Copy(File.DirAssets,"cb_networking.sh",File.DirInternal,"/bin/cb_networking.sh")
 		File.Copy(File.DirAssets,"cb_weekly.sh",File.DirInternal,"/bin/cb_weekly.sh")
+		File.Copy(File.DirAssets,"cb_weekly.sh",File.DirInternal,"/bin/cb_reboot.sh")
+		File.Copy(File.DirAssets,"cb_weekly.sh",File.DirInternal,"/bin/cb_sync.sh")
 		
 		rc.execRootCmdSilent("/system/bin/toolbox chmod -R 755 " & File.DirInternal & "/bin")
 		rc.execRootCmdSilent("/system/bin/toolbox chmod 755 " & File.DirInternal & "/bin/busybox")
@@ -44,6 +57,8 @@ Sub Service_Create
 		fs.chmod(File.DirInternal & "/bin/cb_io.sh",755)
 		fs.chmod(File.DirInternal & "/bin/cb_networking.sh",755)
 		fs.chmod(File.DirInternal & "/bin/cb_weekly.sh",755)
+		fs.chmod(File.DirInternal & "/bin/cb_reboot.sh",755)
+		fs.chmod(File.DirInternal & "/bin/cb_sync.sh",755)
 		
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/CB_RunHaveged" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/haveged" )
@@ -53,13 +68,27 @@ Sub Service_Create
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_io.sh" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_networking.sh" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_weekly.sh" )
+		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_reboot.sh" )
+		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_sync.sh" )
 
 'fs.RootCmd
 		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb.sh RUN FORCE" )
 		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_io.sh RUN FORCE" )
-		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_init.sh RUN FORCE" )
 		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_networking.sh RUN FORCE" )
-		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_weekly.sh RUN FORCE" )
+'#If MAINTENANCE and Not(ONETIME)		
+'		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_init.sh RUN FORCE" )
+'#Else
+'		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_init.sh RUN RUN" )
+'#End If		
+		If BatteryCharging = True And BatteryLevel > 50 Then
+'			ToastMessageShow( "Maintenance start!" , True )
+		  rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_init.sh RUN FORCE" )
+		Else 
+			If BatteryLevel > 30 Then
+			  rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_init.sh RUN RUN" )
+		    End If
+		End If
+		
 ' Put weekly scheduler		
 	End If
 End Sub
