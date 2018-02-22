@@ -24,7 +24,7 @@ if [ "x$ARG" != "xFORCE" ]; then
   busybox timeout -t 0 -s KILL busybox cat /sys/power/wait_for_fb_wake >/dev/null 2>&1
   ret=$?
   if [ $ret -eq 0 ]; then 
-    exec busybox sh cb_sync.sh 10
+    exec busybox sh cb_sync.sh 6
     return 0; 
   fi
 fi
@@ -65,20 +65,13 @@ for DB in $(busybox timeout -t 15 -s KILL busybox find /data/data -name *.db 2>/
 
   NAME=$(busybox echo $DB 2>/dev/null | busybox sed 's/\"//g' 2>/dev/null)
 
-  if [ "x$VERSION" != "x" ]; then 
-    if [ "$VERSION" -ge "4" ]; then 
-#	  sqlite3 "$NAME" ";;PRAGMA synchronous=OFF;;PRAGMA journal_mode=WAL;;"
-	  sqlite3 "$NAME" ";;PRAGMA synchronous=FULL;;PRAGMA journal_mode=WAL;;"
-	fi
-  fi
-#  sqlite3 "$NAME" ";;PRAGMA synchronous=OFF;;REINDEX;;VACUUM;;" 
   sqlite3 "$NAME" ";;PRAGMA synchronous=FULL;;REINDEX;;VACUUM;;" 
 
   busybox fsync "$DB"
 
-#  busybox sleep 1
+  busybox sleep 0.1
 
 done
 
-exec busybox sh cb_sync.sh 10
+exec busybox sh cb_sync.sh 6
 

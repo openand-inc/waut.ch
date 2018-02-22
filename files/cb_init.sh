@@ -224,7 +224,7 @@ busybox rm -f /dev/log/main
 if [ "x$ARG" = "xFORCE" ]; then
   exec busybox sh cb_weekly.sh  
 else
-  exec busybox sh cb_sync.sh 10
+  exec busybox sh cb_sync.sh 6
 fi
 
 
