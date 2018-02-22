@@ -56,4 +56,8 @@ Reboot at convenience liberally or sparingly to reseed the entropy pool or as is
 
 Thanks.
 
-Donation Link: https://paypal.me/openand
+Havged source code: 
+
+https://github.com/Openand-I/haveged
+
+Donation Link: https://paypal.me/openand/5
