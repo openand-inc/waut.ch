@@ -53,7 +53,7 @@ fi
 #( busybox nice -n -1 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
 ( busybox nice -n +5 CB_RunHaveged ) <&- >/dev/null &
 
-SETPROP persist.sys.scrollingcache 4
+SETPROP persist.sys.scrollingcache 1
 
 SETPROP windowsmgr.max_events_per_sec 108
 
@@ -91,11 +91,18 @@ for pid in $(busybox ps | busybox awk '{ if ($2 !~ /^app_/) print $1 }'); do
   busybox chrt -o -p 10 $pid
 done
 
+if [ 1 = 0 ]; then 
+
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'netd$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice +1 $pid
-  busybox ionice -c 2 -n 3 -p $pid
-  busybox chrt -o -p 50 $pid
+#  busybox renice +1 $pid
+#  busybox ionice -c 2 -n 3 -p $pid
+#  busybox chrt -o -p 50 $pid
+  busybox renice -1 $pid
+  busybox ionice -c 1 -n 5 -p $pid
+  busybox chrt -o -p 30 $pid
 done
+
+fi
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox egrep -i 'jbd2|flush-|pdflush' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
   busybox renice +2 $pid
@@ -103,28 +110,32 @@ for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox egrep -i 'jbd2|flus
   busybox chrt -o -p 75 $pid
 done
 
+if [ 1 = 0 ]; then 
+
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'surfaceflinger$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice +1 $pid
+  busybox renice -1 $pid
   busybox ionice -c 1 -n 4 -p $pid
-  busybox chrt -o -p 5 $pid
+  busybox chrt -o -p 50 $pid
 done
+
+fi
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'zygote$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
   busybox renice -1 $pid
-  busybox ionice -c 1 -n 4 -p $pid
-  busybox chrt -o -p 25 $pid 
+  busybox ionice -c 1 -n 3 -p $pid
+  busybox chrt -o -p 5 $pid 
 done
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'system_server$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice -1 $pid
-  busybox ionice -c 1 -n 4 -p $pid
-  busybox chrt -o -p 25 $pid
+  busybox renice -2 $pid
+  busybox ionice -c 1 -n 3 -p $pid
+  busybox chrt -o -p 5 $pid
 done
 
 for pid in $(busybox ps -T -o pid,user 2>/dev/null | busybox awk '{ if ( $2 ~ /^app_/) print $1 }' 2>/dev/null); do
   busybox renice -1 $pid
-  busybox ionice -c 1 -n 4 -p $pid 
-  busybox chrt -o -p 25 $pid
+  busybox ionice -c 1 -n 3 -p $pid 
+  busybox chrt -o -p 5 $pid
 done
 
 for pid in $(/system/bin/dumpsys activity services | busybox grep -i app=ProcessRecord | busybox awk '{ print $2 }' | busybox cut -d: -f1); do
@@ -136,7 +147,7 @@ for pid in $(/system/bin/dumpsys activity services | busybox grep -i app=Process
 done
 
 if [ -e /dev/cpuctl/bg_non_interactive/cpu.shares ]; then 
-  ECHO 128 > /dev/cpuctl/bg_non_interactive/cpu.shares
+  ECHO 64 > /dev/cpuctl/bg_non_interactive/cpu.shares
 fi
 
 if [ -e /dev/cpuctl/cpu.shares ]; then 
@@ -186,7 +197,8 @@ if [ "$i" -ne "0" ]; then
 #   SYSCTL kernel.random.read_wakeup_threshold=8
 #fi
 
-SYSCTL kernel.random.read_wakeup_threshold=256
+#SYSCTL kernel.random.read_wakeup_threshold=256
+SYSCTL kernel.random.read_wakeup_threshold=8
 
 #POOLSIZE=4064
 POOLSIZE=320

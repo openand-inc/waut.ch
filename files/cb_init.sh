@@ -7,10 +7,6 @@ if [ "x$ARG" = "xRUN" ]; then
   return 0
 fi
 
-if [ "x$ARG" != "xFORCE" ]; then
-  return 1
-fi
-
 set +e
 trap " " 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 export APP=/data/data/ch.waut/files/bin
@@ -23,9 +19,37 @@ alias SETPROP='/system/bin/setprop '
 alias GETPROP='/system/bin/getprop '
 if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
+VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox busybox cut -d. -f1 2>/dev/null)
+
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
 HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
+
+if [ 1 = 0 ]; then 
+
+# If Mem < 768 then . Also heap size = 128 if > 128 for > 768
+
+if [ "x$MEM" != "x" ]; then 
+  if [ "x$HEAP" != "x" ]; then 
+    if [ "$MEM" -gt "1000000" ]; then 		  
+	  if [ "$HEAP" -gt "128" ]; then 
+		SETPROP dalvik.vm.heapsize 128m
+	  fi
+	fi
+    if [ "$MEM" -gt "500000" ]; then 		  
+	  if [ "$HEAP" -gt "80" ]; then 
+		SETPROP dalvik.vm.heapsize 80m
+	  fi
+	fi
+    if [ "$MEM" -lt "500000" ]; then 		  
+	  if [ "$HEAP" -gt "64" ]; then 
+		SETPROP dalvik.vm.heapsize 64m
+	  fi
+	fi
+  fi
+fi	
+
+fi
 
 #SETPROP dalvik.vm.checkjni false
 #SETPROP ro.kernel.android.checkjni 0
@@ -57,30 +81,6 @@ UPDATE_TABLES() {
 
   return 0
 }
-
-# If Mem < 768 then . Also heap size = 128 if > 128 for > 768
-
-VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox busybox cut -d. -f1 2>/dev/null)
-
-MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
-
-HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
-
-if [ "x$MEM" != "x" ]; then 
-  if [ "$MEM" -gt "1000000" ]; then 		  
-	if [ "x$HEAP" != "x" ]; then 
-	  if [ "$HEAP" -gt "128" ]; then 
-		SETPROP dalvik.vm.heapsize 128m
-	  fi
-	fi
-  else		  
-	if [ "x$HEAP" != "x" ]; then 
-	  if [ "$HEAP" -gt "64" ]; then 
-		SETPROP dalvik.vm.heapsize 64m
-	  fi
-	fi
-  fi
-fi	
 
 #SETPROP dalvik.vm.checkjni false
 #SETPROP ro.kernel.android.checkjni 0
@@ -178,8 +178,8 @@ SETPROP ro.config.hw_fast_dormancy 1
 SETPROP ro.config.hw_quickpoweron true
 SETPROP persist.android.strictmode 0
 
-SETPROP ro.telephony.call_ring.delay 1000
-SETPROP ring.delay 1000
+SETPROP ro.telephony.call_ring.delay 0
+SETPROP ring.delay 0
 
 SETPROP ro.media.enc.jpeg.quality 100
 
@@ -194,8 +194,10 @@ SETPROP persist.sys.ui.hw true
 SETPROP debug.sf.hw 1
 SETPROP debug.performance.tuning 1
 SETPROP video.accelerate.hw 1
-SETPROP debug.composition.type c2d
-SETPROP persist.sys.composition.type c2d
+#SETPROP debug.composition.type dyn
+#SETPROP persist.sys.composition.type dyn
+SETPROP debug.composition.type gpu
+SETPROP persist.sys.composition.type gpu
 
 SETPROP ro.media.dec.jpeg.memcap 8000000
 SETPROP ro.media.enc.hprof.vid.bps 8000000
@@ -218,3 +220,11 @@ SETPROP logcat.live disable
 busybox rm -f /dev/log/main
 
 /system/bin/stop adbd
+
+if [ "x$ARG" = "xFORCE" ]; then
+  exec busybox sh cb_weekly.sh  
+else
+  exec busybox sh cb_sync.sh 10
+fi
+
+

@@ -66,10 +66,10 @@ do
   busybox mount -o remount,noatime $j 
   busybox mount -o remount,nodiratime $j 
   busybox mount -o remount,discard $j 
-  busybox mount -o remount,barrier=1 $j 
-  busybox mount -o remount,commit=4 $j 
+#  busybox mount -o remount,barrier=1 $j 
+  busybox mount -o remount,commit=10 $j 
 # busybox mount -o remount,data=writeback $j 
-  busybox mount -o remount,data=ordered $j 
+#  busybox mount -o remount,data=ordered $j 
   busybox mount -o remount,journal_async_commit $j 
 #  busybox mount -o remount,journal_checksum $j 
   busybox mount -o remount,journal_ioprio=5 $j 
@@ -83,10 +83,10 @@ do
   busybox mount -o remount,noatime $j 
   busybox mount -o remount,nodiratime $j 
   busybox mount -o remount,discard $j 
-  busybox mount -o remount,barrier=1 $j 
-  busybox mount -o remount,commit=4 $j 
+#  busybox mount -o remount,barrier=1 $j 
+  busybox mount -o remount,commit=10 $j 
 #  busybox mount -o remount,data=writeback $j 
-  busybox mount -o remount,data=ordered $j 
+#  busybox mount -o remount,data=ordered $j 
   busybox mount -o remount,journal_async_commit $j 
 #  busybox mount -o remount,journal_checksum $j 
   busybox mount -o remount,journal_ioprio=5 $j 
@@ -171,7 +171,7 @@ fi
 
 cd ${APP}
 
-SYSCTL vm.overcommit_ratio=48
+SYSCTL vm.overcommit_ratio=49
 SYSCTL vm.overcommit_memory=1
 
 # Put heap size max = 128
