@@ -28,11 +28,11 @@ In the Android device space:
 
 All along the waut.ch! tower - Bob Dylan
 
-waut.ch! - Sometimes used in some colloquium as "watch!", hell bent upon reducing the TDP of mobile devices to 1.0 waut.ch!
+waut.ch! - Sometimes used in some colloquium as "watch!", keen upon reducing the TDP of mobile devices to 1.0 waut.ch!
 
 -----
 
-ARM variants of Android only Donut 1.6+
+ARM32 variants of Android only Donut 1.6+
 
 Please uninstall either Seeder or CrossBreeder prior to using this.
 
