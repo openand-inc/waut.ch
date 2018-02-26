@@ -222,9 +222,9 @@ busybox rm -f /dev/log/main
 /system/bin/stop adbd
 
 if [ "x$ARG" = "xFORCE" ]; then
-  exec busybox sh cb_weekly.sh  
+  exec busybox sh cb_weekly.sh RUN  
 else
-  exec busybox sh cb_sync.sh 6
+  exec busybox sh cb_sync.sh RUN 6
 fi
 
 

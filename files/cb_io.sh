@@ -67,7 +67,7 @@ do
   busybox mount -o remount,nodiratime $j 
   busybox mount -o remount,discard $j 
 #  busybox mount -o remount,barrier=1 $j 
-  busybox mount -o remount,commit=10 $j 
+  busybox mount -o remount,commit=6 $j 
 # busybox mount -o remount,data=writeback $j 
 #  busybox mount -o remount,data=ordered $j 
   busybox mount -o remount,journal_async_commit $j 
@@ -84,7 +84,7 @@ do
   busybox mount -o remount,nodiratime $j 
   busybox mount -o remount,discard $j 
 #  busybox mount -o remount,barrier=1 $j 
-  busybox mount -o remount,commit=10 $j 
+  busybox mount -o remount,commit=6 $j 
 #  busybox mount -o remount,data=writeback $j 
 #  busybox mount -o remount,data=ordered $j 
   busybox mount -o remount,journal_async_commit $j 
@@ -131,9 +131,15 @@ for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /d
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name rq_affinity 2>/dev/null); do ECHO 2 | busybox tee $i ; done
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name rotational 2>/dev/null); do ECHO 0 | busybox tee $i ; done
-for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nomerges 2>/dev/null); do ECHO 0 | busybox tee $i ; done
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nomerges 2>/dev/null); do ECHO 2 | busybox tee $i ; done
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name iostats 2>/dev/null); do ECHO 0 | busybox tee $i ; done
-for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name low_latency 2>/dev/null); do ECHO 0 | busybox tee $i ; done
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name low_latency 2>/dev/null); do ECHO 1 | busybox tee $i ; done
+
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name discard_max_bytes 2>/dev/null); do ECHO 4096 | busybox tee $i ; done
+
+# Skip for md devices.
+
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name fifo_batch 2>/dev/null); do ECHO 1 | busybox tee $i ; done
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name scheduler 2>/dev/null); do 
   busybox chmod 666 $i

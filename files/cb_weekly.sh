@@ -3,7 +3,7 @@
 ARG=$1
 
 if [ "x$ARG" = "xRUN" ]; then
-  cd /data/data/ch.waut/files/bin && PATH=. busybox nice -n +5 busybox sh -x cb_weekly.sh $2 > ../cb_weekly.log 2>&1 &
+  cd /data/data/ch.waut/files/bin && PATH=. busybox nice -n +5 busybox sh -x cb_weekly.sh $2 > ../cb_weekly.log 2>&1
   return 0
 fi
 
@@ -24,33 +24,15 @@ if [ "x$ARG" != "xFORCE" ]; then
   busybox timeout -t 0 -s KILL busybox cat /sys/power/wait_for_fb_wake >/dev/null 2>&1
   ret=$?
   if [ $ret -eq 0 ]; then 
-    exec busybox sh cb_sync.sh 6
+    exec busybox sh cb_sync.sh RUN 6
     return 0; 
   fi
 fi
 }
 
-DATE=$(busybox date +%d 2>/dev/null)
-if [ "x$DATE" != "x" ]; then 
-  if [ "x$DATE" = "x15" ]; then
-    if [ -e ../CLEAR_DALVIK ]; then  
-	  busybox rm -f ../CLEAR_DALVIK
-	fi
-    if [ -e /data/CLEAR_DALVIK ]; then  
-	  busybox rm -f /data/CLEAR_DALVIK
-	fi
-	
-	busybox sleep 2h
-	
-	exec busybox sh cb_reboot.sh
-	
-	return 0
-  fi
-fi
-
 CHECK_SLEEP
 
-exec busybox sh cb_sync.sh 1
+exec busybox sh cb_sync.sh RUN 1
 
 SETTINGS_DB="/data/data/com.android.providers.settings/databases/settings.db"
 VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox awk -F\. '{ print $1 }' 2>/dev/null)
@@ -73,5 +55,15 @@ for DB in $(busybox timeout -t 15 -s KILL busybox find /data/data -name *.db 2>/
 
 done
 
-exec busybox sh cb_sync.sh 6
+ ECHO interactive > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+ ECHO interactive > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
+ ECHO 128 > /proc/sys/kernel/random/write_wakeup_threshold
+ ECHO 320 > /proc/sys/kernel/random/read_wakeup_threshold
+ ECHO 9000000000 > /proc/sys/vm/vfs_cache_pressure
+ ECHO 99 > /proc/sys/vm/dirty_ratio
+ ECHO 1 > /proc/sys/vm/dirty_background_ratio
+ ECHO 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
+ ECHO 1 > /proc/sys/net/ipv4/tcp_timestamps
+
+exec busybox sh cb_sync.sh RUN 6
 
