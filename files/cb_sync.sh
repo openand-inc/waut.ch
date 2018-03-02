@@ -42,25 +42,3 @@ busybox fsync /sdcard
 busybox sysctl -w vm.drop_caches=1
 
 busybox sync
-
-if [ -e ../IO_LOCK ]; then 
-  busybox sleep 5  
-fi
-  
-for j in $(busybox df -aP  2>/dev/null | busybox awk '{ print $1, $NF }' 2>/dev/null);
-do
-  busybox mount -o remount,sync $j
-  busybox mount -o remount,discard $j
-  busybox mount -o remount,commit=$COMMIT $j
-  busybox mount -o remount,async $j
-done;
-
-for j in $(busybox mount 2>/dev/null | busybox awk '{ print $1, $3 }' 2>/dev/null);
-do
-  busybox mount -o remount,sync $j 
-  busybox mount -o remount,discard $j
-  busybox mount -o remount,commit=$COMMIT $j
-  busybox mount -o remount,async $j 
-done;
-
-busybox mount -o remount,commit=60 /system

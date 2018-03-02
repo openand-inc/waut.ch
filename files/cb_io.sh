@@ -27,29 +27,6 @@ MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ p
 
 HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
 
-if [ 1 = 0 ]; then 
-
-for m in $(busybox mount | busybox awk '{ if ($5 ~ /^ext/) print $1,$3 }' | busybox grep "/data" | busybox awk '{ print $1 }');
-do
-  tune2fs -f -o journal_data_writeback $m >/dev/null 2>&1
-  tune2fs -f -O dir_index $m >/dev/null 2>&1  
-  # busybox hdparm -S 4 $m >/dev/null 2>&1
-done;
-
-for m in $(busybox mount | busybox awk '{ if ($5 ~ /^ext/) print $1,$3 }' | busybox grep "/system" | busybox awk '{ print $1 }');
-do
-  tune2fs -f -o journal_data_writeback $m >/dev/null 2>&1
-  debugfs -w -R "feature ^needs_recovery" $m >/dev/null 2>&1
-#  tune2fs -f -O ^needs_recovery $m >/dev/null 2>&1  
-#  tune2fs -f -O ^has_journal $m >/dev/null 2>&1
-  tune2fs -f -O dir_index $m >/dev/null 2>&1  
-# busybox hdparm -r 1 $m >/dev/null 2>&1
-done;
-
-# Change Android to check filesystem before each mount
-
-fi
-
 busybox fstrim /system 
 busybox fstrim /data 
 busybox fstrim /cache 
@@ -58,48 +35,8 @@ busybox fsync /system
 busybox fsync /cache 
 busybox fsync /sdcard 
 
-busybox touch ../IO_LOCK
-  
-for j in $(busybox df -aP 2>/dev/null | busybox awk '{ print $1, $NF }' 2>/dev/null);
-do
-  busybox mount -o remount,sync $j   
-  busybox mount -o remount,noatime $j 
-  busybox mount -o remount,nodiratime $j 
-  busybox mount -o remount,discard $j 
-#  busybox mount -o remount,barrier=1 $j 
-  busybox mount -o remount,commit=6 $j 
-# busybox mount -o remount,data=writeback $j 
-#  busybox mount -o remount,data=ordered $j 
-  busybox mount -o remount,journal_async_commit $j 
-#  busybox mount -o remount,journal_checksum $j 
-  busybox mount -o remount,journal_ioprio=5 $j 
-#  busybox mount -o remount,errors=remount-ro $j 
-  busybox mount -o remount,async $j   
-done;
-
-for j in $(busybox mount 2>/dev/null | busybox awk '{ print $1, $3 }' 2>/dev/null);
-do
-  busybox mount -o remount,sync $j   
-  busybox mount -o remount,noatime $j 
-  busybox mount -o remount,nodiratime $j 
-  busybox mount -o remount,discard $j 
-#  busybox mount -o remount,barrier=1 $j 
-  busybox mount -o remount,commit=6 $j 
-#  busybox mount -o remount,data=writeback $j 
-#  busybox mount -o remount,data=ordered $j 
-  busybox mount -o remount,journal_async_commit $j 
-#  busybox mount -o remount,journal_checksum $j 
-  busybox mount -o remount,journal_ioprio=5 $j 
-#  busybox mount -o remount,errors=remount-ro $j 
-  busybox mount -o remount,async $j 
-done;
-
 busybox sysctl -w vm.drop_caches=1 
 busybox sync 
-
-busybox mount -o remount,commit=60 /system
-
-busybox rm -f ../IO_LOCK
 
 busybox mount -t debugfs -o rw none /sys/kernel/debug 
 
@@ -113,18 +50,6 @@ busybox umount /sys/kernel/debug
 
 busybox umount -l /sys/kernel/debug 
 
-for j in $(busybox df -aP | busybox awk '{ if ( $1 ~ /^\// ) print $1 }');
-do
-  busybox hdparm -a 0 $j 
-# hdparm -W0 $j   
-done;
-
-for j in $(busybox mount | busybox awk '{ if ( $1 ~ /^\// ) print $1 }');
-do
-  busybox hdparm -a 0 $j 
-# hdparm -W0 $j   
-done;
-
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name read_ahead_kb 2>/dev/null); do ECHO 0 | busybox tee $i; done
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do ECHO 100000 | busybox tee $i ; done
@@ -135,7 +60,7 @@ for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /d
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name iostats 2>/dev/null); do ECHO 0 | busybox tee $i ; done
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name low_latency 2>/dev/null); do ECHO 1 | busybox tee $i ; done
 
-for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name discard_max_bytes 2>/dev/null); do ECHO 4096 | busybox tee $i ; done
+#for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name discard_max_bytes 2>/dev/null); do ECHO 4096 | busybox tee $i ; done
 
 # Skip for md devices.
 

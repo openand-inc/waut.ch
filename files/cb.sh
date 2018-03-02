@@ -30,28 +30,12 @@ HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null 
 busybox killall -9 CB_RunHaveged
 busybox killall -9 haveged 
 
-if [ ! -d /dev/entropy ]; then 
-  busybox mkdir -p /dev/entropy
-  busybox chown 0.0 /dev/entropy
-  busybox chmod 755 /dev/entropy  
-fi
-
-if [ ! -c /dev/entropy/random ]; then 
-  busybox mkdir -p /dev/entropy
-  busybox chown 0.0 /dev/entropy
-  busybox chmod 755 /dev/entropy
-  busybox mknod -m 664 /dev/entropy/random c 1 8
-  busybox chown 0.0 /dev/entropy/random
-fi
-
-  busybox chmod 444 /dev/random
-  busybox chmod 444 /dev/urandom
-  busybox chown 0.0 /dev/entropy/random
-  busybox chmod 664 /dev/entropy/random
+  busybox chmod 664 /dev/random
+  busybox chmod 664 /dev/urandom
 
 #( busybox nice -n -1 haveged -r 0 -o ta8bcb ) <&- >/dev/null &
 #( busybox nice -n -1 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
-( busybox nice -n +5 CB_RunHaveged ) <&- >/dev/null &
+( busybox nice -n +1 CB_RunHaveged ) <&- >/dev/null &
 
 SETPROP persist.sys.scrollingcache 1
 
@@ -200,8 +184,8 @@ if [ "$i" -ne "0" ]; then
 #SYSCTL kernel.random.read_wakeup_threshold=256
 SYSCTL kernel.random.read_wakeup_threshold=8
 
-#POOLSIZE=4064
-POOLSIZE=320
+POOLSIZE=4064
+#POOLSIZE=320
 #POOLSIZE="$(busybox cat /proc/sys/kernel/random/poolsize 2>/dev/null)"
 #if [ "$(busybox cat /proc/sys/kernel/random/write_wakeup_threshold 2>/dev/null)" != "${POOLSIZE}" ]; then 
    SYSCTL kernel.random.write_wakeup_threshold="${POOLSIZE}"
@@ -210,17 +194,16 @@ POOLSIZE=320
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name add_random -print 2>/dev/null); do ECHO 0 > $i; done 
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice +5 $pid
+  busybox renice +1 $pid
   busybox ionice -c 2 -n 7 -p $pid
-  busybox chrt -o -p 90 $pid
+  busybox chrt -o -p 50 $pid
   if [ -f /proc/$pid/oom_adj ]; then
 	ECHO -17 > /proc/$pid/oom_adj
   fi
 done
 
-  busybox chmod 444 /dev/random
-  busybox chmod 444 /dev/urandom
-  busybox chmod 664 /dev/entropy/random
+  busybox chmod 664 /dev/random
+  busybox chmod 664 /dev/urandom
   
 else
    SYSCTL kernel.random.read_wakeup_threshold=256
@@ -228,11 +211,8 @@ else
    
 #  ( busybox nice -n +5 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
 #  ( busybox nice -n +5 haveged -r 0 -o tba8cba8 ) <&- >/dev/null &
-  ( busybox nice -n +5 haveged -r 0 ) <&- >/dev/null &
-  sleep 3
+  ( busybox nice -n +1 haveged -r 0 ) <&- >/dev/null &
 
-  busybox chmod 664 /dev/entropy/random
-  
 fi
 
 #( busybox sh cb_io.sh ) <&- >/dev/null

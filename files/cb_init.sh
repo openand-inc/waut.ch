@@ -186,7 +186,7 @@ SETPROP ro.media.enc.jpeg.quality 100
 SETPROP pm.sleep_mode 1
 SETPROP ro.ril.disable.power.collapse 0
 
-SETPROP wifi.supplicant_scan_interval 120
+#SETPROP wifi.supplicant_scan_interval 120
 
 # Put outgoing only IPSEC logic here
 
