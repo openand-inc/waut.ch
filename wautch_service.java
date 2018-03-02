@@ -127,31 +127,13 @@ public class wautch_service extends  android.app.Service{
 	}public anywheresoftware.b4a.keywords.Common __c = null;
 public static ice.rootcmd.RootCmd _v5 = null;
 public static MLfiles.Fileslib.MLfiles _v6 = null;
-public static anywheresoftware.b4a.phone.PhoneEvents _v7 = null;
-public static int _v0 = 0;
-public static boolean _vv1 = false;
-public ch.waut.main _vv5 = null;
-public static String  _pe_batterychanged(int _level,int _scale,boolean _plugged,anywheresoftware.b4a.objects.IntentWrapper _intent) throws Exception{
- //BA.debugLineNum = 19;BA.debugLine="Sub PE_BatteryChanged(Level As Int, Scale As Int,";
- //BA.debugLineNum = 20;BA.debugLine="BatteryLevel = Level";
-_v0 = _level;
- //BA.debugLineNum = 21;BA.debugLine="BatteryCharging = Plugged";
-_vv1 = _plugged;
- //BA.debugLineNum = 23;BA.debugLine="End Sub";
-return "";
-}
+public ch.waut.main _vv2 = null;
 public static String  _process_globals() throws Exception{
  //BA.debugLineNum = 5;BA.debugLine="Sub Process_Globals";
  //BA.debugLineNum = 9;BA.debugLine="Dim rc As RootCmd";
 _v5 = new ice.rootcmd.RootCmd();
  //BA.debugLineNum = 10;BA.debugLine="Dim fs As MLfiles";
 _v6 = new MLfiles.Fileslib.MLfiles();
- //BA.debugLineNum = 12;BA.debugLine="Dim PE As PhoneEvents";
-_v7 = new anywheresoftware.b4a.phone.PhoneEvents();
- //BA.debugLineNum = 14;BA.debugLine="Dim BatteryLevel As Int";
-_v0 = 0;
- //BA.debugLineNum = 15;BA.debugLine="Dim BatteryCharging As Boolean";
-_vv1 = false;
  //BA.debugLineNum = 17;BA.debugLine="End Sub";
 return "";
 }
@@ -239,17 +221,8 @@ _v5.execRootCmd(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin
 _v5.execRootCmd(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox setsid "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox sh "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_io.sh RUN FORCE");
  //BA.debugLineNum = 72;BA.debugLine="rc.execRootCmd( File.DirInternal & \"/bin/busybox";
 _v5.execRootCmd(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox setsid "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox sh "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_networking.sh RUN FORCE");
- //BA.debugLineNum = 78;BA.debugLine="If BatteryCharging = True And BatteryLevel > 50";
-if (_vv1==anywheresoftware.b4a.keywords.Common.True && _v0>50) { 
  //BA.debugLineNum = 80;BA.debugLine="rc.execRootCmd( File.DirInternal & \"/bin/busyb";
 _v5.execRootCmd(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox setsid "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox sh "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_init.sh RUN FORCE");
- }else {
- //BA.debugLineNum = 82;BA.debugLine="If BatteryLevel > 30 Then";
-if (_v0>30) { 
- //BA.debugLineNum = 83;BA.debugLine="rc.execRootCmd( File.DirInternal & \"/bin/busy";
-_v5.execRootCmd(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox setsid "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox sh "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_init.sh RUN RUN");
- };
- };
  };
  //BA.debugLineNum = 89;BA.debugLine="End Sub";
 return "";
@@ -264,8 +237,8 @@ long _timeofday = 0L;
  //BA.debugLineNum = 91;BA.debugLine="Sub Service_Start (StartingIntent As Intent)";
  //BA.debugLineNum = 93;BA.debugLine="Dim timeofday As Long";
 _timeofday = 0L;
- //BA.debugLineNum = 94;BA.debugLine="timeofday = DateTime.Now + ( ( 27 - DateTime.GetH";
-_timeofday = (long) (anywheresoftware.b4a.keywords.Common.DateTime.getNow()+((27-anywheresoftware.b4a.keywords.Common.DateTime.GetHour(anywheresoftware.b4a.keywords.Common.DateTime.getNow()))*3600000));
+ //BA.debugLineNum = 94;BA.debugLine="timeofday = DateTime.Now + ( ( 29 - DateTime.GetH";
+_timeofday = (long) (anywheresoftware.b4a.keywords.Common.DateTime.getNow()+((29-anywheresoftware.b4a.keywords.Common.DateTime.GetHour(anywheresoftware.b4a.keywords.Common.DateTime.getNow()))*3600000));
  //BA.debugLineNum = 95;BA.debugLine="StartServiceAt(\"\", timeofday , True)";
 anywheresoftware.b4a.keywords.Common.StartServiceAt(processBA,(Object)(""),_timeofday,anywheresoftware.b4a.keywords.Common.True);
  //BA.debugLineNum = 96;BA.debugLine="End Sub";

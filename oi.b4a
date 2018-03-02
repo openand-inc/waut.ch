@@ -26,8 +26,8 @@ Library6=phone
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 18
-	#VersionName: cf27f138-d56e-4b88-859a-9e639a860235
+	#VersionCode: 24
+	#VersionName: 04bedb39-131a-41b4-a69f-4b305efc74e4
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -74,19 +74,15 @@ End Sub
 
 Sub random13() As Int
 
-	Dim i As Int
-	
-	i = Rnd(1,64)
-	
-	If(i > 0 ) And (i <= 18 )  Then
+	If(Rnd(1,64) > 0 ) And (Rnd(1,64) <= 18 )  Then
 		Return 2
 	End If
 	
-	If(i > 18 ) And (i <= 36 )  Then
+	If(Rnd(1,64) > 18 ) And (Rnd(1,64) <= 36 )  Then
 		Return 3
 	End If
 	
-	If(i > 36 ) And (i <= 64 )  Then
+	If(Rnd(1,64) > 36 ) And (Rnd(1,64) <= 64 )  Then
 		Return 1
 	End If
 		
@@ -174,7 +170,7 @@ Sub Activity_Create(isFirst As Boolean)
 
     If ( isFirst = True ) Then 
 '#IF NOT(MAINTENANCE)
-		ToastMessageShow("reboot once at convenience...",True)
+		ToastMessageShow("please reboot when possible...thanks...",True)
 '#ELSE
 '		ToastMessageShow("may reboot automatically! please connect charger...",True)
 '#END IF	  
@@ -330,20 +326,21 @@ Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
 
 		k = 40 
 		
-		If Activity.Height > 1000 Then k = 55
+		If Activity.Height > 1000 Then k = 75
 
-		If Activity.Width > 1000 Then k = 55
+		If Activity.Width > 1000 Then k = 75
 		 
-		i = random12
-		j = random12
+		i = random13
+		j = random13
 '		Label1.Top = Activity.Height / 2 + (i-3)*(j-3)*k
-		Label1.Top = Activity.Height / 2 + 2*k - (i+j)*k
+'		Label1.Top = Activity.Height / 2 + 2*k - (i+j)*k
+		Label1.Top = Activity.Height / 2 + 3*k - (i+j)*k
 		
-		i = random12
-		j = random12
-		Label1.Left = Activity.Width / 2 + 2*k - (i+j)*k
+		i = random13
+		j = random13
+		Label1.Left = Activity.Width / 2 + 3*k - (i+j)*k
 		
-		Label1.TextSize = 18 - random13
+		Label1.TextSize = 22 - 2*random13
 		Label1.Text = Rnd(1,64)
 		
 	End If
