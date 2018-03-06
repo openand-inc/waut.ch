@@ -27,28 +27,45 @@ MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ p
 
 HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
 
+if [ ! -d /dev/entropy ]; then 
+  busybox mkdir -p /dev/entropy
+  busybox chown 0.0 /dev/entropy
+  busybox chmod 755 /dev/entropy  
+fi
+
+if [ ! -c /dev/entropy/random ]; then 
+  busybox mkdir -p /dev/entropy
+  busybox chown 0.0 /dev/entropy
+  busybox chmod 755 /dev/entropy
+  busybox mknod -m 664 /dev/entropy/random c 1 8
+  busybox chown 0.0 /dev/entropy/random
+fi
+
 busybox killall -9 CB_RunHaveged
 busybox killall -9 haveged 
 
   busybox chmod 664 /dev/random
   busybox chmod 664 /dev/urandom
 
+  busybox chown 0.0 /dev/entropy/random
+  busybox chmod 664 /dev/entropy/random
+  
 #( busybox nice -n -1 haveged -r 0 -o ta8bcb ) <&- >/dev/null &
 #( busybox nice -n -1 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
 ( busybox nice -n +1 CB_RunHaveged ) <&- >/dev/null &
 
-SETPROP persist.sys.scrollingcache 1
+SETPROP persist.sys.scrollingcache 4
 
 SETPROP windowsmgr.max_events_per_sec 108
 
 # This defines the min duration between two pointer events
-SETPROP ro.min_pointer_dur 1
-SETPROP ro.max_pointer_dur 999
+#SETPROP ro.min_pointer_dur 1
+#SETPROP ro.max_pointer_dur 999
 SETPROP ro.max.fling_velocity 12000
 SETPROP ro.min.fling_velocity 8000
-SETPROP ro.product.multi_touch_enabled true
-SETPROP ro.product.max_num_touch 999
-SETPROP persist.sys.use_dithering 1
+#SETPROP ro.product.multi_touch_enabled true
+#SETPROP ro.product.max_num_touch 999
+#SETPROP persist.sys.use_dithering 1
 
 SYSCTL vm.laptop_mode=1
 
@@ -126,12 +143,12 @@ for pid in $(/system/bin/dumpsys activity services | busybox grep -i app=Process
  if [ "$pid" -gt "1024" ]; then 
   busybox renice 1 $pid
   busybox ionice -c 2 -n 2 -p $pid
-  busybox chrt -o -p 80 $pid
+  busybox chrt -o -p 50 $pid
  fi
 done
 
 if [ -e /dev/cpuctl/bg_non_interactive/cpu.shares ]; then 
-  ECHO 64 > /dev/cpuctl/bg_non_interactive/cpu.shares
+  ECHO 128 > /dev/cpuctl/bg_non_interactive/cpu.shares
 fi
 
 if [ -e /dev/cpuctl/cpu.shares ]; then 
@@ -184,8 +201,8 @@ if [ "$i" -ne "0" ]; then
 #SYSCTL kernel.random.read_wakeup_threshold=256
 SYSCTL kernel.random.read_wakeup_threshold=8
 
-POOLSIZE=4064
-#POOLSIZE=320
+#POOLSIZE=4064
+POOLSIZE=320
 #POOLSIZE="$(busybox cat /proc/sys/kernel/random/poolsize 2>/dev/null)"
 #if [ "$(busybox cat /proc/sys/kernel/random/write_wakeup_threshold 2>/dev/null)" != "${POOLSIZE}" ]; then 
    SYSCTL kernel.random.write_wakeup_threshold="${POOLSIZE}"
@@ -195,7 +212,7 @@ for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /d
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
   busybox renice +1 $pid
-  busybox ionice -c 2 -n 7 -p $pid
+  busybox ionice -c 2 -n 5 -p $pid
   busybox chrt -o -p 50 $pid
   if [ -f /proc/$pid/oom_adj ]; then
 	ECHO -17 > /proc/$pid/oom_adj
@@ -204,6 +221,7 @@ done
 
   busybox chmod 664 /dev/random
   busybox chmod 664 /dev/urandom
+  busybox chmod 664 /dev/entropy/random
   
 else
    SYSCTL kernel.random.read_wakeup_threshold=256
