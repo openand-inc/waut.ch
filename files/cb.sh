@@ -199,10 +199,14 @@ if [ "$i" -ne "0" ]; then
 #fi
 
 #SYSCTL kernel.random.read_wakeup_threshold=256
-SYSCTL kernel.random.read_wakeup_threshold=8
+#SYSCTL kernel.random.read_wakeup_threshold=8
+#SYSCTL kernel.random.read_wakeup_threshold=4064
+SYSCTL kernel.random.read_wakeup_threshold=4000
 
 #POOLSIZE=4064
-POOLSIZE=320
+#POOLSIZE=320
+#POOLSIZE=0
+POOLSIZE=4000
 #POOLSIZE="$(busybox cat /proc/sys/kernel/random/poolsize 2>/dev/null)"
 #if [ "$(busybox cat /proc/sys/kernel/random/write_wakeup_threshold 2>/dev/null)" != "${POOLSIZE}" ]; then 
    SYSCTL kernel.random.write_wakeup_threshold="${POOLSIZE}"
@@ -211,7 +215,7 @@ POOLSIZE=320
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name add_random -print 2>/dev/null); do ECHO 0 > $i; done 
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice +1 $pid
+#  busybox renice +1 $pid
   busybox ionice -c 2 -n 5 -p $pid
   busybox chrt -o -p 50 $pid
   if [ -f /proc/$pid/oom_adj ]; then
@@ -225,7 +229,7 @@ done
   
 else
    SYSCTL kernel.random.read_wakeup_threshold=256
-   SYSCTL kernel.random.write_wakeup_threshold=320
+   SYSCTL kernel.random.write_wakeup_threshold=256
    
 #  ( busybox nice -n +5 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
 #  ( busybox nice -n +5 haveged -r 0 -o tba8cba8 ) <&- >/dev/null &

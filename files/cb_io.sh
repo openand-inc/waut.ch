@@ -103,6 +103,7 @@ fi
 cd ${APP}
 
 SYSCTL vm.overcommit_ratio=49
+ECHO 49 | busybox tee /proc/sys/vm/overcommit_ratio
 SYSCTL vm.overcommit_memory=1
 
 # Put heap size max = 128
