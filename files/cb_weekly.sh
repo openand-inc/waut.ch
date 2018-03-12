@@ -62,6 +62,8 @@ done
  ECHO 10 > /proc/sys/vm/vfs_cache_pressure
  ECHO 100 > /proc/sys/vm/dirty_ratio
  ECHO 100 > /proc/sys/vm/dirty_background_ratio
+ ECHO 51 > /proc/sys/vm/overcommit_ratio
+ ECHO 1 > /proc/sys/vm/overcommit_memory
  ECHO 0 > /proc/sys/net/ipv4/icmp_echo_ignore_all
  ECHO 1 > /proc/sys/net/ipv4/tcp_timestamps
 
