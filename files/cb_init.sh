@@ -23,37 +23,6 @@ VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox busybox cut -d.
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
-HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
-
-if [ 1 = 0 ]; then 
-
-# If Mem < 768 then . Also heap size = 128 if > 128 for > 768
-
-if [ "x$MEM" != "x" ]; then 
-  if [ "x$HEAP" != "x" ]; then 
-    if [ "$MEM" -gt "1000000" ]; then 		  
-	  if [ "$HEAP" -gt "128" ]; then 
-		SETPROP dalvik.vm.heapsize 128m
-	  fi
-	fi
-    if [ "$MEM" -gt "500000" ]; then 		  
-	  if [ "$HEAP" -gt "80" ]; then 
-		SETPROP dalvik.vm.heapsize 80m
-	  fi
-	fi
-    if [ "$MEM" -lt "500000" ]; then 		  
-	  if [ "$HEAP" -gt "64" ]; then 
-		SETPROP dalvik.vm.heapsize 64m
-	  fi
-	fi
-  fi
-fi	
-
-fi
-
-#SETPROP dalvik.vm.checkjni false
-#SETPROP ro.kernel.android.checkjni 0
-
 SETTINGS_DB="/data/data/com.android.providers.settings/databases/settings.db"
 TABLE=""
 VARIABLE=""
@@ -81,9 +50,6 @@ UPDATE_TABLES() {
 
   return 0
 }
-
-#SETPROP dalvik.vm.checkjni false
-#SETPROP ro.kernel.android.checkjni 0
 
 UPDATE_TABLES GLOBAL transition_animation_scale 0
 UPDATE_TABLES GLOBAL window_animation_scale 0
@@ -167,16 +133,7 @@ fi
 
 busybox fsync $SETTINGS_DB
 
-# Put checkjni false here
-# Put clean dalvik cache here
-# Put heap size logic here
-
 SETPROP ro.ril.enable.amr.wideband 1
-
-SETPROP persist.cust.tel.eons 1
-SETPROP ro.config.hw_fast_dormancy 1
-SETPROP ro.config.hw_quickpoweron true
-SETPROP persist.android.strictmode 0
 
 SETPROP ro.telephony.call_ring.delay 0
 SETPROP ring.delay 0
@@ -205,10 +162,6 @@ SETPROP persist.sys.composition.type gpu
 SETPROP ro.media.dec.jpeg.memcap 8000000
 SETPROP ro.media.enc.hprof.vid.bps 8000000
 
-#SETPROP ro.home_app_adj 1
-#SETPROP debug.sf.nobootanimation 1
-
-SETPROP persist.adb.notify 1
 SETPROP persist.service.adb.enable 0
 
 UPDATE_TABLES GLOBAL adb_enabled 0

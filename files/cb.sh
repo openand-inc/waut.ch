@@ -25,8 +25,6 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
-HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
-
 if [ ! -d /dev/entropy ]; then 
   busybox mkdir -p /dev/entropy
   busybox chown 0.0 /dev/entropy
@@ -88,8 +86,8 @@ for pid in $(busybox ps | busybox awk '{ if ($2 !~ /^app_/) print $1 }'); do
   if [ -f /proc/$pid/oom_adj ]; then 
     ECHO -17 > /proc/$pid/oom_adj
   fi
-  busybox ionice -c 2 -n 0 -p $pid
-  busybox chrt -o -p 20 $pid
+  busybox ionice -c 2 -n 4 -p $pid
+  busybox chrt -o -p 40 $pid
 done
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'netd$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
@@ -137,11 +135,11 @@ for pid in $(/system/bin/dumpsys activity services | busybox grep -i app=Process
 done
 
 if [ -e /dev/cpuctl/bg_non_interactive/cpu.shares ]; then 
-  ECHO 64 > /dev/cpuctl/bg_non_interactive/cpu.shares
+  ECHO 48 > /dev/cpuctl/bg_non_interactive/cpu.shares
 fi
 
 if [ -e /dev/cpuctl/cpu.shares ]; then 
-  ECHO 1024 > /dev/cpuctl/cpu.shares
+  ECHO 768 > /dev/cpuctl/cpu.shares
 fi
 
 if [ -e /dev/cpuctl/fg_boost/cpu.shares ]; then 
@@ -189,12 +187,14 @@ if [ "$i" -ne "0" ]; then
 
 #SYSCTL kernel.random.read_wakeup_threshold=256
 #SYSCTL kernel.random.read_wakeup_threshold=8
-SYSCTL kernel.random.read_wakeup_threshold=4064
+#SYSCTL kernel.random.read_wakeup_threshold=4064
+SYSCTL kernel.random.read_wakeup_threshold=4096
 
 #POOLSIZE=4064
 #POOLSIZE=320
 #POOLSIZE=0
-POOLSIZE=4000
+#POOLSIZE=4000
+POOLSIZE=1024
 #POOLSIZE="$(busybox cat /proc/sys/kernel/random/poolsize 2>/dev/null)"
 #if [ "$(busybox cat /proc/sys/kernel/random/write_wakeup_threshold 2>/dev/null)" != "${POOLSIZE}" ]; then 
    SYSCTL kernel.random.write_wakeup_threshold="${POOLSIZE}"

@@ -25,8 +25,6 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
-HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
-
 busybox fstrim /system 
 busybox fstrim /data 
 busybox fstrim /cache 
@@ -102,11 +100,6 @@ fi
 
 cd ${APP}
 
-SYSCTL vm.overcommit_ratio=51
-ECHO 51 | busybox tee /proc/sys/vm/overcommit_ratio
+SYSCTL vm.overcommit_ratio=49
+ECHO 49 | busybox tee /proc/sys/vm/overcommit_ratio
 SYSCTL vm.overcommit_memory=1
-
-# Put heap size max = 128
-
-# Put GPU code here
-
