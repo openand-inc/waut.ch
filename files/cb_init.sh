@@ -152,10 +152,10 @@ SETPROP debug.sf.hw 1
 SETPROP debug.performance.tuning 1
 SETPROP video.accelerate.hw 1
 
-SETPROP debug.composition.type cpu
-SETPROP persist.sys.composition.type cpu
-SETPROP debug.composition.type dyn
-SETPROP persist.sys.composition.type dyn
+#SETPROP debug.composition.type cpu
+#SETPROP persist.sys.composition.type cpu
+#SETPROP debug.composition.type dyn
+#SETPROP persist.sys.composition.type dyn
 SETPROP debug.composition.type gpu
 SETPROP persist.sys.composition.type gpu
 
@@ -167,10 +167,6 @@ SETPROP persist.service.adb.enable 0
 UPDATE_TABLES GLOBAL adb_enabled 0
 UPDATE_TABLES SYSTEM adb_enabled 0
 UPDATE_TABLES SECURE adb_enabled 0
-
-UPDATE_TABLES GLOBAL install_non_market_apps 0
-UPDATE_TABLES SYSTEM install_non_market_apps 0
-UPDATE_TABLES SECURE install_non_market_apps 0
 
 SETPROP logcat.live disable
 busybox rm -f /dev/log/main

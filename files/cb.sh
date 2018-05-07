@@ -52,7 +52,7 @@ busybox killall -9 haveged
 #( busybox nice -n -1 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
 ( busybox nice -n +1 CB_RunHaveged ) <&- >/dev/null &
 
-SETPROP persist.sys.scrollingcache 1
+SETPROP persist.sys.scrollingcache 4
 
 SETPROP windowsmgr.max_events_per_sec 108
 
@@ -135,11 +135,11 @@ for pid in $(/system/bin/dumpsys activity services | busybox grep -i app=Process
 done
 
 if [ -e /dev/cpuctl/bg_non_interactive/cpu.shares ]; then 
-  ECHO 48 > /dev/cpuctl/bg_non_interactive/cpu.shares
+  ECHO 64 > /dev/cpuctl/bg_non_interactive/cpu.shares
 fi
 
 if [ -e /dev/cpuctl/cpu.shares ]; then 
-  ECHO 768 > /dev/cpuctl/cpu.shares
+  ECHO 1024 > /dev/cpuctl/cpu.shares
 fi
 
 if [ -e /dev/cpuctl/fg_boost/cpu.shares ]; then 
