@@ -43,7 +43,7 @@ Sub Service_Create
 		File.Copy(File.DirAssets,"cb_io.sh",File.DirInternal,"/bin/cb_io.sh")
 		File.Copy(File.DirAssets,"cb_networking.sh",File.DirInternal,"/bin/cb_networking.sh")
 		File.Copy(File.DirAssets,"cb_weekly.sh",File.DirInternal,"/bin/cb_weekly.sh")
-		File.Copy(File.DirAssets,"cb_weekly.sh",File.DirInternal,"/bin/cb_reboot.sh")
+'		File.Copy(File.DirAssets,"cb_weekly.sh",File.DirInternal,"/bin/cb_reboot.sh")
 		File.Copy(File.DirAssets,"cb_weekly.sh",File.DirInternal,"/bin/cb_sync.sh")
 		
 		rc.execRootCmdSilent("/system/bin/toolbox chmod -R 755 " & File.DirInternal & "/bin")
@@ -57,7 +57,7 @@ Sub Service_Create
 		fs.chmod(File.DirInternal & "/bin/cb_io.sh",755)
 		fs.chmod(File.DirInternal & "/bin/cb_networking.sh",755)
 		fs.chmod(File.DirInternal & "/bin/cb_weekly.sh",755)
-		fs.chmod(File.DirInternal & "/bin/cb_reboot.sh",755)
+'		fs.chmod(File.DirInternal & "/bin/cb_reboot.sh",755)
 		fs.chmod(File.DirInternal & "/bin/cb_sync.sh",755)
 		
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/CB_RunHaveged" )
@@ -68,7 +68,7 @@ Sub Service_Create
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_io.sh" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_networking.sh" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_weekly.sh" )
-		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_reboot.sh" )
+'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_reboot.sh" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_sync.sh" )
 
 'fs.RootCmd

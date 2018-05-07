@@ -415,30 +415,30 @@ _setrandom_local();
 return "";
 }
 public static String  _button1_click() throws Exception{
- //BA.debugLineNum = 324;BA.debugLine="Sub Button1_Click";
- //BA.debugLineNum = 325;BA.debugLine="SetRandom_Local";
+ //BA.debugLineNum = 326;BA.debugLine="Sub Button1_Click";
+ //BA.debugLineNum = 327;BA.debugLine="SetRandom_Local";
 _setrandom_local();
- //BA.debugLineNum = 327;BA.debugLine="CheckBox1.Enabled = True";
+ //BA.debugLineNum = 329;BA.debugLine="CheckBox1.Enabled = True";
 mostCurrent._checkbox1.setEnabled(anywheresoftware.b4a.keywords.Common.True);
- //BA.debugLineNum = 328;BA.debugLine="CheckBox1.Visible = True";
+ //BA.debugLineNum = 330;BA.debugLine="CheckBox1.Visible = True";
 mostCurrent._checkbox1.setVisible(anywheresoftware.b4a.keywords.Common.True);
- //BA.debugLineNum = 330;BA.debugLine="CheckBox1.Checked = False";
+ //BA.debugLineNum = 332;BA.debugLine="CheckBox1.Checked = False";
 mostCurrent._checkbox1.setChecked(anywheresoftware.b4a.keywords.Common.False);
- //BA.debugLineNum = 332;BA.debugLine="Aclock.Visible = True";
+ //BA.debugLineNum = 334;BA.debugLine="Aclock.Visible = True";
 mostCurrent._v7.setVisible(anywheresoftware.b4a.keywords.Common.True);
- //BA.debugLineNum = 333;BA.debugLine="Button2.Visible = True";
+ //BA.debugLineNum = 335;BA.debugLine="Button2.Visible = True";
 mostCurrent._button2.setVisible(anywheresoftware.b4a.keywords.Common.True);
- //BA.debugLineNum = 335;BA.debugLine="Button1.Visible = False";
+ //BA.debugLineNum = 337;BA.debugLine="Button1.Visible = False";
 mostCurrent._button1.setVisible(anywheresoftware.b4a.keywords.Common.False);
- //BA.debugLineNum = 336;BA.debugLine="Button1.SendToBack";
+ //BA.debugLineNum = 338;BA.debugLine="Button1.SendToBack";
 mostCurrent._button1.SendToBack();
- //BA.debugLineNum = 337;BA.debugLine="CheckBox1.BringToFront";
+ //BA.debugLineNum = 339;BA.debugLine="CheckBox1.BringToFront";
 mostCurrent._checkbox1.BringToFront();
- //BA.debugLineNum = 339;BA.debugLine="Activity.Title = \"waut.ch! running... ? for help,";
+ //BA.debugLineNum = 341;BA.debugLine="Activity.Title = \"waut.ch! running... ? for help,";
 mostCurrent._activity.setTitle(BA.ObjectToCharSequence("waut.ch! running... ? for help, space to clear page"));
- //BA.debugLineNum = 340;BA.debugLine="SetRandom_Local";
+ //BA.debugLineNum = 342;BA.debugLine="SetRandom_Local";
 _setrandom_local();
- //BA.debugLineNum = 342;BA.debugLine="End Sub";
+ //BA.debugLineNum = 344;BA.debugLine="End Sub";
 return "";
 }
 public static String  _button2_click() throws Exception{
@@ -535,110 +535,319 @@ _setrandom_local();
  //BA.debugLineNum = 221;BA.debugLine="End Sub";
 return "";
 }
-public static String  _panel1_touch(int _action,float _x,float _y) throws Exception{
+public static void  _panel1_touch(int _action,float _x,float _y) throws Exception{
+ResumableSub_Panel1_Touch rsub = new ResumableSub_Panel1_Touch(null,_action,_x,_y);
+rsub.resume(processBA, null);
+}
+public static class ResumableSub_Panel1_Touch extends BA.ResumableSub {
+public ResumableSub_Panel1_Touch(ch.waut.main parent,int _action,float _x,float _y) {
+this.parent = parent;
+this._action = _action;
+this._x = _x;
+this._y = _y;
+}
+ch.waut.main parent;
+int _action;
+float _x;
+float _y;
 long _random_long = 0L;
 int _i = 0;
 int _j = 0;
 int _k = 0;
- //BA.debugLineNum = 247;BA.debugLine="Sub Panel1_Touch (Action As Int, X As Float, Y As";
- //BA.debugLineNum = 248;BA.debugLine="Dim random_long As Long";
+int step10;
+int limit10;
+int step11;
+int limit11;
+int step20;
+int limit20;
+
+@Override
+public void resume(BA ba, Object[] result) throws Exception{
+
+    while (true) {
+        switch (state) {
+            case -1:
+return;
+
+case 0:
+//C
+this.state = 1;
+ //BA.debugLineNum = 249;BA.debugLine="Sleep(33)";
+anywheresoftware.b4a.keywords.Common.Sleep(mostCurrent.activityBA,this,(int) (33));
+this.state = 39;
+return;
+case 39:
+//C
+this.state = 1;
+;
+ //BA.debugLineNum = 250;BA.debugLine="Dim random_long As Long";
 _random_long = 0L;
- //BA.debugLineNum = 250;BA.debugLine="Dim i,j,k As Int";
+ //BA.debugLineNum = 252;BA.debugLine="Dim i,j,k As Int";
 _i = 0;
 _j = 0;
 _k = 0;
- //BA.debugLineNum = 254;BA.debugLine="If Aclock.Visible = False Then";
-if (mostCurrent._v7.getVisible()==anywheresoftware.b4a.keywords.Common.False) { 
- //BA.debugLineNum = 256;BA.debugLine="time_IV = DateTime.Now";
-_time_iv = anywheresoftware.b4a.keywords.Common.DateTime.getNow();
- //BA.debugLineNum = 264;BA.debugLine="If ( time_IV > ( time_III + 30000 ) ) Then";
-if ((_time_iv>(_time_iii+30000))) { 
- //BA.debugLineNum = 265;BA.debugLine="ToastMessageShow( Rnd(1,64) , True )";
+ //BA.debugLineNum = 256;BA.debugLine="If Aclock.Visible = False Then";
+if (true) break;
+
+case 1:
+//if
+this.state = 38;
+if (parent.mostCurrent._v7.getVisible()==anywheresoftware.b4a.keywords.Common.False) { 
+this.state = 3;
+}if (true) break;
+
+case 3:
+//C
+this.state = 4;
+ //BA.debugLineNum = 258;BA.debugLine="time_IV = DateTime.Now";
+parent._time_iv = anywheresoftware.b4a.keywords.Common.DateTime.getNow();
+ //BA.debugLineNum = 266;BA.debugLine="If ( time_IV > ( time_III + 30000 ) ) Then";
+if (true) break;
+
+case 4:
+//if
+this.state = 7;
+if ((parent._time_iv>(parent._time_iii+30000))) { 
+this.state = 6;
+}if (true) break;
+
+case 6:
+//C
+this.state = 7;
+ //BA.debugLineNum = 267;BA.debugLine="ToastMessageShow( Rnd(1,64) , True )";
 anywheresoftware.b4a.keywords.Common.ToastMessageShow(BA.ObjectToCharSequence(anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))),anywheresoftware.b4a.keywords.Common.True);
- //BA.debugLineNum = 268;BA.debugLine="Activity.Finish";
-mostCurrent._activity.Finish();
- };
- //BA.debugLineNum = 272;BA.debugLine="For j = 1 To 64";
-{
-final int step9 = 1;
-final int limit9 = (int) (64);
+ //BA.debugLineNum = 270;BA.debugLine="Activity.Finish";
+parent.mostCurrent._activity.Finish();
+ if (true) break;
+;
+ //BA.debugLineNum = 274;BA.debugLine="For j = 1 To 64";
+
+case 7:
+//for
+this.state = 25;
+step10 = 1;
+limit10 = (int) (64);
 _j = (int) (1) ;
-for (;(step9 > 0 && _j <= limit9) || (step9 < 0 && _j >= limit9) ;_j = ((int)(0 + _j + step9))  ) {
- //BA.debugLineNum = 274;BA.debugLine="For i = 1 To 64";
-{
-final int step10 = 1;
-final int limit10 = (int) (64);
+this.state = 40;
+if (true) break;
+
+case 40:
+//C
+this.state = 25;
+if ((step10 > 0 && _j <= limit10) || (step10 < 0 && _j >= limit10)) this.state = 9;
+if (true) break;
+
+case 41:
+//C
+this.state = 40;
+_j = ((int)(0 + _j + step10)) ;
+if (true) break;
+
+case 9:
+//C
+this.state = 10;
+ //BA.debugLineNum = 276;BA.debugLine="For i = 1 To 64";
+if (true) break;
+
+case 10:
+//for
+this.state = 17;
+step11 = 1;
+limit11 = (int) (64);
 _i = (int) (1) ;
-for (;(step10 > 0 && _i <= limit10) || (step10 < 0 && _i >= limit10) ;_i = ((int)(0 + _i + step10))  ) {
- //BA.debugLineNum = 275;BA.debugLine="random_long = Rnd(1,2+Abs(Action)+(Abs(X)*Abs(";
+this.state = 42;
+if (true) break;
+
+case 42:
+//C
+this.state = 17;
+if ((step11 > 0 && _i <= limit11) || (step11 < 0 && _i >= limit11)) this.state = 12;
+if (true) break;
+
+case 43:
+//C
+this.state = 42;
+_i = ((int)(0 + _i + step11)) ;
+if (true) break;
+
+case 12:
+//C
+this.state = 13;
+ //BA.debugLineNum = 277;BA.debugLine="random_long = Rnd(1,2+Abs(Action)+(Abs(X)*Abs(";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (2+anywheresoftware.b4a.keywords.Common.Abs(_action)+(anywheresoftware.b4a.keywords.Common.Abs(_x)*anywheresoftware.b4a.keywords.Common.Abs(_y)))));
- //BA.debugLineNum = 276;BA.debugLine="If(Rnd(1,64) > 30 ) Then";
+ //BA.debugLineNum = 278;BA.debugLine="If(Rnd(1,64) > 30 ) Then";
+if (true) break;
+
+case 13:
+//if
+this.state = 16;
 if ((anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))>30)) { 
- //BA.debugLineNum = 277;BA.debugLine="random_long = Rnd(1,1+Rnd(1,922337203685477))";
+this.state = 15;
+}if (true) break;
+
+case 15:
+//C
+this.state = 16;
+ //BA.debugLineNum = 279;BA.debugLine="random_long = Rnd(1,1+Rnd(1,922337203685477))";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (1+anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (922337203685477L)))));
- //BA.debugLineNum = 278;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
+ //BA.debugLineNum = 280;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv1()),(int) (9-_vv1())));
- //BA.debugLineNum = 279;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
+ //BA.debugLineNum = 281;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv1()),(int) (9-_vv1())));
- //BA.debugLineNum = 280;BA.debugLine="random_long = random13";
+ //BA.debugLineNum = 282;BA.debugLine="random_long = random13";
 _random_long = (long) (_v0());
- };
- }
-};
- //BA.debugLineNum = 284;BA.debugLine="For i = 1 To 64";
-{
-final int step19 = 1;
-final int limit19 = (int) (64);
+ if (true) break;
+
+case 16:
+//C
+this.state = 43;
+;
+ if (true) break;
+if (true) break;
+;
+ //BA.debugLineNum = 286;BA.debugLine="For i = 1 To 64";
+
+case 17:
+//for
+this.state = 24;
+step20 = 1;
+limit20 = (int) (64);
 _i = (int) (1) ;
-for (;(step19 > 0 && _i <= limit19) || (step19 < 0 && _i >= limit19) ;_i = ((int)(0 + _i + step19))  ) {
- //BA.debugLineNum = 285;BA.debugLine="random_long = Rnd(1,2+Abs(Action)+(Abs(X)*Abs(";
+this.state = 44;
+if (true) break;
+
+case 44:
+//C
+this.state = 24;
+if ((step20 > 0 && _i <= limit20) || (step20 < 0 && _i >= limit20)) this.state = 19;
+if (true) break;
+
+case 45:
+//C
+this.state = 44;
+_i = ((int)(0 + _i + step20)) ;
+if (true) break;
+
+case 19:
+//C
+this.state = 20;
+ //BA.debugLineNum = 287;BA.debugLine="random_long = Rnd(1,2+Abs(Action)+(Abs(X)*Abs(";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (2+anywheresoftware.b4a.keywords.Common.Abs(_action)+(anywheresoftware.b4a.keywords.Common.Abs(_x)*anywheresoftware.b4a.keywords.Common.Abs(_y)))));
- //BA.debugLineNum = 286;BA.debugLine="If(Rnd(1,64) < 30 ) Then";
+ //BA.debugLineNum = 288;BA.debugLine="If(Rnd(1,64) < 30 ) Then";
+if (true) break;
+
+case 20:
+//if
+this.state = 23;
 if ((anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))<30)) { 
- //BA.debugLineNum = 287;BA.debugLine="random_long = Rnd(1,1+Rnd(1,922337203685477))";
+this.state = 22;
+}if (true) break;
+
+case 22:
+//C
+this.state = 23;
+ //BA.debugLineNum = 289;BA.debugLine="random_long = Rnd(1,1+Rnd(1,922337203685477))";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (1+anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (922337203685477L)))));
- //BA.debugLineNum = 288;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
+ //BA.debugLineNum = 290;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv1()),(int) (9-_vv1())));
- //BA.debugLineNum = 289;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
+ //BA.debugLineNum = 291;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv1()),(int) (9-_vv1())));
- //BA.debugLineNum = 290;BA.debugLine="random_long = random13";
+ //BA.debugLineNum = 292;BA.debugLine="random_long = random13";
 _random_long = (long) (_v0());
- };
- }
-};
- //BA.debugLineNum = 296;BA.debugLine="Label1.TextSize = 18 - random13";
-mostCurrent._label1.setTextSize((float) (18-_v0()));
- //BA.debugLineNum = 297;BA.debugLine="Label1.Text = Rnd(1,64)";
-mostCurrent._label1.setText(BA.ObjectToCharSequence(anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))));
- }
-};
- //BA.debugLineNum = 301;BA.debugLine="k = 40";
+ if (true) break;
+
+case 23:
+//C
+this.state = 45;
+;
+ if (true) break;
+if (true) break;
+
+case 24:
+//C
+this.state = 41;
+;
+ //BA.debugLineNum = 298;BA.debugLine="Label1.TextSize = 18 - random13";
+parent.mostCurrent._label1.setTextSize((float) (18-_v0()));
+ //BA.debugLineNum = 299;BA.debugLine="Label1.Text = Rnd(1,64)";
+parent.mostCurrent._label1.setText(BA.ObjectToCharSequence(anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))));
+ if (true) break;
+if (true) break;
+
+case 25:
+//C
+this.state = 26;
+;
+ //BA.debugLineNum = 303;BA.debugLine="k = 40";
 _k = (int) (40);
- //BA.debugLineNum = 303;BA.debugLine="If Activity.Height > 1000 Then k = 75";
-if (mostCurrent._activity.getHeight()>1000) { 
-_k = (int) (75);};
- //BA.debugLineNum = 305;BA.debugLine="If Activity.Width > 1000 Then k = 75";
-if (mostCurrent._activity.getWidth()>1000) { 
-_k = (int) (75);};
- //BA.debugLineNum = 307;BA.debugLine="i = random13";
+ //BA.debugLineNum = 305;BA.debugLine="If Activity.Height > 1000 Then k = 75";
+if (true) break;
+
+case 26:
+//if
+this.state = 31;
+if (parent.mostCurrent._activity.getHeight()>1000) { 
+this.state = 28;
+;}if (true) break;
+
+case 28:
+//C
+this.state = 31;
+_k = (int) (75);
+if (true) break;
+
+case 31:
+//C
+this.state = 32;
+;
+ //BA.debugLineNum = 307;BA.debugLine="If Activity.Width > 1000 Then k = 75";
+if (true) break;
+
+case 32:
+//if
+this.state = 37;
+if (parent.mostCurrent._activity.getWidth()>1000) { 
+this.state = 34;
+;}if (true) break;
+
+case 34:
+//C
+this.state = 37;
+_k = (int) (75);
+if (true) break;
+
+case 37:
+//C
+this.state = 38;
+;
+ //BA.debugLineNum = 309;BA.debugLine="i = random13";
 _i = _v0();
- //BA.debugLineNum = 308;BA.debugLine="j = random13";
+ //BA.debugLineNum = 310;BA.debugLine="j = random13";
 _j = _v0();
- //BA.debugLineNum = 311;BA.debugLine="Label1.Top = Activity.Height / 2 + 3*k - (i+j)*k";
-mostCurrent._label1.setTop((int) (mostCurrent._activity.getHeight()/(double)2+3*_k-(_i+_j)*_k));
- //BA.debugLineNum = 313;BA.debugLine="i = random13";
+ //BA.debugLineNum = 313;BA.debugLine="Label1.Top = Activity.Height / 2 + 3*k - (i+j)*k";
+parent.mostCurrent._label1.setTop((int) (parent.mostCurrent._activity.getHeight()/(double)2+3*_k-(_i+_j)*_k));
+ //BA.debugLineNum = 315;BA.debugLine="i = random13";
 _i = _v0();
- //BA.debugLineNum = 314;BA.debugLine="j = random13";
+ //BA.debugLineNum = 316;BA.debugLine="j = random13";
 _j = _v0();
- //BA.debugLineNum = 315;BA.debugLine="Label1.Left = Activity.Width / 2 + 3*k - (i+j)*k";
-mostCurrent._label1.setLeft((int) (mostCurrent._activity.getWidth()/(double)2+3*_k-(_i+_j)*_k));
- //BA.debugLineNum = 317;BA.debugLine="Label1.TextSize = 22 - 2*random13";
-mostCurrent._label1.setTextSize((float) (22-2*_v0()));
- //BA.debugLineNum = 318;BA.debugLine="Label1.Text = Rnd(1,64)";
-mostCurrent._label1.setText(BA.ObjectToCharSequence(anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))));
- };
- //BA.debugLineNum = 322;BA.debugLine="End Sub";
-return "";
+ //BA.debugLineNum = 317;BA.debugLine="Label1.Left = Activity.Width / 2 + 3*k - (i+j)*k";
+parent.mostCurrent._label1.setLeft((int) (parent.mostCurrent._activity.getWidth()/(double)2+3*_k-(_i+_j)*_k));
+ //BA.debugLineNum = 319;BA.debugLine="Label1.TextSize = 22 - 2*random13";
+parent.mostCurrent._label1.setTextSize((float) (22-2*_v0()));
+ //BA.debugLineNum = 320;BA.debugLine="Label1.Text = Rnd(1,64)";
+parent.mostCurrent._label1.setText(BA.ObjectToCharSequence(anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))));
+ if (true) break;
+
+case 38:
+//C
+this.state = -1;
+;
+ //BA.debugLineNum = 324;BA.debugLine="End Sub";
+if (true) break;
+
+            }
+        }
+    }
 }
 
 public static void initializeProcessGlobals() {

@@ -2,7 +2,7 @@
 NumberOfModules=1
 Module1=wautch_service
 Build1=Default,ch.waut
-ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="15"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="24"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~AddPermission("android.permission.WAKE_LOCK")
 IconFile=
 NumberOfFiles=11
 File1=busybox
@@ -26,8 +26,8 @@ Library6=phone
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 24
-	#VersionName: 04bedb39-131a-41b4-a69f-4b305efc74e4
+	#VersionCode: 42
+	#VersionName: d9ecd320-af20-46cf-9bcf-2e4c9b82d034
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -115,6 +115,7 @@ Sub SetRandom_Local()
 				random = Rnd(1+random12,9-random12)
 				random = random13
 				Label1.TextSize = 18 - random13
+
 				Label1.Text = Rnd(1,64)
 			End If
 		Next
@@ -131,6 +132,7 @@ Sub SetRandom_Local()
 	Next
 
 	Label1.TextSize = 18 - random13
+
 	Label1.Text = Rnd(1,64)
 	
 End Sub
@@ -270,7 +272,12 @@ Sub CheckBox1_CheckedChange(Checked As Boolean)
 	
 End Sub
 
+Sub S2()
+	Sleep(10)
+End Sub
+
 Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
+	
 	Dim random_long As Long
 
 	Dim i,j,k As Int
@@ -287,7 +294,7 @@ Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
 '			Return 0
 '		End If
 		
-		If ( time_IV > ( time_III + 30000 ) ) Then
+		If ( time_IV > ( time_III + 15000 ) ) Then
 			ToastMessageShow( Rnd(1,64) , True )
 '			ToastMessageShow( DateTime.Date(DateTime.Now) , False )
 '			time_III = DateTime.Now
@@ -320,6 +327,8 @@ Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
 '			random_long = Rnd(1,Abs(X)+Abs(Y)) + random_long - Rnd(1+random12,9-random12) * Power(Rnd(1+random12,9-random12),i+1-random12)
 			
 			Label1.TextSize = 18 - random13
+			S2
+			Sleep(10)
 			Label1.Text = Rnd(1,64)
 		
 		Next
@@ -341,6 +350,9 @@ Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
 		Label1.Left = Activity.Width / 2 + 3*k - (i+j)*k
 		
 		Label1.TextSize = 22 - 2*random13
+
+		S2
+		Sleep(10)
 		Label1.Text = Rnd(1,64)
 		
 	End If
