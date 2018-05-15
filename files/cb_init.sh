@@ -51,36 +51,36 @@ UPDATE_TABLES() {
   return 0
 }
 
-UPDATE_TABLES GLOBAL transition_animation_scale 0
-UPDATE_TABLES GLOBAL window_animation_scale 0
-UPDATE_TABLES GLOBAL animator_duration_scale 0
+UPDATE_TABLES GLOBAL transition_animation_scale 0.25
+UPDATE_TABLES GLOBAL window_animation_scale 0.25
+UPDATE_TABLES GLOBAL animator_duration_scale 0.25
 
-UPDATE_TABLES SYSTEM transition_animation_scale 0
-UPDATE_TABLES SYSTEM window_animation_scale 0
-UPDATE_TABLES SYSTEM animator_duration_scale 0
+UPDATE_TABLES SYSTEM transition_animation_scale 0.25
+UPDATE_TABLES SYSTEM window_animation_scale 0.25
+UPDATE_TABLES SYSTEM animator_duration_scale 0.25
 
 if [ "x$VERSION" != "x" ]; then 
 	if [ "$VERSION" -ge "5" ]; then	
 		if [ "x$MEM" != "x" ]; then 
 		  if [ "$MEM" -gt "800000" ]; then 		  
 			
-			UPDATE_TABLES GLOBAL transition_animation_scale 0
-			UPDATE_TABLES GLOBAL window_animation_scale 0
-			UPDATE_TABLES GLOBAL animator_duration_scale 0
+			UPDATE_TABLES GLOBAL transition_animation_scale 0.25
+			UPDATE_TABLES GLOBAL window_animation_scale 0.25
+			UPDATE_TABLES GLOBAL animator_duration_scale 0.25
 
-			UPDATE_TABLES SYSTEM transition_animation_scale 0
-			UPDATE_TABLES SYSTEM window_animation_scale 0
-			UPDATE_TABLES SYSTEM animator_duration_scale 0
+			UPDATE_TABLES SYSTEM transition_animation_scale 0.25
+			UPDATE_TABLES SYSTEM window_animation_scale 0.25
+			UPDATE_TABLES SYSTEM animator_duration_scale 0.25
 		  else		  
 		  
-			UPDATE_TABLES GLOBAL transition_animation_scale 0
-			UPDATE_TABLES GLOBAL window_animation_scale 0
-			UPDATE_TABLES GLOBAL animator_duration_scale 0
+			UPDATE_TABLES GLOBAL transition_animation_scale 0.25
+			UPDATE_TABLES GLOBAL window_animation_scale 0.25
+			UPDATE_TABLES GLOBAL animator_duration_scale 0.25
 
-			UPDATE_TABLES SYSTEM transition_animation_scale 0
-			UPDATE_TABLES SYSTEM window_animation_scale 0
-#			UPDATE_TABLES SYSTEM animator_duration_scale 0.25
-			UPDATE_TABLES SYSTEM animator_duration_scale 0
+			UPDATE_TABLES SYSTEM transition_animation_scale 0.25
+			UPDATE_TABLES SYSTEM window_animation_scale 0.25
+#			UPDATE_TABLES SYSTEM animator_duration_scale 0.25.25
+			UPDATE_TABLES SYSTEM animator_duration_scale 0.25
 		  fi
 		fi
 	fi
@@ -91,13 +91,13 @@ if [ "x$SWAP" != "x" ]; then
   if [ "$SWAP" -gt "10000" ]; then 	
   	SYSCTL vm.swappiness=80
 	
-	UPDATE_TABLES GLOBAL transition_animation_scale 0
-	UPDATE_TABLES GLOBAL window_animation_scale 0
-	UPDATE_TABLES GLOBAL animator_duration_scale 0
+	UPDATE_TABLES GLOBAL transition_animation_scale 0.25
+	UPDATE_TABLES GLOBAL window_animation_scale 0.25
+	UPDATE_TABLES GLOBAL animator_duration_scale 0.25
 
-	UPDATE_TABLES SYSTEM transition_animation_scale 0
-	UPDATE_TABLES SYSTEM window_animation_scale 0
-	UPDATE_TABLES SYSTEM animator_duration_scale 0
+	UPDATE_TABLES SYSTEM transition_animation_scale 0.25
+	UPDATE_TABLES SYSTEM window_animation_scale 0.25
+	UPDATE_TABLES SYSTEM animator_duration_scale 0.25
   fi
 fi
 

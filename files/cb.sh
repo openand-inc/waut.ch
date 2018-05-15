@@ -52,7 +52,7 @@ busybox killall -9 haveged
 #( busybox nice -n -1 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
 ( busybox nice -n +1 CB_RunHaveged ) <&- >/dev/null &
 
-SETPROP persist.sys.scrollingcache 4
+SETPROP persist.sys.scrollingcache 1
 
 SETPROP windowsmgr.max_events_per_sec 108
 
