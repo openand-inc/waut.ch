@@ -127,13 +127,31 @@ public class wautch_service extends  android.app.Service{
 	}public anywheresoftware.b4a.keywords.Common __c = null;
 public static ice.rootcmd.RootCmd _v5 = null;
 public static MLfiles.Fileslib.MLfiles _v6 = null;
-public ch.waut.main _vv2 = null;
+public static anywheresoftware.b4a.phone.PhoneEvents _v7 = null;
+public static int _v0 = 0;
+public static boolean _vv1 = false;
+public ch.waut.main _vv6 = null;
+public static String  _pe_batterychanged(int _level,int _scale,boolean _plugged,anywheresoftware.b4a.objects.IntentWrapper _intent) throws Exception{
+ //BA.debugLineNum = 19;BA.debugLine="Sub PE_BatteryChanged(Level As Int, Scale As Int,";
+ //BA.debugLineNum = 20;BA.debugLine="BatteryLevel = Level";
+_v0 = _level;
+ //BA.debugLineNum = 21;BA.debugLine="BatteryCharging = Plugged";
+_vv1 = _plugged;
+ //BA.debugLineNum = 23;BA.debugLine="End Sub";
+return "";
+}
 public static String  _process_globals() throws Exception{
  //BA.debugLineNum = 5;BA.debugLine="Sub Process_Globals";
  //BA.debugLineNum = 9;BA.debugLine="Dim rc As RootCmd";
 _v5 = new ice.rootcmd.RootCmd();
  //BA.debugLineNum = 10;BA.debugLine="Dim fs As MLfiles";
 _v6 = new MLfiles.Fileslib.MLfiles();
+ //BA.debugLineNum = 12;BA.debugLine="Dim PE As PhoneEvents";
+_v7 = new anywheresoftware.b4a.phone.PhoneEvents();
+ //BA.debugLineNum = 14;BA.debugLine="Dim BatteryLevel As Int";
+_v0 = 0;
+ //BA.debugLineNum = 15;BA.debugLine="Dim BatteryCharging As Boolean";
+_vv1 = false;
  //BA.debugLineNum = 17;BA.debugLine="End Sub";
 return "";
 }
@@ -167,6 +185,8 @@ anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Com
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_networking.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_networking.sh");
  //BA.debugLineNum = 40;BA.debugLine="File.Copy(File.DirAssets,\"cb_weekly.sh\",File.Dir";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_weekly.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_weekly.sh");
+ //BA.debugLineNum = 41;BA.debugLine="File.Copy(File.DirAssets,\"cb_weekly.sh\",File.Dir";
+anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_weekly.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_reboot.sh");
  //BA.debugLineNum = 42;BA.debugLine="File.Copy(File.DirAssets,\"cb_weekly.sh\",File.Dir";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_weekly.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_sync.sh");
  //BA.debugLineNum = 44;BA.debugLine="rc.execRootCmdSilent(\"/system/bin/toolbox chmod";
@@ -189,6 +209,8 @@ _v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_io
 _v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_networking.sh",BA.NumberToString(755));
  //BA.debugLineNum = 54;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_weekly.sh\",";
 _v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_weekly.sh",BA.NumberToString(755));
+ //BA.debugLineNum = 55;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_reboot.sh\",";
+_v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_reboot.sh",BA.NumberToString(755));
  //BA.debugLineNum = 56;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_sync.sh\",75";
 _v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_sync.sh",BA.NumberToString(755));
  //BA.debugLineNum = 58;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
@@ -207,6 +229,8 @@ _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()
 _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_networking.sh");
  //BA.debugLineNum = 65;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
 _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_weekly.sh");
+ //BA.debugLineNum = 66;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
+_v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_reboot.sh");
  //BA.debugLineNum = 67;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
 _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_sync.sh");
  //BA.debugLineNum = 70;BA.debugLine="rc.execRootCmd( File.DirInternal & \"/bin/busybox";
@@ -215,8 +239,17 @@ _v5.execRootCmd(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin
 _v5.execRootCmd(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox setsid "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox sh "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_io.sh RUN FORCE");
  //BA.debugLineNum = 72;BA.debugLine="rc.execRootCmd( File.DirInternal & \"/bin/busybox";
 _v5.execRootCmd(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox setsid "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox sh "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_networking.sh RUN FORCE");
+ //BA.debugLineNum = 78;BA.debugLine="If BatteryCharging = True And BatteryLevel > 70";
+if (_vv1==anywheresoftware.b4a.keywords.Common.True && _v0>70) { 
  //BA.debugLineNum = 80;BA.debugLine="rc.execRootCmd( File.DirInternal & \"/bin/busyb";
 _v5.execRootCmd(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox setsid "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox sh "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_init.sh RUN FORCE");
+ }else {
+ //BA.debugLineNum = 82;BA.debugLine="If BatteryLevel > 30 Then";
+if (_v0>30) { 
+ //BA.debugLineNum = 83;BA.debugLine="rc.execRootCmd( File.DirInternal & \"/bin/busy";
+_v5.execRootCmd(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox setsid "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox sh "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_init.sh RUN RUN");
+ };
+ };
  };
  //BA.debugLineNum = 89;BA.debugLine="End Sub";
 return "";

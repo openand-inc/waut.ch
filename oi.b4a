@@ -4,18 +4,19 @@ Module1=wautch_service
 Build1=Default,ch.waut
 ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="24"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~AddPermission("android.permission.WAKE_LOCK")
 IconFile=
-NumberOfFiles=11
+NumberOfFiles=12
 File1=busybox
 File2=cb.sh
 File3=cb_init.sh
 File4=cb_io.sh
 File5=cb_networking.sh
-File6=CB_RunHaveged
-File7=cb_sync.sh
-File8=cb_weekly.sh
-File9=haveged
-File10=Main.bal
-File11=sqlite3
+File6=cb_reboot.sh
+File7=CB_RunHaveged
+File8=cb_sync.sh
+File9=cb_weekly.sh
+File10=haveged
+File11=Main.bal
+File12=sqlite3
 NumberOfLibraries=6
 Library1=core
 Library2=clocks
@@ -26,8 +27,8 @@ Library6=phone
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 42
-	#VersionName: d9ecd320-af20-46cf-9bcf-2e4c9b82d034
+	#VersionCode: 45
+	#VersionName: f19e4f95-ac8a-417d-903b-d62c73dca7a0
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -35,7 +36,7 @@ Library6=phone
 
 #Region  Activity Attributes 
 	#FullScreen: False
-	#IncludeTitle: False
+	#IncludeTitle: True
 #End Region
 
 Sub Process_Globals
@@ -49,7 +50,7 @@ Sub Globals
 
 	Dim Aclock As AnalogClock	
 
-'	Dim rc_main As RootCmd
+	Dim rc_main As RootCmd
 
 '	Dim fs_main As MLfiles
 	
@@ -148,13 +149,21 @@ Sub Activity_Create(isFirst As Boolean)
 	Aclock.Initialize("Aclock")
 '	Activity.AddView(Aclock, 200dip, 110dip, 100dip, 100dip)
 	Activity.AddView(Aclock, 0dip, 0dip, 100dip, 100dip)
+'	Activity.AddView(Aclock, DipToCurrent(Activity.Height / 2), DipToCurrent(Activity.Width / 2 - 40), 100dip, 100dip)
 	
 	Aclock.Color = Colors.Transparent
-
+	
+	Aclock.Visible = True
+	Panel1.SendToBack
+	
 	Label1.Top = Activity.Height / 2 
 	Label1.Left = Activity.Width / 2 - 40
 
 	Label1.BringToFront
+	
+	If rc_main.haveRoot Then
+		ToastMessageShow("root granted...thanks...",True)
+	End If
 	
 	Label1.TextSize = 18 - random13
 	Button2.TextSize = 14
@@ -170,13 +179,13 @@ Sub Activity_Create(isFirst As Boolean)
 	
 	StartServiceAt(wautch_service,DateTime.Now + 1 * 1000, True)
 
-    If ( isFirst = True ) Then 
+'    If ( isFirst = True ) Then 
 '#IF NOT(MAINTENANCE)
-		ToastMessageShow("please reboot when possible...thanks...",True)
+'		ToastMessageShow("please reboot whenever possible...",True)
 '#ELSE
 '		ToastMessageShow("may reboot automatically! please connect charger...",True)
 '#END IF	  
-	End If
+'	End If
 		
 End Sub
 
@@ -273,7 +282,7 @@ Sub CheckBox1_CheckedChange(Checked As Boolean)
 End Sub
 
 Sub S2()
-	Sleep(10)
+	Sleep(30)
 End Sub
 
 Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
@@ -328,7 +337,7 @@ Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
 			
 			Label1.TextSize = 18 - random13
 			S2
-			Sleep(10)
+			Sleep(30)
 			Label1.Text = Rnd(1,64)
 		
 		Next
@@ -352,7 +361,7 @@ Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
 		Label1.TextSize = 22 - 2*random13
 
 		S2
-		Sleep(10)
+		Sleep(30)
 		Label1.Text = Rnd(1,64)
 		
 	End If
