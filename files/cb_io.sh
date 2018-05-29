@@ -67,7 +67,7 @@ for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /d
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name scheduler 2>/dev/null); do 
   busybox chmod 666 $i
   ECHO noop | busybox tee $i ; 
-  busybox chmod 444 $i
+#  busybox chmod 444 $i
 done
 
 for i in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15; do
@@ -75,11 +75,16 @@ for i in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15; do
  if [ -e /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor ]; then 
   busybox chmod 666 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor 
   ECHO interactive | busybox tee /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor 
-  busybox chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor 
+#  busybox chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor 
  fi
 done
 
 cd /sys/devices/system/cpu/cpufreq/interactive
+
+if [ ! -e /sys/devices/system/cpu/cpufreq/interactive ]; then 
+    sleep 1
+	cd /sys/devices/system/cpu/cpufreq/interactive
+fi
 
 if [ "$(busybox pwd 2>/dev/null)" = "/sys/devices/system/cpu/cpufreq/interactive" ]; then 
 	ECHO 20000 | busybox tee above_hispeed_delay 

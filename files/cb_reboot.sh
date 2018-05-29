@@ -31,32 +31,45 @@ MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ p
 
 CHECK_SLEEP
 
+# If data full then delete cache
+
 FOUND=0
 
-if [ -e ../CLEAR_DALVIK ]; then 
-  FOUND=1
+DATE=$(busybox date +%d 2>/dev/null)
+if [ "x$DATE" != "x" ]; then 
+  if [ "x$DATE" = "x15" ]; then   
+	DATASPACE=$(busybox df /data 2>/dev/null| busybox grep 'data' 2>/dev/null| busybox awk 'BEGIN{print ""} {percent+=$(NF-1);} END{print percent}' 2>/dev/null| busybox tail -1 2>/dev/null)
+	if [ "x$DATASPACE" != "x" ]; then 
+      if [ "x$DATASPACE" = "x96" ]; then   
+	    FOUND=1
+      fi       	
+      if [ "x$DATASPACE" = "x97" ]; then   
+	    FOUND=1
+      fi       	
+      if [ "x$DATASPACE" = "x98" ]; then   
+	    FOUND=1
+      fi       	
+      if [ "x$DATASPACE" = "x99" ]; then   
+	    FOUND=1
+      fi       	
+      if [ "x$DATASPACE" = "x100" ]; then   
+	    FOUND=1
+      fi       	
+	fi
+  fi	
 fi
 
-if [ -e /data/CLEAR_DALVIK ]; then 
-  FOUND=1
-fi
+if [ ${FOUND} -eq 1 ]; then 
 
-if [ ! -e /data/CLEAR_DALVIK ]; then
-  busybox touch /data/CLEAR_DALVIK  
-fi
-
-if [ ! -e ../CLEAR_DALVIK ]; then
-
-  busybox touch ../CLEAR_DALVIK
-  
-  if [ ! -e ../CLEAR_DALVIK ]; then 
-    FOUND=1
-  fi
-fi
-
-if [ ${FOUND} -eq 0 ]; then 
-    
-#   busybox rm -fr /data/dalvik-cache
+  for APPDIR in $(busybox timeout -t 15 -s KILL busybox find /data/data -name cache 2>/dev/null); do 
+     cd ${APPDIR}
+	 if [ "$(busybox pwd 2>/dev/null)" = "${APPDIR}" ]; then 
+	   busybox rm -fr ${APPDIR}/*
+	 fi
+	 cd ${APP}
+  done
+    	   
+   busybox rm -fr /data/dalvik-cache
    
    exec busybox sh -x cb_sync.sh 1 > ../cb_sync.log 2>&1
    

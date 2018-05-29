@@ -28,25 +28,25 @@ MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ p
 if [ ! -d /dev/entropy ]; then 
   busybox mkdir -p /dev/entropy
   busybox chown 0.0 /dev/entropy
-  busybox chmod 755 /dev/entropy  
+  busybox chmod 750 /dev/entropy  
 fi
 
 if [ ! -c /dev/entropy/random ]; then 
   busybox mkdir -p /dev/entropy
   busybox chown 0.0 /dev/entropy
-  busybox chmod 755 /dev/entropy
-  busybox mknod -m 664 /dev/entropy/random c 1 8
+  busybox chmod 750 /dev/entropy
+  busybox mknod -m 640 /dev/entropy/random c 1 8
   busybox chown 0.0 /dev/entropy/random
 fi
 
 busybox killall -9 CB_RunHaveged
 busybox killall -9 haveged 
 
-  busybox chmod 664 /dev/random
-  busybox chmod 664 /dev/urandom
+  busybox chmod 644 /dev/random
+  busybox chmod 644 /dev/urandom
 
   busybox chown 0.0 /dev/entropy/random
-  busybox chmod 664 /dev/entropy/random
+  busybox chmod 640 /dev/entropy/random
   
 #( busybox nice -n -1 haveged -r 0 -o ta8bcb ) <&- >/dev/null &
 #( busybox nice -n -1 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
@@ -54,7 +54,7 @@ busybox killall -9 haveged
 
 SETPROP persist.sys.scrollingcache 1
 
-SETPROP windowsmgr.max_events_per_sec 108
+SETPROP windowsmgr.max_events_per_sec 240
 
 # This defines the min duration between two pointer events
 #SETPROP ro.min_pointer_dur 1
@@ -139,11 +139,11 @@ if [ -e /dev/cpuctl/bg_non_interactive/cpu.shares ]; then
 fi
 
 if [ -e /dev/cpuctl/cpu.shares ]; then 
-  ECHO 1024 > /dev/cpuctl/cpu.shares
+  ECHO 512 > /dev/cpuctl/cpu.shares
 fi
 
 if [ -e /dev/cpuctl/fg_boost/cpu.shares ]; then 
-  ECHO 1152 > /dev/cpuctl/fg_boost/cpu.shares
+  ECHO 768 > /dev/cpuctl/fg_boost/cpu.shares
 fi
 
 if [ -e /dev/cpuctl/cpu.rt_period_us ]; then
@@ -188,13 +188,13 @@ if [ "$i" -ne "0" ]; then
 #SYSCTL kernel.random.read_wakeup_threshold=256
 #SYSCTL kernel.random.read_wakeup_threshold=8
 #SYSCTL kernel.random.read_wakeup_threshold=4064
-SYSCTL kernel.random.read_wakeup_threshold=4096
+SYSCTL kernel.random.read_wakeup_threshold=64
 
 #POOLSIZE=4064
 #POOLSIZE=320
 #POOLSIZE=0
 #POOLSIZE=4000
-POOLSIZE=1024
+POOLSIZE=64
 #POOLSIZE="$(busybox cat /proc/sys/kernel/random/poolsize 2>/dev/null)"
 #if [ "$(busybox cat /proc/sys/kernel/random/write_wakeup_threshold 2>/dev/null)" != "${POOLSIZE}" ]; then 
    SYSCTL kernel.random.write_wakeup_threshold="${POOLSIZE}"
@@ -211,9 +211,9 @@ for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep haveged 2>/dev
   fi
 done
 
-  busybox chmod 664 /dev/random
-  busybox chmod 664 /dev/urandom
-  busybox chmod 664 /dev/entropy/random
+  busybox chmod 644 /dev/random
+  busybox chmod 644 /dev/urandom
+  busybox chmod 640 /dev/entropy/random
   
 else
    SYSCTL kernel.random.read_wakeup_threshold=256

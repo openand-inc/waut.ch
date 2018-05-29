@@ -34,6 +34,9 @@ CHECK_SLEEP
 
 exec busybox sh cb_sync.sh RUN 1
 
+ ECHO interactive > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+ ECHO interactive > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
+
 SETTINGS_DB="/data/data/com.android.providers.settings/databases/settings.db"
 VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox awk -F\. '{ print $1 }' 2>/dev/null)
 
@@ -51,21 +54,23 @@ for DB in $(busybox timeout -t 15 -s KILL busybox find /data/data -name *.db 2>/
 
   busybox fsync "$DB"
 
-  busybox sleep 0.1
+# busybox sleep 0.1
 
 done
 
- ECHO interactive > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
- ECHO interactive > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
- ECHO 128 > /proc/sys/kernel/random/write_wakeup_threshold
- ECHO 256 > /proc/sys/kernel/random/read_wakeup_threshold
+ ECHO 64 > /proc/sys/kernel/random/write_wakeup_threshold
+ ECHO 64 > /proc/sys/kernel/random/read_wakeup_threshold
  ECHO 10 > /proc/sys/vm/vfs_cache_pressure
  ECHO 100 > /proc/sys/vm/dirty_ratio
  ECHO 100 > /proc/sys/vm/dirty_background_ratio
- ECHO 51 > /proc/sys/vm/overcommit_ratio
+ ECHO 49 > /proc/sys/vm/overcommit_ratio
  ECHO 1 > /proc/sys/vm/overcommit_memory
- ECHO 0 > /proc/sys/net/ipv4/icmp_echo_ignore_all
- ECHO 1 > /proc/sys/net/ipv4/tcp_timestamps
+ ECHO 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
+ ECHO 0 > /proc/sys/net/ipv4/tcp_timestamps
 
 exec busybox sh cb_sync.sh RUN 6
+
+CHECK_SLEEP
+
+exec busybox sh cb_reboot.sh
 

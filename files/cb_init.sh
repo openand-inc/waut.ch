@@ -51,26 +51,28 @@ UPDATE_TABLES() {
   return 0
 }
 
-UPDATE_TABLES GLOBAL transition_animation_scale 0.25
-UPDATE_TABLES GLOBAL window_animation_scale 0.25
-UPDATE_TABLES GLOBAL animator_duration_scale 0.25
+UPDATE_TABLES GLOBAL transition_animation_scale 0.5
+UPDATE_TABLES GLOBAL window_animation_scale 0.5
+UPDATE_TABLES GLOBAL animator_duration_scale 0.5
 
-UPDATE_TABLES SYSTEM transition_animation_scale 0.25
-UPDATE_TABLES SYSTEM window_animation_scale 0.25
-UPDATE_TABLES SYSTEM animator_duration_scale 0.25
+UPDATE_TABLES SYSTEM transition_animation_scale 0.5
+UPDATE_TABLES SYSTEM window_animation_scale 0.5
+UPDATE_TABLES SYSTEM animator_duration_scale 0.5
+
+#if [ 1 = 0 ]; then
 
 if [ "x$VERSION" != "x" ]; then 
 	if [ "$VERSION" -ge "5" ]; then	
 		if [ "x$MEM" != "x" ]; then 
 		  if [ "$MEM" -gt "800000" ]; then 		  
 			
-			UPDATE_TABLES GLOBAL transition_animation_scale 0.25
-			UPDATE_TABLES GLOBAL window_animation_scale 0.25
-			UPDATE_TABLES GLOBAL animator_duration_scale 0.25
+			UPDATE_TABLES GLOBAL transition_animation_scale 0.5
+			UPDATE_TABLES GLOBAL window_animation_scale 0.5
+			UPDATE_TABLES GLOBAL animator_duration_scale 0.5
 
-			UPDATE_TABLES SYSTEM transition_animation_scale 0.25
-			UPDATE_TABLES SYSTEM window_animation_scale 0.25
-			UPDATE_TABLES SYSTEM animator_duration_scale 0.25
+			UPDATE_TABLES SYSTEM transition_animation_scale 0.5
+			UPDATE_TABLES SYSTEM window_animation_scale 0.5
+			UPDATE_TABLES SYSTEM animator_duration_scale 0.5
 		  else		  
 		  
 			UPDATE_TABLES GLOBAL transition_animation_scale 0.25
@@ -79,12 +81,13 @@ if [ "x$VERSION" != "x" ]; then
 
 			UPDATE_TABLES SYSTEM transition_animation_scale 0.25
 			UPDATE_TABLES SYSTEM window_animation_scale 0.25
-#			UPDATE_TABLES SYSTEM animator_duration_scale 0.25.25
 			UPDATE_TABLES SYSTEM animator_duration_scale 0.25
 		  fi
 		fi
 	fi
 fi
+
+#fi
 
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 if [ "x$SWAP" != "x" ]; then 
@@ -133,17 +136,14 @@ fi
 
 busybox fsync $SETTINGS_DB
 
-SETPROP ro.ril.enable.amr.wideband 1
-
 SETPROP ro.telephony.call_ring.delay 0
 SETPROP ring.delay 0
 
 SETPROP ro.media.enc.jpeg.quality 100
 
 SETPROP pm.sleep_mode 1
-SETPROP ro.ril.disable.power.collapse 0
 
-#SETPROP wifi.supplicant_scan_interval 120
+SETPROP wifi.supplicant_scan_interval 30
 
 # Put outgoing only IPSEC logic here
 
@@ -152,12 +152,17 @@ SETPROP debug.sf.hw 1
 SETPROP debug.performance.tuning 1
 SETPROP video.accelerate.hw 1
 
+#SETPROP persist.sys.ui.hw false
+#SETPROP debug.sf.hw 0
+#SETPROP debug.performance.tuning 0
+#SETPROP video.accelerate.hw 0
+
 #SETPROP debug.composition.type cpu
 #SETPROP persist.sys.composition.type cpu
-#SETPROP debug.composition.type dyn
-#SETPROP persist.sys.composition.type dyn
 SETPROP debug.composition.type gpu
 SETPROP persist.sys.composition.type gpu
+SETPROP debug.composition.type dyn
+SETPROP persist.sys.composition.type dyn
 
 SETPROP ro.media.dec.jpeg.memcap 8000000
 SETPROP ro.media.enc.hprof.vid.bps 8000000

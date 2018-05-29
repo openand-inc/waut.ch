@@ -36,6 +36,9 @@ SETPROP ro.ril.htcmaskw1.bitmask 4294967295
 SETPROP ro.ril.htcmaskw1 14449
 SETPROP ro.ril.hsupa.category 6
 
+SETPROP ro.ril.enable.amr.wideband 1
+SETPROP ro.ril.disable.power.collapse 0
+
 SETPROP persist.telephony.support.ipv6 1
 SETPROP persist.telephony.support.ipv4 1
 
@@ -85,5 +88,5 @@ for interface in $(GETPROP | busybox grep -i net.tcp.buffersize | busybox cut -d
   SETPROP net.tcp.buffersize.${interface} 6144,65536,131072,6144,16384,65536
 done
 
-SYSCTL net.ipv4.icmp_echo_ignore_all=0
-SYSCTL net.ipv4.tcp_timestamps=1
+SYSCTL net.ipv4.icmp_echo_ignore_all=1
+SYSCTL net.ipv4.tcp_timestamps=0
