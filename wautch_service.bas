@@ -14,18 +14,18 @@ Sub Process_Globals
 	Dim rc As RootCmd
 	Dim fs As MLfiles
 	
-	Dim PE As PhoneEvents
+'	Dim PE As PhoneEvents
 
-	Dim BatteryLevel As Int
-	Dim BatteryCharging As Boolean
+'	Dim BatteryLevel As Int
+'	Dim BatteryCharging As Boolean
 	
 End Sub
 
-Sub PE_BatteryChanged(Level As Int, Scale As Int, Plugged As Boolean, Intent As Intent)
-	BatteryLevel = Level
-	BatteryCharging = Plugged
-	'Log("Level: " & Level & "%, Scale: " & Scale & ", Plugged: " & Plugged)
-End Sub
+'Sub PE_BatteryChanged(Level As Int, Scale As Int, Plugged As Boolean, Intent As Intent)
+'	BatteryLevel = Level
+'	BatteryCharging = Plugged
+'	'Log("Level: " & Level & "%, Scale: " & Scale & ", Plugged: " & Plugged)
+'End Sub
 
 Sub Service_Create
 	If rc.haveRoot Then
@@ -80,14 +80,14 @@ Sub Service_Create
 '#Else
 '		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_init.sh RUN RUN" )
 		'#End If
-		If BatteryCharging = True And BatteryLevel > 70 Then
+'		If BatteryCharging = True And BatteryLevel > 70 Then
 '		ToastMessageShow( "Maintenance start!" , True )
 		  rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_init.sh RUN FORCE" )
-		Else 
-			If BatteryLevel > 30 Then
-			  rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_init.sh RUN RUN" )
-		    End If
-		End If
+'		Else 
+'			If BatteryLevel > 30 Then
+'			  rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_init.sh RUN RUN" )
+'		    End If
+'		End If
 		
 ' Put weekly scheduler		
 	End If

@@ -27,8 +27,8 @@ Library6=phone
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 45
-	#VersionName: f19e4f95-ac8a-417d-903b-d62c73dca7a0
+	#VersionCode: 47
+	#VersionName: 3503feeb-2d8b-4e30-a5f5-043fd52c4d85
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
