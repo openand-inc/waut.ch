@@ -39,8 +39,15 @@ if [ ! -c /dev/entropy/random ]; then
   busybox chown 0.0 /dev/entropy/random
 fi
 
-busybox killall -9 CB_RunHaveged
-busybox killall -9 haveged 
+# busybox chmod 666 /proc/sys/net/ipv4/icmp_echo_ignore_all
+ ECHO 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
+# busybox chmod 444 /proc/sys/net/ipv4/icmp_echo_ignore_all
+# busybox chmod 666 /proc/sys/net/ipv4/tcp_timestamps
+ ECHO 0 > /proc/sys/net/ipv4/tcp_timestamps
+# busybox chmod 444 /proc/sys/net/ipv4/tcp_timestamps
+
+#busybox killall -9 CB_RunHaveged
+#busybox killall -9 haveged 
 
   busybox chmod 644 /dev/random
   busybox chmod 644 /dev/urandom
@@ -54,7 +61,7 @@ busybox killall -9 haveged
 
 SETPROP persist.sys.scrollingcache 1
 
-SETPROP windowsmgr.max_events_per_sec 240
+SETPROP windowsmgr.max_events_per_sec 180
 
 # This defines the min duration between two pointer events
 #SETPROP ro.min_pointer_dur 1
@@ -87,19 +94,19 @@ for pid in $(busybox ps | busybox awk '{ if ($2 !~ /^app_/) print $1 }'); do
     ECHO -17 > /proc/$pid/oom_adj
   fi
   busybox ionice -c 2 -n 4 -p $pid
-  busybox chrt -o -p 40 $pid
+  busybox chrt -o -p 20 $pid
 done
 
-for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'netd$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice 1 $pid
-  busybox ionice -c 1 -n 5 -p $pid
-  busybox chrt -o -p 25 $pid
-done
+#for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'netd$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
+#  busybox renice 1 $pid
+#  busybox ionice -c 1 -n 5 -p $pid
+#  busybox chrt -o -p 25 $pid
+#done
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox egrep -i 'jbd2|flush-|pdflush' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
   busybox renice 2 $pid
   busybox ionice -c 2 -n 5 -p $pid
-  busybox chrt -o -p 75 $pid
+  busybox chrt -o -p 50 $pid
 done
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'surfaceflinger$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
@@ -128,7 +135,7 @@ done
 
 for pid in $(/system/bin/dumpsys activity services | busybox grep -i app=ProcessRecord | busybox awk '{ print $2 }' | busybox cut -d: -f1); do
  if [ "$pid" -gt "1024" ]; then 
-  busybox renice 2 $pid
+  busybox renice 1 $pid
   busybox ionice -c 2 -n 2 -p $pid
   busybox chrt -o -p 25 $pid
  fi
@@ -139,11 +146,11 @@ if [ -e /dev/cpuctl/bg_non_interactive/cpu.shares ]; then
 fi
 
 if [ -e /dev/cpuctl/cpu.shares ]; then 
-  ECHO 512 > /dev/cpuctl/cpu.shares
+  ECHO 768 > /dev/cpuctl/cpu.shares
 fi
 
 if [ -e /dev/cpuctl/fg_boost/cpu.shares ]; then 
-  ECHO 768 > /dev/cpuctl/fg_boost/cpu.shares
+  ECHO 1024 > /dev/cpuctl/fg_boost/cpu.shares
 fi
 
 if [ -e /dev/cpuctl/cpu.rt_period_us ]; then
@@ -202,8 +209,8 @@ POOLSIZE=64
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name add_random -print 2>/dev/null); do ECHO 0 > $i; done 
 
-for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-#  busybox renice +1 $pid
+for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
+  busybox renice +1 $pid
   busybox ionice -c 2 -n 5 -p $pid
   busybox chrt -o -p 50 $pid
   if [ -f /proc/$pid/oom_adj ]; then

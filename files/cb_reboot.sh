@@ -22,6 +22,17 @@ if [ "x$ARG" != "xFORCE" ]; then
 #    exec busybox sh cb_sync.sh 6
     return 0; 
   fi
+  CHARGING=$(adb shell status | busybox grep -i status | busybox awk '{ print $NF }' 2>/dev/null)
+  if [ "x$CHARGING" != "x" ]; then 
+    if [ "x$CHARGING" = "x2" ]; then 
+	  LEVEL=$(adb shell status | busybox grep -i level | busybox awk '{ print $NF }' 2>/dev/null)
+      if [ "x$LEVEL" != "x" ]; then 
+        if [ "$LEVEL" -gt "70" ]; then 
+		  FOUND=1
+        fi
+      fi	  
+    fi
+  fi
 fi
 }
 
@@ -29,26 +40,15 @@ VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox busybox cut -d.
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
-CHECK_SLEEP
-
 # If data full then delete cache
 
 FOUND=0
 
-DATE=$(busybox date +%d 2>/dev/null)
-if [ "x$DATE" != "x" ]; then 
-  if [ "x$DATE" = "x15" ]; then   
+#DATE=$(busybox date +%d 2>/dev/null)
+#if [ "x$DATE" != "x" ]; then 
+#  if [ "x$DATE" = "x15" ]; then   
 	DATASPACE=$(busybox df /data 2>/dev/null| busybox grep 'data' 2>/dev/null| busybox awk 'BEGIN{print ""} {percent+=$(NF-1);} END{print percent}' 2>/dev/null| busybox tail -1 2>/dev/null)
 	if [ "x$DATASPACE" != "x" ]; then 
-      if [ "x$DATASPACE" = "x96" ]; then   
-	    FOUND=1
-      fi       	
-      if [ "x$DATASPACE" = "x97" ]; then   
-	    FOUND=1
-      fi       	
-      if [ "x$DATASPACE" = "x98" ]; then   
-	    FOUND=1
-      fi       	
       if [ "x$DATASPACE" = "x99" ]; then   
 	    FOUND=1
       fi       	
@@ -56,8 +56,10 @@ if [ "x$DATE" != "x" ]; then
 	    FOUND=1
       fi       	
 	fi
-  fi	
-fi
+#  fi	
+#fi
+
+CHECK_SLEEP
 
 if [ ${FOUND} -eq 1 ]; then 
 
