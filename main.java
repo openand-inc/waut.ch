@@ -321,7 +321,7 @@ public class main extends Activity implements B4AActivity{
     }
 
 public anywheresoftware.b4a.keywords.Common __c = null;
-public anywheresoftware.b4a.agraham.clocks.ChronometerWrapper.AnalogClockWrapper _vv2 = null;
+public anywheresoftware.b4a.agraham.clocks.ChronometerWrapper.AnalogClockWrapper _v7 = null;
 public ice.rootcmd.RootCmd _rc_main = null;
 public anywheresoftware.b4a.objects.PanelWrapper _panel1 = null;
 public anywheresoftware.b4a.objects.LabelWrapper _label1 = null;
@@ -356,13 +356,13 @@ mostCurrent._activity.LoadLayout("Main",mostCurrent.activityBA);
  //BA.debugLineNum = 120;BA.debugLine="Activity.Title = \"waut.ch! running... ? for help,";
 mostCurrent._activity.setTitle(BA.ObjectToCharSequence("waut.ch! running... ? for help, space to clear page"));
  //BA.debugLineNum = 122;BA.debugLine="Aclock.Initialize(\"Aclock\")";
-mostCurrent._vv2.Initialize(mostCurrent.activityBA,"Aclock");
+mostCurrent._v7.Initialize(mostCurrent.activityBA,"Aclock");
  //BA.debugLineNum = 124;BA.debugLine="Activity.AddView(Aclock, 0dip, 0dip, 100dip, 100d";
-mostCurrent._activity.AddView((android.view.View)(mostCurrent._vv2.getObject()),anywheresoftware.b4a.keywords.Common.DipToCurrent((int) (0)),anywheresoftware.b4a.keywords.Common.DipToCurrent((int) (0)),anywheresoftware.b4a.keywords.Common.DipToCurrent((int) (100)),anywheresoftware.b4a.keywords.Common.DipToCurrent((int) (100)));
+mostCurrent._activity.AddView((android.view.View)(mostCurrent._v7.getObject()),anywheresoftware.b4a.keywords.Common.DipToCurrent((int) (0)),anywheresoftware.b4a.keywords.Common.DipToCurrent((int) (0)),anywheresoftware.b4a.keywords.Common.DipToCurrent((int) (100)),anywheresoftware.b4a.keywords.Common.DipToCurrent((int) (100)));
  //BA.debugLineNum = 127;BA.debugLine="Aclock.Color = Colors.Transparent";
-mostCurrent._vv2.setColor(anywheresoftware.b4a.keywords.Common.Colors.Transparent);
+mostCurrent._v7.setColor(anywheresoftware.b4a.keywords.Common.Colors.Transparent);
  //BA.debugLineNum = 129;BA.debugLine="Aclock.Visible = True";
-mostCurrent._vv2.setVisible(anywheresoftware.b4a.keywords.Common.True);
+mostCurrent._v7.setVisible(anywheresoftware.b4a.keywords.Common.True);
  //BA.debugLineNum = 130;BA.debugLine="Panel1.SendToBack";
 mostCurrent._panel1.SendToBack();
  //BA.debugLineNum = 132;BA.debugLine="Label1.Top = Activity.Height / 2";
@@ -377,7 +377,7 @@ if (mostCurrent._rc_main.haveRoot()) {
 anywheresoftware.b4a.keywords.Common.ToastMessageShow(BA.ObjectToCharSequence("root granted...thanks..."),anywheresoftware.b4a.keywords.Common.True);
  };
  //BA.debugLineNum = 141;BA.debugLine="Label1.TextSize = 18 - random13";
-mostCurrent._label1.setTextSize((float) (18-_vv3()));
+mostCurrent._label1.setTextSize((float) (18-_v0()));
  //BA.debugLineNum = 142;BA.debugLine="Button2.TextSize = 14";
 mostCurrent._button2.setTextSize((float) (14));
  //BA.debugLineNum = 144;BA.debugLine="SetRandom_Local";
@@ -413,7 +413,7 @@ public static String  _activity_resume() throws Exception{
  //BA.debugLineNum = 190;BA.debugLine="SetRandom_Local";
 _setrandom_local();
  //BA.debugLineNum = 191;BA.debugLine="Label1.TextSize = 18 - random13";
-mostCurrent._label1.setTextSize((float) (18-_vv3()));
+mostCurrent._label1.setTextSize((float) (18-_v0()));
  //BA.debugLineNum = 192;BA.debugLine="SetRandom_Local";
 _setrandom_local();
  //BA.debugLineNum = 195;BA.debugLine="End Sub";
@@ -430,7 +430,7 @@ mostCurrent._checkbox1.setVisible(anywheresoftware.b4a.keywords.Common.True);
  //BA.debugLineNum = 350;BA.debugLine="CheckBox1.Checked = False";
 mostCurrent._checkbox1.setChecked(anywheresoftware.b4a.keywords.Common.False);
  //BA.debugLineNum = 352;BA.debugLine="Aclock.Visible = True";
-mostCurrent._vv2.setVisible(anywheresoftware.b4a.keywords.Common.True);
+mostCurrent._v7.setVisible(anywheresoftware.b4a.keywords.Common.True);
  //BA.debugLineNum = 353;BA.debugLine="Button2.Visible = True";
 mostCurrent._button2.setVisible(anywheresoftware.b4a.keywords.Common.True);
  //BA.debugLineNum = 355;BA.debugLine="Button1.Visible = False";
@@ -479,7 +479,7 @@ mostCurrent._checkbox1.setVisible(anywheresoftware.b4a.keywords.Common.False);
  //BA.debugLineNum = 241;BA.debugLine="CheckBox1.Checked = False";
 mostCurrent._checkbox1.setChecked(anywheresoftware.b4a.keywords.Common.False);
  //BA.debugLineNum = 243;BA.debugLine="Aclock.Visible = False";
-mostCurrent._vv2.setVisible(anywheresoftware.b4a.keywords.Common.False);
+mostCurrent._v7.setVisible(anywheresoftware.b4a.keywords.Common.False);
  //BA.debugLineNum = 244;BA.debugLine="Button2.Visible = False";
 mostCurrent._button2.setVisible(anywheresoftware.b4a.keywords.Common.False);
  //BA.debugLineNum = 247;BA.debugLine="CheckBox1.Enabled = True";
@@ -500,7 +500,7 @@ return "";
 public static String  _globals() throws Exception{
  //BA.debugLineNum = 20;BA.debugLine="Sub Globals";
  //BA.debugLineNum = 24;BA.debugLine="Dim Aclock As AnalogClock";
-mostCurrent._vv2 = new anywheresoftware.b4a.agraham.clocks.ChronometerWrapper.AnalogClockWrapper();
+mostCurrent._v7 = new anywheresoftware.b4a.agraham.clocks.ChronometerWrapper.AnalogClockWrapper();
  //BA.debugLineNum = 26;BA.debugLine="Dim rc_main As RootCmd";
 mostCurrent._rc_main = new ice.rootcmd.RootCmd();
  //BA.debugLineNum = 30;BA.debugLine="Private Panel1 As Panel";
@@ -591,7 +591,7 @@ if (true) break;
 case 1:
 //if
 this.state = 38;
-if (parent.mostCurrent._vv2.getVisible()==anywheresoftware.b4a.keywords.Common.False) { 
+if (parent.mostCurrent._v7.getVisible()==anywheresoftware.b4a.keywords.Common.False) { 
 this.state = 3;
 }if (true) break;
 
@@ -690,11 +690,11 @@ this.state = 16;
  //BA.debugLineNum = 292;BA.debugLine="random_long = Rnd(1,1+Rnd(1,922337203685477))";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (1+anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (922337203685477L)))));
  //BA.debugLineNum = 293;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
-_random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv4()),(int) (9-_vv4())));
+_random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv1()),(int) (9-_vv1())));
  //BA.debugLineNum = 294;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
-_random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv4()),(int) (9-_vv4())));
+_random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv1()),(int) (9-_vv1())));
  //BA.debugLineNum = 295;BA.debugLine="random_long = random13";
-_random_long = (long) (_vv3());
+_random_long = (long) (_v0());
  if (true) break;
 
 case 16:
@@ -748,11 +748,11 @@ this.state = 23;
  //BA.debugLineNum = 302;BA.debugLine="random_long = Rnd(1,1+Rnd(1,922337203685477))";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (1+anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (922337203685477L)))));
  //BA.debugLineNum = 303;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
-_random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv4()),(int) (9-_vv4())));
+_random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv1()),(int) (9-_vv1())));
  //BA.debugLineNum = 304;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
-_random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv4()),(int) (9-_vv4())));
+_random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv1()),(int) (9-_vv1())));
  //BA.debugLineNum = 305;BA.debugLine="random_long = random13";
-_random_long = (long) (_vv3());
+_random_long = (long) (_v0());
  if (true) break;
 
 case 23:
@@ -767,9 +767,9 @@ case 24:
 this.state = 40;
 ;
  //BA.debugLineNum = 311;BA.debugLine="Label1.TextSize = 18 - random13";
-parent.mostCurrent._label1.setTextSize((float) (18-_vv3()));
+parent.mostCurrent._label1.setTextSize((float) (18-_v0()));
  //BA.debugLineNum = 312;BA.debugLine="S2";
-_vv5();
+_vv2();
  //BA.debugLineNum = 313;BA.debugLine="Sleep(30)";
 anywheresoftware.b4a.keywords.Common.Sleep(mostCurrent.activityBA,this,(int) (30));
 this.state = 45;
@@ -830,21 +830,21 @@ case 37:
 this.state = 38;
 ;
  //BA.debugLineNum = 324;BA.debugLine="i = random13";
-_i = _vv3();
+_i = _v0();
  //BA.debugLineNum = 325;BA.debugLine="j = random13";
-_j = _vv3();
+_j = _v0();
  //BA.debugLineNum = 328;BA.debugLine="Label1.Top = Activity.Height / 2 + 3*k - (i+j)*k";
 parent.mostCurrent._label1.setTop((int) (parent.mostCurrent._activity.getHeight()/(double)2+3*_k-(_i+_j)*_k));
  //BA.debugLineNum = 330;BA.debugLine="i = random13";
-_i = _vv3();
+_i = _v0();
  //BA.debugLineNum = 331;BA.debugLine="j = random13";
-_j = _vv3();
+_j = _v0();
  //BA.debugLineNum = 332;BA.debugLine="Label1.Left = Activity.Width / 2 + 3*k - (i+j)*k";
 parent.mostCurrent._label1.setLeft((int) (parent.mostCurrent._activity.getWidth()/(double)2+3*_k-(_i+_j)*_k));
  //BA.debugLineNum = 334;BA.debugLine="Label1.TextSize = 22 - 2*random13";
-parent.mostCurrent._label1.setTextSize((float) (22-2*_vv3()));
+parent.mostCurrent._label1.setTextSize((float) (22-2*_v0()));
  //BA.debugLineNum = 336;BA.debugLine="S2";
-_vv5();
+_vv2();
  //BA.debugLineNum = 337;BA.debugLine="Sleep(30)";
 anywheresoftware.b4a.keywords.Common.Sleep(mostCurrent.activityBA,this,(int) (30));
 this.state = 46;
@@ -886,7 +886,7 @@ wautch_service._process_globals();
  //BA.debugLineNum = 18;BA.debugLine="End Sub";
 return "";
 }
-public static int  _vv4() throws Exception{
+public static int  _vv1() throws Exception{
  //BA.debugLineNum = 41;BA.debugLine="Sub random12() As Int";
  //BA.debugLineNum = 42;BA.debugLine="If(Rnd(1,64) <= 32 ) Then";
 if ((anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))<=32)) { 
@@ -899,7 +899,7 @@ if (true) return (int) (1);
  //BA.debugLineNum = 47;BA.debugLine="End Sub";
 return 0;
 }
-public static int  _vv3() throws Exception{
+public static int  _v0() throws Exception{
  //BA.debugLineNum = 49;BA.debugLine="Sub random13() As Int";
  //BA.debugLineNum = 51;BA.debugLine="If(Rnd(1,64) > 0 ) And (Rnd(1,64) <= 18 )  Then";
 if ((anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))>0) && (anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))<=18)) { 
@@ -919,7 +919,7 @@ if (true) return (int) (1);
  //BA.debugLineNum = 63;BA.debugLine="End Sub";
 return 0;
 }
-public static void  _vv5() throws Exception{
+public static void  _vv2() throws Exception{
 ResumableSub_S2 rsub = new ResumableSub_S2(null);
 rsub.resume(processBA, null);
 }
@@ -982,11 +982,11 @@ if ((anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))>30)) {
  //BA.debugLineNum = 77;BA.debugLine="random = Rnd(1,1+Rnd(1,922337203685477))";
 _random = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (1+anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (922337203685477L)))));
  //BA.debugLineNum = 78;BA.debugLine="random = Rnd(1+random12,9-random12)";
-_random = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv4()),(int) (9-_vv4())));
+_random = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv1()),(int) (9-_vv1())));
  //BA.debugLineNum = 79;BA.debugLine="random = Rnd(1+random12,9-random12)";
-_random = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv4()),(int) (9-_vv4())));
+_random = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv1()),(int) (9-_vv1())));
  //BA.debugLineNum = 80;BA.debugLine="random = random13";
-_random = (long) (_vv3());
+_random = (long) (_v0());
  };
  }
 };
@@ -1001,34 +1001,34 @@ if ((anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))<30)) {
  //BA.debugLineNum = 87;BA.debugLine="random = Rnd(1,1+Rnd(1,922337203685477))";
 _random = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (1+anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (922337203685477L)))));
  //BA.debugLineNum = 88;BA.debugLine="random = Rnd(1+random12,9-random12)";
-_random = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv4()),(int) (9-_vv4())));
+_random = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv1()),(int) (9-_vv1())));
  //BA.debugLineNum = 89;BA.debugLine="random = Rnd(1+random12,9-random12)";
-_random = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv4()),(int) (9-_vv4())));
+_random = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv1()),(int) (9-_vv1())));
  //BA.debugLineNum = 90;BA.debugLine="random = random13";
-_random = (long) (_vv3());
+_random = (long) (_v0());
  //BA.debugLineNum = 91;BA.debugLine="Label1.TextSize = 18 - random13";
-mostCurrent._label1.setTextSize((float) (18-_vv3()));
+mostCurrent._label1.setTextSize((float) (18-_v0()));
  //BA.debugLineNum = 93;BA.debugLine="Label1.Text = Rnd(1,64)";
 mostCurrent._label1.setText(BA.ObjectToCharSequence(anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))));
  };
  }
 };
  //BA.debugLineNum = 97;BA.debugLine="Label1.TextSize = 18 - random13";
-mostCurrent._label1.setTextSize((float) (18-_vv3()));
+mostCurrent._label1.setTextSize((float) (18-_v0()));
  //BA.debugLineNum = 98;BA.debugLine="Label1.Text = Rnd(1,64)";
 mostCurrent._label1.setText(BA.ObjectToCharSequence(anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))));
  //BA.debugLineNum = 100;BA.debugLine="i = random13";
-_i = _vv3();
+_i = _v0();
  //BA.debugLineNum = 101;BA.debugLine="Label1.Top = Activity.Height / 2";
 mostCurrent._label1.setTop((int) (mostCurrent._activity.getHeight()/(double)2));
  //BA.debugLineNum = 103;BA.debugLine="i = random13";
-_i = _vv3();
+_i = _v0();
  //BA.debugLineNum = 104;BA.debugLine="Label1.Left = Activity.Width / 2 - 40";
 mostCurrent._label1.setLeft((int) (mostCurrent._activity.getWidth()/(double)2-40));
  }
 };
  //BA.debugLineNum = 108;BA.debugLine="Label1.TextSize = 18 - random13";
-mostCurrent._label1.setTextSize((float) (18-_vv3()));
+mostCurrent._label1.setTextSize((float) (18-_v0()));
  //BA.debugLineNum = 110;BA.debugLine="Label1.Text = Rnd(1,64)";
 mostCurrent._label1.setText(BA.ObjectToCharSequence(anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))));
  //BA.debugLineNum = 112;BA.debugLine="End Sub";
