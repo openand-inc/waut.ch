@@ -37,7 +37,8 @@ UPDATE_TABLES() {
   
   sqlite3 $SETTINGS_DB 'update '"$TABLE"' set value="'"$VALUE"'" where name="'"$VARIABLE"'";'
 
-  if [ -e /system/bin/settings ]; then 
+# if [ -e /system/bin/settings ]; then 
+  if [ 1 = 0 ]; then
     STRING=$(PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings get $TABLE $VARIABLE 2>/dev/null)
 	if [ "x$STRING" = "xnull" ]; then return 0; fi
 
@@ -47,19 +48,21 @@ UPDATE_TABLES() {
       PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put $TABLE $VARIABLE $VALUE
 	fi
   fi
-
-  return 0
 }
 
-UPDATE_TABLES GLOBAL transition_animation_scale 0.5
-UPDATE_TABLES GLOBAL window_animation_scale 0.5
-UPDATE_TABLES GLOBAL animator_duration_scale 0.5
+UPDATE_TABLES GLOBAL transition_animation_scale 0
+UPDATE_TABLES GLOBAL window_animation_scale 0
+UPDATE_TABLES GLOBAL animator_duration_scale 0
 
-UPDATE_TABLES SYSTEM transition_animation_scale 0.5
-UPDATE_TABLES SYSTEM window_animation_scale 0.5
-UPDATE_TABLES SYSTEM animator_duration_scale 0.5
+UPDATE_TABLES SYSTEM transition_animation_scale 0
+UPDATE_TABLES SYSTEM window_animation_scale 0
+UPDATE_TABLES SYSTEM animator_duration_scale 0
 
-#if [ 1 = 0 ]; then
+UPDATE_TABLES SECURE transition_animation_scale 0
+UPDATE_TABLES SECURE window_animation_scale 0
+UPDATE_TABLES SECURE animator_duration_scale 0
+
+if [ 1 = 0 ]; then
 
 if [ "x$VERSION" != "x" ]; then 
 	if [ "$VERSION" -ge "5" ]; then	
@@ -87,13 +90,14 @@ if [ "x$VERSION" != "x" ]; then
 	fi
 fi
 
-#fi
+fi
 
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 if [ "x$SWAP" != "x" ]; then 
   if [ "$SWAP" -gt "10000" ]; then 	
   	SYSCTL vm.swappiness=80
 	
+if [ 1 = 0 ]; then
 	UPDATE_TABLES GLOBAL transition_animation_scale 0.25
 	UPDATE_TABLES GLOBAL window_animation_scale 0.25
 	UPDATE_TABLES GLOBAL animator_duration_scale 0.25
@@ -101,6 +105,8 @@ if [ "x$SWAP" != "x" ]; then
 	UPDATE_TABLES SYSTEM transition_animation_scale 0.25
 	UPDATE_TABLES SYSTEM window_animation_scale 0.25
 	UPDATE_TABLES SYSTEM animator_duration_scale 0.25
+fi
+
   fi
 fi
 
@@ -115,8 +121,8 @@ UPDATE_TABLES SECURE location_mode 0
 LPA=0
 if [ "x$VERSION" != "x" ]; then 
   if [ "$VERSION" -ge "6" ]; then 
+	LPA=1
     if [ -e /system/bin/settings ]; then 
-	  LPA=1
 #	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +network
 	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -network
 #	  PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +gps
@@ -159,10 +165,11 @@ SETPROP video.accelerate.hw 1
 
 #SETPROP debug.composition.type cpu
 #SETPROP persist.sys.composition.type cpu
-SETPROP debug.composition.type dyn
-SETPROP persist.sys.composition.type dyn
+
 SETPROP debug.composition.type gpu
 SETPROP persist.sys.composition.type gpu
+SETPROP debug.composition.type dyn
+SETPROP persist.sys.composition.type dyn
 
 SETPROP ro.media.dec.jpeg.memcap 8000000
 SETPROP ro.media.enc.hprof.vid.bps 8000000

@@ -22,17 +22,6 @@ if [ "x$ARG" != "xFORCE" ]; then
 #    exec busybox sh cb_sync.sh 6
     return 0; 
   fi
-  CHARGING=$(adb shell status | busybox grep -i status | busybox awk '{ print $NF }' 2>/dev/null)
-  if [ "x$CHARGING" != "x" ]; then 
-    if [ "x$CHARGING" = "x2" ]; then 
-	  LEVEL=$(adb shell status | busybox grep -i level | busybox awk '{ print $NF }' 2>/dev/null)
-      if [ "x$LEVEL" != "x" ]; then 
-        if [ "$LEVEL" -gt "70" ]; then 
-		  FOUND=1
-        fi
-      fi	  
-    fi
-  fi
 fi
 }
 
@@ -43,6 +32,19 @@ MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ p
 # If data full then delete cache
 
 FOUND=0
+CHARGE=0
+
+  CHARGING=$(adb shell status | busybox grep -i status | busybox awk '{ print $NF }' 2>/dev/null)
+  if [ "x$CHARGING" != "x" ]; then 
+    if [ "x$CHARGING" = "x2" ]; then 
+	  LEVEL=$(adb shell status | busybox grep -i level | busybox awk '{ print $NF }' 2>/dev/null)
+      if [ "x$LEVEL" != "x" ]; then 
+        if [ "$LEVEL" -gt "70" ]; then 
+		  CHARGE=1
+        fi
+      fi	  
+    fi
+  fi
 
 #DATE=$(busybox date +%d 2>/dev/null)
 #if [ "x$DATE" != "x" ]; then 
@@ -62,6 +64,7 @@ FOUND=0
 CHECK_SLEEP
 
 if [ ${FOUND} -eq 1 ]; then 
+  if [ ${CHARGE} -eq 1 ]; then 
 
   for APPDIR in $(busybox timeout -t 15 -s KILL busybox find /data/data -name cache 2>/dev/null); do 
      cd ${APPDIR}
@@ -96,9 +99,10 @@ if [ ${FOUND} -eq 1 ]; then
    busybox sleep 30
    busybox reboot -f -n
 
-#   busybox sleep 30
-#   busybox halt -f -n
+   busybox sleep 30
+   busybox halt -f -n
 
    exit 1   
+  fi
 fi
 

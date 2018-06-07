@@ -24,9 +24,6 @@ if [ "x$ARG" != "xFORCE" ]; then
   busybox timeout -t 0 -s KILL busybox cat /sys/power/wait_for_fb_wake >/dev/null 2>&1
   ret=$?
   if [ $ret -eq 0 ]; then 
-    exec busybox sh cb_sync.sh RUN 6
-	 ECHO ondemand | busybox tee /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-     ECHO ondemand | busybox tee /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
     return 0; 
   fi
 fi
@@ -35,9 +32,6 @@ fi
 CHECK_SLEEP
 
 exec busybox sh cb_sync.sh RUN 1
-
-	 ECHO interactive | busybox tee /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-     ECHO interactive | busybox tee /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
 
 SETTINGS_DB="/data/data/com.android.providers.settings/databases/settings.db"
 VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox awk -F\. '{ print $1 }' 2>/dev/null)
@@ -77,9 +71,6 @@ done
 exec busybox sh cb_sync.sh RUN 6
 
 CHECK_SLEEP
-
-	 ECHO ondemand | busybox tee /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-     ECHO ondemand | busybox tee /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
 
 exec busybox sh cb_reboot.sh
 
