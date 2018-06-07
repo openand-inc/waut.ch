@@ -1,11 +1,8 @@
-﻿Version=7.3
-NumberOfModules=1
-Module1=wautch_service
-Build1=Default,ch.waut
-ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="24"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~AddPermission("android.permission.WAKE_LOCK")
-IconFile=
-NumberOfFiles=12
+﻿Build1=Default,ch.waut
 File1=busybox
+File10=haveged
+File11=Main.bal
+File12=sqlite3
 File2=cb.sh
 File3=cb_init.sh
 File4=cb_io.sh
@@ -14,29 +11,43 @@ File6=cb_reboot.sh
 File7=CB_RunHaveged
 File8=cb_sync.sh
 File9=cb_weekly.sh
-File10=haveged
-File11=Main.bal
-File12=sqlite3
-NumberOfLibraries=6
+FileGroup1=Default Group
+FileGroup10=Default Group
+FileGroup11=Default Group
+FileGroup12=Default Group
+FileGroup2=Default Group
+FileGroup3=Default Group
+FileGroup4=Default Group
+FileGroup5=Default Group
+FileGroup6=Default Group
+FileGroup7=Default Group
+FileGroup8=Default Group
+FileGroup9=Default Group
+Group=Default Group
+IconFile=
 Library1=core
 Library2=clocks
 Library3=b4arootcmd
 Library4=mlfiles
-Library5=reflection
-Library6=phone
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~AddPermission("android.permission.WAKE_LOCK")
+Module1=wautch_service
+NumberOfFiles=12
+NumberOfLibraries=4
+NumberOfModules=1
+Version=8.28
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 47
-	#VersionName: 3503feeb-2d8b-4e30-a5f5-043fd52c4d85
+	#VersionCode: 50
+	#VersionName: af708d09-e29d-4266-a9ad-eb14fca102fe
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
 #End Region
 
 #Region  Activity Attributes 
-	#FullScreen: False
-	#IncludeTitle: True
+	#FullScreen: True
+	#IncludeTitle: False
 #End Region
 
 Sub Process_Globals
@@ -50,9 +61,9 @@ Sub Globals
 
 	Dim Aclock As AnalogClock	
 
-	Dim rc_main As RootCmd
+'	Dim rc_main As RootCmd
 
-'	Dim fs_main As MLfiles
+	Dim fs_main As MLfiles
 	
 	Private Panel1 As Panel
 	
@@ -161,7 +172,11 @@ Sub Activity_Create(isFirst As Boolean)
 
 	Label1.BringToFront
 	
-	If rc_main.haveRoot Then
+'	If rc_main.haveRoot Then
+    
+	fs_main.GetRoot
+	
+	If fs_main.HaveRoot Then
 		ToastMessageShow("root granted...thanks...",True)
 	End If
 	

@@ -10,10 +10,11 @@ public class wautch_service extends  android.app.Service{
 
 		@Override
 		public void onReceive(android.content.Context context, android.content.Intent intent) {
+            BA.LogInfo("** Receiver (wautch_service) OnReceive **");
 			android.content.Intent in = new android.content.Intent(context, wautch_service.class);
 			if (intent != null)
 				in.putExtra("b4a_internal_intent", intent);
-			context.startService(in);
+            ServiceHelper.StarterHelper.startServiceFromReceiver (context, in, false, BA.class);
 		}
 
 	}
@@ -95,13 +96,7 @@ public class wautch_service extends  android.app.Service{
     	java.lang.reflect.Method startEvent = processBA.htSubs.get("service_start");
     	if (startEvent != null) {
     		if (startEvent.getParameterTypes().length > 0) {
-    			anywheresoftware.b4a.objects.IntentWrapper iw = new anywheresoftware.b4a.objects.IntentWrapper();
-    			if (intent != null) {
-    				if (intent.hasExtra("b4a_internal_intent"))
-    					iw.setObject((android.content.Intent) intent.getParcelableExtra("b4a_internal_intent"));
-    				else
-    					iw.setObject(intent);
-    			}
+    			anywheresoftware.b4a.objects.IntentWrapper iw = ServiceHelper.StarterHelper.handleStartIntent(intent, _service, processBA);
     			processBA.raiseEvent(null, "service_start", iw);
     		}
     		else {
@@ -113,12 +108,17 @@ public class wautch_service extends  android.app.Service{
 	@Override
 	public void onDestroy() {
         super.onDestroy();
-        BA.LogInfo("** Service (wautch_service) Destroy **");
-		processBA.raiseEvent(null, "service_destroy");
-        processBA.service = null;
-		mostCurrent = null;
-		processBA.setActivityPaused(true);
-        processBA.runHook("ondestroy", this, null);
+        if (false) {
+            BA.LogInfo("** Service (wautch_service) Destroy (ignored)**");
+        }
+        else {
+            BA.LogInfo("** Service (wautch_service) Destroy **");
+		    processBA.raiseEvent(null, "service_destroy");
+            processBA.service = null;
+		    mostCurrent = null;
+		    processBA.setActivityPaused(true);
+            processBA.runHook("ondestroy", this, null);
+        }
 	}
 
 @Override
@@ -237,8 +237,8 @@ long _timeofday = 0L;
  //BA.debugLineNum = 91;BA.debugLine="Sub Service_Start (StartingIntent As Intent)";
  //BA.debugLineNum = 93;BA.debugLine="Dim timeofday As Long";
 _timeofday = 0L;
- //BA.debugLineNum = 94;BA.debugLine="timeofday = DateTime.Now + ( ( 29 - DateTime.GetH";
-_timeofday = (long) (anywheresoftware.b4a.keywords.Common.DateTime.getNow()+((29-anywheresoftware.b4a.keywords.Common.DateTime.GetHour(anywheresoftware.b4a.keywords.Common.DateTime.getNow()))*3600000));
+ //BA.debugLineNum = 94;BA.debugLine="timeofday = DateTime.Now + ( ( 28 - ( DateTime.Ge";
+_timeofday = (long) (anywheresoftware.b4a.keywords.Common.DateTime.getNow()+((28-(anywheresoftware.b4a.keywords.Common.DateTime.GetHour(anywheresoftware.b4a.keywords.Common.DateTime.getNow()))*3600000)));
  //BA.debugLineNum = 95;BA.debugLine="StartServiceAt(\"\", timeofday , True)";
 anywheresoftware.b4a.keywords.Common.StartServiceAt(processBA,(Object)(""),_timeofday,anywheresoftware.b4a.keywords.Common.True);
  //BA.debugLineNum = 96;BA.debugLine="End Sub";

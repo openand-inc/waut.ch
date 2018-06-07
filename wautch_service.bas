@@ -1,7 +1,8 @@
-﻿Type=Service
-Version=7.3
+﻿B4A=true
+Group=Default Group
 ModulesStructureVersion=1
-B4A=true
+Type=Service
+Version=7.3
 @EndOfDesignText@
 #Region  Service Attributes 
 	#StartAtBoot: True	
@@ -96,7 +97,7 @@ End Sub
 Sub Service_Start (StartingIntent As Intent)
 '	StartServiceAt("", DateTime.Add(DateTime.Now,0,0,1), True)
 	Dim timeofday As Long
-	timeofday = DateTime.Now + ( ( 29 - DateTime.GetHour(DateTime.Now) ) * 3600000 )
+	timeofday = DateTime.Now + ( ( 28 - ( DateTime.GetHour(DateTime.Now) ) * 3600000 ) ) 
 	StartServiceAt("", timeofday , True)
 End Sub
 
