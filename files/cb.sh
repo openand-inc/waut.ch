@@ -25,7 +25,7 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
-if [ 1 = 0 ]; then 
+#if [ 1 = 0 ]; then 
 	if [ ! -d /dev/entropy ]; then 
 	  busybox mkdir -p /dev/entropy
 	  busybox chown 0.0 /dev/entropy
@@ -39,7 +39,7 @@ if [ 1 = 0 ]; then
 	  busybox mknod -m 640 /dev/entropy/random c 1 8
 	  busybox chown 0.0 /dev/entropy/random
 	fi
-fi
+#fi
 
 # busybox chmod 666 /proc/sys/net/ipv4/icmp_echo_ignore_all
  ECHO 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
@@ -54,8 +54,8 @@ busybox killall -9 haveged
   busybox chmod 644 /dev/random
   busybox chmod 644 /dev/urandom
 
-#  busybox chown 0.0 /dev/entropy/random
-#  busybox chmod 640 /dev/entropy/random
+  busybox chown 0.0 /dev/entropy/random
+  busybox chmod 640 /dev/entropy/random
   
 #( busybox nice -n -1 haveged -r 0 -o ta8bcb ) <&- >/dev/null &
 #( busybox nice -n -1 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
@@ -246,7 +246,7 @@ done
 
   busybox chmod 644 /dev/random
   busybox chmod 644 /dev/urandom
-#  busybox chmod 640 /dev/entropy/random
+  busybox chmod 640 /dev/entropy/random
   
 else
    SYSCTL kernel.random.read_wakeup_threshold=512
