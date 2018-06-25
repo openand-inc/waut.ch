@@ -98,6 +98,7 @@ if [ "$(busybox pwd 2>/dev/null)" = "/sys/devices/system/cpu/cpufreq/interactive
 	ECHO 0 | busybox tee io_is_busy 
 	ECHO 80000 | busybox tee min_sample_time 
 	ECHO 90 | busybox tee target_loads 
+	ECHO 90 | busybox tee target_load 
 	ECHO 90 | busybox tee sustain_load 
 	ECHO 20000 | busybox tee timer_rate 
 	ECHO 80000 | busybox tee timer_slack 
