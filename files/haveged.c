@@ -52,11 +52,115 @@ static void write_file( char file_name[], char value[] );
 #include <pthread.h>
 int sleeping=0;
 
+void governor_ondemand()
+{
+				  write_file("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor","ondemand");
+				  write_file("/sys/devices/system/cpu/cpu1/cpufreq/scaling_governor","ondemand");
+				  write_file("/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor","ondemand");
+				  write_file("/sys/devices/system/cpu/cpu3/cpufreq/scaling_governor","ondemand");
+				  write_file("/sys/devices/system/cpu/cpu4/cpufreq/scaling_governor","ondemand");
+				  write_file("/sys/devices/system/cpu/cpu5/cpufreq/scaling_governor","ondemand");
+				  write_file("/sys/devices/system/cpu/cpu6/cpufreq/scaling_governor","ondemand");
+				  write_file("/sys/devices/system/cpu/cpu7/cpufreq/scaling_governor","ondemand");
+				  write_file("/sys/devices/system/cpu/cpu8/cpufreq/scaling_governor","ondemand");
+				  write_file("/sys/devices/system/cpu/cpu9/cpufreq/scaling_governor","ondemand");
+				  write_file("/sys/devices/system/cpu/cpu10/cpufreq/scaling_governor","ondemand");
+				  write_file("/sys/devices/system/cpu/cpu11/cpufreq/scaling_governor","ondemand");
+				  write_file("/sys/devices/system/cpu/cpu12/cpufreq/scaling_governor","ondemand");
+				  write_file("/sys/devices/system/cpu/cpu13/cpufreq/scaling_governor","ondemand");
+				  write_file("/sys/devices/system/cpu/cpu14/cpufreq/scaling_governor","ondemand");
+}
+
+void governor_interactive()
+{
+			     write_file("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor","interactive");
+				 write_file("/sys/devices/system/cpu/cpu1/cpufreq/scaling_governor","interactive");
+				 write_file("/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor","interactive");
+				 write_file("/sys/devices/system/cpu/cpu3/cpufreq/scaling_governor","interactive");
+				 write_file("/sys/devices/system/cpu/cpu4/cpufreq/scaling_governor","interactive");
+				 write_file("/sys/devices/system/cpu/cpu5/cpufreq/scaling_governor","interactive");
+				 write_file("/sys/devices/system/cpu/cpu6/cpufreq/scaling_governor","interactive");
+				 write_file("/sys/devices/system/cpu/cpu7/cpufreq/scaling_governor","interactive");
+				 write_file("/sys/devices/system/cpu/cpu8/cpufreq/scaling_governor","interactive");
+				 write_file("/sys/devices/system/cpu/cpu9/cpufreq/scaling_governor","interactive");
+				 write_file("/sys/devices/system/cpu/cpu10/cpufreq/scaling_governor","interactive");
+				 write_file("/sys/devices/system/cpu/cpu11/cpufreq/scaling_governor","interactive");
+				 write_file("/sys/devices/system/cpu/cpu12/cpufreq/scaling_governor","interactive");
+				 write_file("/sys/devices/system/cpu/cpu13/cpufreq/scaling_governor","interactive");
+				 write_file("/sys/devices/system/cpu/cpu14/cpufreq/scaling_governor","interactive");
+	
+				 write_file("/sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay","20000");
+				 write_file("/sys/devices/system/cpu/cpufreq/interactive/boost","0");
+				 write_file("/sys/devices/system/cpu/cpufreq/interactive/boostpulse_duration","80000");
+				 write_file("/sys/devices/system/cpu/cpufreq/interactive/boosttop_duration","80000");
+				 write_file("/sys/devices/system/cpu/cpufreq/interactive/go_highspeed_load","99");
+				 write_file("/sys/devices/system/cpu/cpufreq/interactive/go_maxspeed_load","99");
+				 write_file("/sys/devices/system/cpu/cpufreq/interactive/input_dev_monitor","1");
+				 write_file("/sys/devices/system/cpu/cpufreq/interactive/input_boost","1");
+				 write_file("/sys/devices/system/cpu/cpufreq/interactive/io_is_busy","0");
+				 write_file("/sys/devices/system/cpu/cpufreq/interactive/min_sample_time","80000");
+				 write_file("/sys/devices/system/cpu/cpufreq/interactive/target_loads","90");
+				 write_file("/sys/devices/system/cpu/cpufreq/interactive/target_load","90");
+				 write_file("/sys/devices/system/cpu/cpufreq/interactive/sustain_load","90");
+				 write_file("/sys/devices/system/cpu/cpufreq/interactive/timer_rate","20000");
+				 write_file("/sys/devices/system/cpu/cpufreq/interactive/timer_slack","80000");
+
+int i = 0 ;
+char string1[80];
+	
+	for (i=0;i<=14;i++) {
+				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/above_hispeed_delay",i);
+				 write_file(string1,"20000");
+		
+				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/boost",i);
+				 write_file(string1,"0");
+		
+				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/boostpulse_duration",i);
+				 write_file(string1,"80000");
+		
+				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/boosttop_duration",i);
+				 write_file(string1,"80000");
+		
+				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/go_highspeed_load",i);
+				 write_file(string1,"99");
+		
+				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/go_maxspeed_load",i);
+				 write_file(string1,"99");
+		
+				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/input_dev_monitor",i);
+				 write_file(string1,"1");
+		
+				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/input_boost",i);
+				 write_file(string1,"1");
+		
+				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/io_is_busy",i);
+				 write_file(string1,"0");
+		
+				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/min_sample_time",i);
+				 write_file(string1,"80000");
+		
+				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/target_loads",i);
+				 write_file(string1,"90");
+		
+				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/target_load",i);
+				 write_file(string1,"90");
+		
+				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/sustain_load",i);
+				 write_file(string1,"90");
+		
+				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/timer_rate",i);
+				 write_file(string1,"20000");
+		
+				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/timer_slack",i);
+				 write_file(string1,"80000");
+	}
+}
+
 void *fn_sleep (void *ret)
 {
 		FILE *fp = NULL;
         char buffer='o';
-   nice(1);
+   nice(5);
         
 //   ioprio_set(IOPRIO_WHO_PROCESS, 0, IOPRIO_PRIO_VALUE(IOPRIO_CLASS_IDLE,7));
 
@@ -72,8 +176,6 @@ void *fn_sleep (void *ret)
 			      sleeping=1;                       
 				  sync();
 				  write_file("/proc/sys/vm/drop_caches","1");
-				  write_file("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor","ondemand");
-				  write_file("/sys/devices/system/cpu/cpu1/cpufreq/scaling_governor","ondemand");
 				  write_file("/proc/sys/vm/vfs_cache_pressure","0");
 				  write_file("/proc/sys/vm/dirty_ratio","100");
 				  write_file("/proc/sys/vm/dirty_background_ratio","100");
@@ -81,11 +183,12 @@ void *fn_sleep (void *ret)
 				  write_file("/proc/sys/vm/overcommit_memory","1");					
 				  write_file("/proc/sys/net/ipv4/icmp_echo_ignore_all","1");
 				  write_file("/proc/sys/net/ipv4/tcp_timestamps","0");
-				  set_low_watermark(64); /* READ */
-				  set_watermark(64); /* WRITE */
+				  set_low_watermark(4000); /* READ */
+				  set_watermark(4000); /* WRITE */
+				  governor_ondemand();
 				}
-            }
 			fclose(fp);
+            }
 			
 			if ( fp != NULL ) { fp = NULL; }
 			
@@ -98,13 +201,12 @@ void *fn_sleep (void *ret)
 //				fseek ( fp , 0, SEEK_SET );                        	
 	            buffer = fgetc(fp);
 		  		sleeping=0;			
-				 write_file("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor","interactive");
-				 write_file("/sys/devices/system/cpu/cpu1/cpufreq/scaling_governor","interactive");
+				 governor_interactive();
 //				 set_low_watermark(4064);
 //				 set_watermark(4000);
 //				 set_low_watermark(4096);
-				 set_low_watermark(64); /* READ */
-				 set_watermark(64); /* WRITE */
+				 set_low_watermark(4000); /* READ */
+				 set_watermark(4000); /* WRITE */
 //				 set_watermark(1024);
 //				 set_low_watermark(8);
 //				 set_watermark(320);				
@@ -115,8 +217,8 @@ void *fn_sleep (void *ret)
 //				 write_file("/proc/sys/vm/overcommit_memory","1");					
 			  	 write_file("/proc/sys/net/ipv4/icmp_echo_ignore_all","1");
 			     write_file("/proc/sys/net/ipv4/tcp_timestamps","0");
-            }
 			fclose(fp);
+            }
 			
 			if ( fp != NULL ) { fp = NULL; }
 
@@ -125,8 +227,8 @@ void *fn_sleep (void *ret)
         	{
 			    buffer='o';
 	            buffer = fgetc(fp);
-			}
 			fclose(fp);
+			}
 
 			if ( fp != NULL ) { fp = NULL; }
 
@@ -500,7 +602,7 @@ static void daemonize(     /* RETURN: nothing   */
 #ifdef __ANDROID__
    write_file("/proc/%s/oom_adj","-17");
 #endif
-   nice(1);
+   nice(5);
         
 //   ioprio_set(IOPRIO_WHO_PROCESS, 0, IOPRIO_PRIO_VALUE(IOPRIO_CLASS_IDLE,7));
 
@@ -568,14 +670,15 @@ static void run_daemon(    /* RETURN: nothing   */
 
 //	set_watermark(0);
 	//Write
-	set_watermark(64);
+	set_watermark(4000);
 //	set_watermark(1024);
 //	set_watermark(2048);
 	
 //   set_low_watermark(8);
 //   set_low_watermark(8);
 	//Read
-   set_low_watermark(64);
+//   set_low_watermark(512);
+   set_low_watermark(4000);
 //   set_low_watermark(4096);
 //   set_low_watermark(2048);
 
@@ -597,11 +700,11 @@ static void run_daemon(    /* RETURN: nothing   */
    while ( random_fd < 0 ) {
        random_fd = open(params->random_device, O_RDWR); 
 	   if ( random_fd >= 0 ) break;
-       close(random_fd);
+//       close(random_fd);
 	   sleep(1);
    }
 
-//  fchmod(random_fd,S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH);
+//   fchmod(random_fd,S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH);
   fchmod(random_fd,S_IRUSR|S_IWUSR|S_IRGRP);
 
   output = (struct rand_pool_info *) h->io_buf;
@@ -612,7 +715,7 @@ static void run_daemon(    /* RETURN: nothing   */
    FILE *fp=NULL;
 #endif
 
-   nice(1);
+   nice(5);
       
 //   ioprio_set(IOPRIO_WHO_PROCESS, 0, IOPRIO_PRIO_VALUE(IOPRIO_CLASS_IDLE,7));
 	
@@ -645,7 +748,8 @@ static void run_daemon(    /* RETURN: nothing   */
 //	  nbytes = (params->low_water - current) / 8;
 //	  nbytes = (4000 - current) / 8;
 //	  nbytes = (4096 - current) / 8;
-	  nbytes = 255;
+	  nbytes = 7;
+//	  nbytes = 11;
 /*
       if ( nbytes < -9 ) { 
 		fp = fopen("/dev/random", "r");
@@ -686,25 +790,35 @@ static void run_daemon(    /* RETURN: nothing   */
       output->buf_size = nbytes;
       /* entropy is 8 bits per byte */
       output->entropy_count = nbytes * 8;
+
+	  struct timeval timeout;
+	   
+	  timeout.tv_sec = 300;
+      timeout.tv_usec = 0;
 	   
 #ifdef __ANDROID__
-	if ( sleeping == 1 ) {
+	   if ( sleeping == 1 ) {
 		wait_time = 300000;
-/*		
-		fp = fopen("/sys/power/wait_for_fb_wake", "r");
-		if ( fp ) { 
-//		  fseek(fp,0,SEEK_SET); 
-		  char buffer=fgetc(fp);
-		} 
-		fclose(fp);
+	  
+		timeout.tv_sec = 1800;
 		
+			if ( fp != NULL ) { fp = NULL; }
+
+		   fp = fopen("/sys/power/wait_for_fb_wake", "r");
+		if ( fp ) { 
+		  char buffer=fgetc(fp);
+		fclose(fp);
+		} 
+		
+		   			if ( fp != NULL ) { fp = NULL; }
+
 //	    usleep(10000);
-*/
-	}
+
+	} else timeout.tv_sec = 30;
 #endif
 	   
 // FOLLOWING IS RANDOM DEVICE
-	   
+/*	   
 	  count=1; 
       for(count=1;count <= 1;count++) {
           struct pollfd pfdout[1];
@@ -717,8 +831,42 @@ static void run_daemon(    /* RETURN: nothing   */
 	if ( ret == 0 && wait_time == 10000 ) { wait_time = 30000 ; continue; }
 
 	if ( ret > 0 ) wait_time = 10000;
-	   
+*/	   
 // END RANDOM DEVICE LOGIC
+
+// BEGIN SELECT LOGIC
+	   
+      fd_set write_fd;
+      FD_ZERO(&write_fd);
+      FD_SET(random_fd, &write_fd);	  
+	   
+//      for(;;)  {
+	  count=1; 
+      for(count=1;count <= 1;count++) {
+
+//         int rc = select(random_fd+1, NULL, &write_fd, NULL, NULL);
+         int rc = select(random_fd+1, NULL, &write_fd, NULL, &timeout);
+//         if (rc >= 0) break;
+//         if (errno != EINTR)
+#ifdef __ANDROID__
+         if ( ( rc > 0 ) && ( sleeping != 1 ) ) 
+		   {
+			if ( fp != NULL ) { fp = NULL; }
+
+			fp = fopen("/dev/random", "r");
+	        if ( fp )
+        	{
+	            char buffer = fgetc(fp);
+			fclose(fp);
+			}
+
+			if ( fp != NULL ) { fp = NULL; }
+#endif
+		   }
+//            error_exit("Select error: %s", strerror(errno));
+         }
+
+// END SELECT LOGIC
 	   
     if (ioctl(random_fd, RNDADDENTROPY, output) != 0) 
 	  usleep(1000000);
