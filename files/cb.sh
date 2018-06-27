@@ -61,7 +61,7 @@ busybox killall -9 haveged
 #( busybox nice -n -1 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
 ( busybox nice -n 5 CB_RunHaveged ) <&- >/dev/null &
 
-SETPROP persist.sys.scrollingcache 1
+SETPROP persist.sys.scrollingcache 4
 
 SETPROP windowsmgr.max_events_per_sec 108
 
@@ -84,6 +84,7 @@ SYSCTL kernel.panic_on_warn=0
 SYSCTL kernel.panic=0
 SYSCTL vm.vfs_cache_pressure=9000000000
 #SYSCTL vm.vfs_cache_pressure=65536
+#SYSCTL vm.vfs_cache_pressure=1000
 
 SYSCTL vm.dirty_background_ratio=1
 SYSCTL vm.dirty_ratio=99
@@ -95,52 +96,52 @@ for pid in $(busybox ps | busybox awk '{ if ($2 !~ /^app_/) print $1 }'); do
   if [ -f /proc/$pid/oom_adj ]; then 
     ECHO -17 > /proc/$pid/oom_adj
   fi
-  busybox renice 1 $pid
+#  busybox renice 1 $pid
   busybox ionice -c 2 -n 4 -p $pid
-  busybox chrt -f -p 25 $pid
+  busybox chrt -o -p 0 $pid
 done
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'netd$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice 1 $pid
-  busybox ionice -c 2 -n 5 -p $pid
-  busybox chrt -f -p 25 $pid
+#  busybox renice 1 $pid
+  busybox ionice -c 2 -n 2 -p $pid
+  busybox chrt -o -p 0 $pid
 done
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox egrep -i 'jbd2|flush-|pdflush' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
   busybox renice 2 -p $pid
-  busybox ionice -c 3 -n 5 -p $pid
-  busybox chrt -f -p 5 $pid
+  busybox ionice -c 2 -n 5 -p $pid
+  busybox chrt -o -p 0 $pid
 done
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'surfaceflinger$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
 #  busybox renice -1 $pid
-  busybox ionice -c 1 -n 4 -p $pid
-  busybox chrt -r -p 50 $pid
+  busybox ionice -c 1 -n 2 -p $pid
+  busybox chrt -f -p 30 $pid
 done
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'zygote$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice -1 $pid
-  busybox ionice -c 1 -n 3 -p $pid
-  busybox chrt -r -p 50 $pid 
+#  busybox renice -1 $pid
+  busybox ionice -c 1 -n 4 -p $pid
+  busybox chrt -f -p 30 $pid 
 done
 
 for pid in $(busybox ps -T -o pid,args 2>/dev/null | busybox grep -i 'system_server$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-  busybox renice -1 $pid
-  busybox ionice -c 1 -n 3 -p $pid
-  busybox chrt -r -p 50 $pid
+#  busybox renice -1 $pid
+  busybox ionice -c 1 -n 4 -p $pid
+  busybox chrt -f -p 30 $pid
 done
 
 for pid in $(busybox ps -T -o pid,user 2>/dev/null | busybox awk '{ if ( $2 ~ /^app_/) print $1 }' 2>/dev/null); do
   busybox renice -1 -p $pid
-  busybox ionice -c 1 -n 3 -p $pid 
-  busybox chrt -r -p 50 $pid
+  busybox ionice -c 1 -n 4 -p $pid 
+  busybox chrt -f -p 30 $pid
 done
 
 for pid in $(/system/bin/dumpsys activity services | busybox grep -i app=ProcessRecord | busybox awk '{ print $2 }' | busybox cut -d: -f1); do
  if [ "$pid" -gt "1024" ]; then 
   busybox renice 1 -p $pid
   busybox ionice -c 2 -n 2 -p $pid
-  busybox chrt -f -p 25 $pid
+  busybox chrt -o -p 0 $pid
  fi
 done
 
@@ -149,32 +150,33 @@ if [ -e /dev/cpuctl/bg_non_interactive/cpu.shares ]; then
 fi
 
 if [ -e /dev/cpuctl/cpu.shares ]; then 
-  ECHO 768 > /dev/cpuctl/cpu.shares
+  ECHO 900 > /dev/cpuctl/cpu.shares
 fi
 
 if [ -e /dev/cpuctl/fg_boost/cpu.shares ]; then 
-  ECHO 1024 > /dev/cpuctl/fg_boost/cpu.shares
+  ECHO 1200 > /dev/cpuctl/fg_boost/cpu.shares
 fi
 
 #####
 
 # Less is better
 if [ -e /dev/cpuctl/cpu.rt_period_us ]; then
-#  ECHO 1000000 > /dev/cpuctl/cpu.rt_period_us 
-  ECHO 900000 > /dev/cpuctl/cpu.rt_period_us 
+  ECHO 1000000 > /dev/cpuctl/cpu.rt_period_us 
+#  ECHO 900000 > /dev/cpuctl/cpu.rt_period_us 
 fi
 
 # More is better
 if [ -e /dev/cpuctl/cpu.rt_runtime_us ]; then
-  ECHO 900000 > /dev/cpuctl/cpu.rt_runtime_us 
+#  ECHO 900000 > /dev/cpuctl/cpu.rt_runtime_us 
+  ECHO 800000 > /dev/cpuctl/cpu.rt_runtime_us 
 fi
 
 #####
 
 # Less is better
 if [ -e /dev/cpuctl/apps/cpu.rt_period_us ]; then
-#  ECHO 1000000 > /dev/cpuctl/apps/cpu.rt_period_us 
-  ECHO 950000 > /dev/cpuctl/apps/cpu.rt_period_us 
+  ECHO 1000000 > /dev/cpuctl/apps/cpu.rt_period_us 
+#  ECHO 950000 > /dev/cpuctl/apps/cpu.rt_period_us 
 fi
 
 # More is better
@@ -192,7 +194,8 @@ fi
 
 # More is better
 if [ -e /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us ]; then
-  ECHO 700000 > /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us 
+#  ECHO 700000 > /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us 
+  ECHO 800000 > /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us 
 fi
 
 #####
@@ -207,7 +210,8 @@ fi
 # More is better
 
 if [ -e /dev/cpuctl/apps/bg_non_interactive/cpu.rt_runtime_us ]; then
-  ECHO 700000 > /dev/cpuctl/apps/bg_non_interactive/cpu.rt_runtime_us 
+#  ECHO 700000 > /dev/cpuctl/apps/bg_non_interactive/cpu.rt_runtime_us 
+  ECHO 800000 > /dev/cpuctl/apps/bg_non_interactive/cpu.rt_runtime_us 
 fi
 
 #####

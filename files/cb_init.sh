@@ -95,7 +95,7 @@ fi
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 if [ "x$SWAP" != "x" ]; then 
   if [ "$SWAP" -gt "10000" ]; then 	
-  	SYSCTL vm.swappiness=80
+  	SYSCTL vm.swappiness=100
 	
 if [ 1 = 0 ]; then
 	UPDATE_TABLES GLOBAL transition_animation_scale 0.25
@@ -166,10 +166,12 @@ SETPROP video.accelerate.hw 1
 #SETPROP debug.composition.type cpu
 #SETPROP persist.sys.composition.type cpu
 
+SETPROP debug.composition.type cpu
+SETPROP persist.sys.composition.type cpu
+#SETPROP debug.composition.type gpu
+#SETPROP persist.sys.composition.type gpu
 SETPROP debug.composition.type dyn
 SETPROP persist.sys.composition.type dyn
-SETPROP debug.composition.type gpu
-SETPROP persist.sys.composition.type gpu
 
 SETPROP ro.media.dec.jpeg.memcap 8000000
 SETPROP ro.media.enc.hprof.vid.bps 8000000
