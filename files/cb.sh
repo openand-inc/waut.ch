@@ -61,9 +61,9 @@ busybox killall -9 haveged
 #( busybox nice -n -1 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
 ( busybox nice -n 5 CB_RunHaveged ) <&- >/dev/null &
 
-SETPROP persist.sys.scrollingcache 4
+SETPROP persist.sys.scrollingcache 1
 
-SETPROP windowsmgr.max_events_per_sec 108
+SETPROP windowsmgr.max_events_per_sec 60
 
 # This defines the min duration between two pointer events
 #SETPROP ro.min_pointer_dur 1
@@ -91,6 +91,8 @@ SYSCTL vm.dirty_ratio=99
 
 SYSCTL vm.dirty_writeback_centisecs=0
 SYSCTL vm.dirty_expire_centisecs=0
+
+if [ 1 = 0 ]; then 
 
 for pid in $(busybox ps | busybox awk '{ if ($2 !~ /^app_/) print $1 }'); do
   if [ -f /proc/$pid/oom_adj ]; then 
@@ -215,6 +217,8 @@ if [ -e /dev/cpuctl/apps/bg_non_interactive/cpu.rt_runtime_us ]; then
 fi
 
 #####
+
+fi
 
 i=$(busybox pgrep haveged 2>/dev/null | busybox wc -l 2>/dev/null)
 if [ "$i" -ne "0" ]; then 
