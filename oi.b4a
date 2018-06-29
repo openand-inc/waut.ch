@@ -34,12 +34,12 @@ Module1=wautch_service
 NumberOfFiles=12
 NumberOfLibraries=4
 NumberOfModules=1
-Version=8.28
+Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 52
-	#VersionName: f20636c9-15fc-434e-be4c-7ff3731533ad
+	#VersionCode: 57
+	#VersionName: 633cef02-7b3d-4331-a38b-1fa0290e2e82
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False

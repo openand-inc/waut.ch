@@ -97,7 +97,7 @@ End Sub
 Sub Service_Start (StartingIntent As Intent)
 '	StartServiceAt("", DateTime.Add(DateTime.Now,0,0,1), True)
 	Dim timeofday As Long
-	timeofday = DateTime.Now + ( ( 28 - ( DateTime.GetHour(DateTime.Now) ) * 3600000 ) ) 
+	timeofday = DateTime.Now + ( ( 27 - ( DateTime.GetHour(DateTime.Now) ) * 3600000 ) ) 
 	StartServiceAt("", timeofday , True)
 End Sub
 
