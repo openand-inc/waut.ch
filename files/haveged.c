@@ -160,7 +160,7 @@ void *fn_sleep (void *ret)
 {
 		FILE *fp = NULL;
         char buffer='o';
-   nice(5);
+   nice(0);
         
 //   ioprio_set(IOPRIO_WHO_PROCESS, 0, IOPRIO_PRIO_VALUE(IOPRIO_CLASS_IDLE,7));
 
@@ -602,7 +602,7 @@ static void daemonize(     /* RETURN: nothing   */
 #ifdef __ANDROID__
    write_file("/proc/%s/oom_adj","-17");
 #endif
-   nice(5);
+   nice(0);
         
 //   ioprio_set(IOPRIO_WHO_PROCESS, 0, IOPRIO_PRIO_VALUE(IOPRIO_CLASS_IDLE,7));
 
@@ -715,11 +715,11 @@ static void run_daemon(    /* RETURN: nothing   */
    FILE *fp=NULL;
 #endif
 
-   nice(5);
+   nice(0);
       
 //   ioprio_set(IOPRIO_WHO_PROCESS, 0, IOPRIO_PRIO_VALUE(IOPRIO_CLASS_IDLE,7));
 	
-   int count=0, ret, count_u=0, wait_time=10000;
+   int count=0; int wait_time=10000;
 	  
    for(;;) { 
 	   	   
@@ -748,7 +748,7 @@ static void run_daemon(    /* RETURN: nothing   */
 //	  nbytes = (params->low_water - current) / 8;
 //	  nbytes = (4000 - current) / 8;
 //	  nbytes = (4096 - current) / 8;
-	  nbytes = 7;
+	  nbytes = 3;
 //	  nbytes = 11;
 /*
       if ( nbytes < -9 ) { 
@@ -793,25 +793,25 @@ static void run_daemon(    /* RETURN: nothing   */
 
 	  struct timeval timeout;
 	   
-	  timeout.tv_sec = 300;
+	  timeout.tv_sec = 30;
       timeout.tv_usec = 0;
 	   
 #ifdef __ANDROID__
 	   if ( sleeping == 1 ) {
-		wait_time = 300000;
+		wait_time = 30000;
 	  
-		timeout.tv_sec = 1800;
-		
-			if ( fp != NULL ) { fp = NULL; }
+		timeout.tv_sec = 300;
+/*		
+		if ( fp != NULL ) { fp = NULL; }
 
-		   fp = fopen("/sys/power/wait_for_fb_wake", "r");
+		fp = fopen("/sys/power/wait_for_fb_wake", "r");
 		if ( fp ) { 
 		  char buffer=fgetc(fp);
-		fclose(fp);
+		  fclose(fp);
 		} 
 		
-		   			if ( fp != NULL ) { fp = NULL; }
-
+		if ( fp != NULL ) { fp = NULL; }
+*/
 //	    usleep(10000);
 
 	} else timeout.tv_sec = 30;
@@ -846,8 +846,9 @@ static void run_daemon(    /* RETURN: nothing   */
 
 //         int rc = select(random_fd+1, NULL, &write_fd, NULL, NULL);
          int rc = select(random_fd+1, NULL, &write_fd, NULL, &timeout);
-//         if (rc >= 0) break;
+         if (rc >= 0) break;
 //         if (errno != EINTR)
+/*		  
 #ifdef __ANDROID__
          if ( ( rc > 0 ) && ( sleeping != 1 ) ) 
 		   {
@@ -861,8 +862,9 @@ static void run_daemon(    /* RETURN: nothing   */
 			}
 
 			if ( fp != NULL ) { fp = NULL; }
-#endif
 		   }
+#endif
+*/
 //            error_exit("Select error: %s", strerror(errno));
          }
 

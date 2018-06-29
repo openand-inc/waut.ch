@@ -51,6 +51,12 @@ CHARGE=0
 #  if [ "x$DATE" = "x15" ]; then   
 	DATASPACE=$(busybox df /data 2>/dev/null| busybox grep 'data' 2>/dev/null| busybox awk 'BEGIN{print ""} {percent+=$(NF-1);} END{print percent}' 2>/dev/null| busybox tail -1 2>/dev/null)
 	if [ "x$DATASPACE" != "x" ]; then 
+      if [ "x$DATASPACE" = "x97" ]; then   
+	    FOUND=1
+      fi       	
+      if [ "x$DATASPACE" = "x98" ]; then   
+	    FOUND=1
+      fi       	
       if [ "x$DATASPACE" = "x99" ]; then   
 	    FOUND=1
       fi       	
