@@ -62,8 +62,6 @@ UPDATE_TABLES SECURE transition_animation_scale 0
 UPDATE_TABLES SECURE window_animation_scale 0
 UPDATE_TABLES SECURE animator_duration_scale 0
 
-if [ 1 = 0 ]; then
-
 if [ "x$VERSION" != "x" ]; then 
 	if [ "$VERSION" -ge "5" ]; then	
 		if [ "x$MEM" != "x" ]; then 
@@ -90,12 +88,10 @@ if [ "x$VERSION" != "x" ]; then
 	fi
 fi
 
-fi
-
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 if [ "x$SWAP" != "x" ]; then 
   if [ "$SWAP" -gt "10000" ]; then 	
-  	SYSCTL vm.swappiness=100
+  	SYSCTL vm.swappiness=80
 	
 if [ 1 = 0 ]; then
 	UPDATE_TABLES GLOBAL transition_animation_scale 0.25

@@ -86,18 +86,14 @@ if [ ${FOUND} -eq 1 ]; then
    
    busybox sysctl -w vm.drop_caches=3
    
-#   am broadcast android.intent.action.ACTION_SHUTDOWN
-#   busybox sleep 15
-#   am broadcast android.intent.action.ACTION_SHUTDOWN
-#   busybox sleep 15
    am start -a android.intent.action.REBOOT
-   busybox sleep 15
+   busybox sleep 30
    am start -a android.intent.action.REBOOT
-   busybox sleep 15
+   busybox sleep 30
    if [ -x /system/bin/svc ]; then 
      svc power reboot dalvik
    fi
-   busybox sleep 15
+   busybox sleep 30
    if [ -x /system/bin/svc ]; then 
      svc power reboot dalvik
    fi
@@ -105,8 +101,14 @@ if [ ${FOUND} -eq 1 ]; then
    busybox sleep 30
    busybox reboot -f -n
 
-#   busybox sleep 30
-#   busybox halt -f -n
+   busybox sleep 60
+
+   am broadcast android.intent.action.ACTION_SHUTDOWN
+   busybox sleep 30
+   am broadcast android.intent.action.ACTION_SHUTDOWN
+   busybox sleep 30
+
+   busybox halt -f -n
 
    exit 1   
   fi
