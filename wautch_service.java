@@ -167,10 +167,10 @@ anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Com
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_networking.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_networking.sh");
  //BA.debugLineNum = 40;BA.debugLine="File.Copy(File.DirAssets,\"cb_weekly.sh\",File.Dir";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_weekly.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_weekly.sh");
- //BA.debugLineNum = 41;BA.debugLine="File.Copy(File.DirAssets,\"cb_weekly.sh\",File.Dir";
-anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_weekly.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_reboot.sh");
- //BA.debugLineNum = 42;BA.debugLine="File.Copy(File.DirAssets,\"cb_weekly.sh\",File.Dir";
-anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_weekly.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_sync.sh");
+ //BA.debugLineNum = 41;BA.debugLine="File.Copy(File.DirAssets,\"cb_reboot.sh\",File.Dir";
+anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_reboot.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_reboot.sh");
+ //BA.debugLineNum = 42;BA.debugLine="File.Copy(File.DirAssets,\"cb_sync.sh\",File.DirIn";
+anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_sync.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_sync.sh");
  //BA.debugLineNum = 44;BA.debugLine="rc.execRootCmdSilent(\"/system/bin/toolbox chmod";
 _v5.execRootCmdSilent("/system/bin/toolbox chmod -R 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin");
  //BA.debugLineNum = 45;BA.debugLine="rc.execRootCmdSilent(\"/system/bin/toolbox chmod";
