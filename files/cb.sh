@@ -63,7 +63,7 @@ busybox killall -9 haveged
 
 SETPROP persist.sys.scrollingcache 1
 
-SETPROP windowsmgr.max_events_per_sec 60
+SETPROP windowsmgr.max_events_per_sec 30
 
 # This defines the min duration between two pointer events
 #SETPROP ro.min_pointer_dur 1
@@ -83,6 +83,7 @@ SYSCTL kernel.panic_on_oops=0
 SYSCTL kernel.panic_on_warn=0
 SYSCTL kernel.panic=0
 SYSCTL vm.vfs_cache_pressure=9000000000
+SYSCTL vm.vfs_cache_pressure=0
 #SYSCTL vm.vfs_cache_pressure=65536
 #SYSCTL vm.vfs_cache_pressure=1000
 
