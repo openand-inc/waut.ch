@@ -38,8 +38,8 @@ Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 60
-	#VersionName: fcbd82b2-dd5b-41d2-af62-432271c42921
+	#VersionCode: 61
+	#VersionName: 38794c09-59e8-424f-a89c-b31fedbac10c
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -177,7 +177,7 @@ Sub Activity_Create(isFirst As Boolean)
 	fs_main.GetRoot
 	
 	If fs_main.HaveRoot Then
-		ToastMessageShow("root granted...thanks...",True)
+		ToastMessageShow("root granted to background...",True)
 	End If
 	
 	Label1.TextSize = 18 - random13
