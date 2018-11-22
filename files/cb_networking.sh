@@ -3,7 +3,7 @@
 ARG=$1
 
 if [ "x$ARG" = "xRUN" ]; then
-  cd /data/data/ch.waut/files/bin && PATH=. busybox nice -n +5 busybox sh -x cb_init.sh $2 > ../cb_init.log 2>&1 &
+  cd /data/data/ch.waut/files/bin && PATH=. busybox nice -n +5 busybox sh -x cb_networking.sh $2 > ../cb_networking.log 2>&1 &
   return 0
 fi
 
@@ -17,11 +17,11 @@ export APP=/data/data/ch.waut/files/bin
 export PATH=${APP}
 alias [='busybox ['
 alias [[='busybox [['
-alias ECHO='busybox timeout -t 1 -s KILL busybox echo '
+alias ECHO='busybox echo '
 alias SYSCTL='busybox timeout -t 3 -s KILL busybox sysctl -e -w '
 alias SETPROP='/system/bin/setprop '
 alias GETPROP='/system/bin/getprop '
-if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
+if [ "$(GETPROP persist.cb_networking.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
@@ -44,10 +44,10 @@ SETPROP persist.telephony.support.ipv4 1
 
 SYSCTL net.ipv4.tcp_tw_recycle=1
 SYSCTL net.ipv4.tcp_tw_reuse=1
-SYSCTL net.ipv4.tcp_moderate_rcvbuf=1
+SYSCTL net.ipv4.tcp_moderate_rcvbuf=0
 SYSCTL net.ipv4.tcp_low_latency=1
-SYSCTL net.ipv4.tcp_slow_start_after_idle=1
-SYSCTL net.ipv4.tcp_window_scaling=1
+SYSCTL net.ipv4.tcp_slow_start_after_idle=0
+SYSCTL net.ipv4.tcp_window_scaling=0
 SYSCTL net.ipv4.tcp_sack=1
 SYSCTL net.ipv4.tcp_fack=1
 SYSCTL net.ipv4.tcp_dsack=1
@@ -57,35 +57,50 @@ SYSCTL net.ipv4.tcp_ecn=0
 SYSCTL net.ipv4.tcp_no_metrics_save=1
 
 SYSCTL net.core.somaxconn=256
-SYSCTL net.core.netdev_max_backlog=300
-SYSCTL net.ipv4.tcp_max_syn_backlog=256 
+SYSCTL net.core.netdev_max_backlog=256
+SYSCTL net.ipv4.tcp_max_syn_backlog=1
 
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_established=180
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_fin_wait=60
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close_wait=60
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_last_ack=60
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_time_wait=60
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close=60
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_established=180
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait=60
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait=60
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_last_ack=60
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait=60
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close=60
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_established=300
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_fin_wait=180
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close_wait=180
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_last_ack=180
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_time_wait=180
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close=180
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_established=300
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait=180
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait=180
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_last_ack=180
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait=180
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close=180
 
 SYSCTL net.ipv4.tcp_keepalive_time=180
 SYSCTL net.ipv4.tcp_keepalive_probes=3
-SYSCTL net.ipv4.tcp_keepalive_intvl=60
-SYSCTL net.ipv4.tcp_fin_timeout=60
+SYSCTL net.ipv4.tcp_keepalive_intvl=180
+SYSCTL net.ipv4.tcp_fin_timeout=180
 
-SYSCTL net.ipv4.tcp_syn_retries=3
-SYSCTL net.ipv4.tcp_synack_retries=3
+SYSCTL net.ipv4.tcp_syn_retries=1
+SYSCTL net.ipv4.tcp_synack_retries=1
 SYSCTL net.ipv4.tcp_syncookies=1
 
 SYSCTL net.ipv4.ip_local_port_range='2048 65000'
 
+SETPROP net.tcp.buffersize.default 512,6144,6144,512,6144,6144
+SETPROP net.tcp.buffersize.evdo 512,6144,6144,512,6144,6144
+SETPROP net.tcp.buffersize.hsdpa 512,6144,6144,512,6144,6144
+SETPROP net.tcp.buffersize.hspa 512,6144,6144,512,6144,6144
+SETPROP net.tcp.buffersize.hspap 512,6144,6144,512,6144,6144
+SETPROP net.tcp.buffersize.hsupa 512,6144,6144,512,6144,6144
+SETPROP net.tcp.buffersize.umts 512,6144,6144,512,6144,6144
+SETPROP net.tcp.buffersize.ethernet 512,6144,6144,512,6144,6144
+SETPROP net.tcp.buffersize.lte 512,6144,6144,512,6144,6144
+SETPROP net.tcp.buffersize.wifi 512,6144,6144,512,6144,6144
+SETPROP net.tcp.buffersize.edge 512,6144,6144,512,6144,6144
+SETPROP net.tcp.buffersize.gprs 512,6144,6144,512,6144,6144
+
 for interface in $(GETPROP | busybox grep -i net.tcp.buffersize | busybox cut -d\] -f1 | busybox cut -d\. -f4); do
-  SETPROP net.tcp.buffersize.${interface} 6144,65536,131072,6144,16384,65536
+#  SETPROP net.tcp.buffersize.${interface} 512,65536,131072,6144,16384,65536
+#  SETPROP net.tcp.buffersize.${interface} 512,32768,32768,4096,16384,16384
+  SETPROP net.tcp.buffersize.${interface} 512,6144,6144,512,6144,6144
 done
 
 SYSCTL net.ipv4.icmp_echo_ignore_all=1

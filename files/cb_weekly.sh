@@ -13,11 +13,11 @@ export APP=/data/data/ch.waut/files/bin
 export PATH=${APP}
 alias [='busybox ['
 alias [[='busybox [['
-alias ECHO='busybox timeout -t 1 -s KILL busybox echo '
+alias ECHO='busybox echo '
 alias SYSCTL='busybox timeout -t 3 -s KILL busybox sysctl -e -w '
 alias SETPROP='/system/bin/setprop '
 alias GETPROP='/system/bin/getprop '
-if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
+if [ "$(GETPROP persist.cb_weekly.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 CHECK_SLEEP() {
 if [ "x$ARG" != "xFORCE" ]; then
@@ -31,7 +31,7 @@ fi
 
 CHECK_SLEEP
 
-exec busybox sh cb_sync.sh RUN 1
+#busybox sh cb_sync.sh RUN 1
 
 SETTINGS_DB="/data/data/com.android.providers.settings/databases/settings.db"
 VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox awk -F\. '{ print $1 }' 2>/dev/null)
@@ -54,6 +54,11 @@ for DB in $(busybox timeout -t 15 -s KILL busybox find /data/data -name *.db 2>/
 
 done
 
+#busybox fstrim -v /system 
+busybox fstrim -v /data 
+busybox fstrim -v /sdcard
+#busybox fstrim -v /cache 
+
 # ECHO 64 > /proc/sys/kernel/random/write_wakeup_threshold
 # ECHO 64 > /proc/sys/kernel/random/read_wakeup_threshold
 # ECHO 10 > /proc/sys/vm/vfs_cache_pressure
@@ -68,7 +73,7 @@ done
 # ECHO 1 > /proc/sys/net/ipv4/tcp_timestamps
 # busybox chmod 444 /proc/sys/net/ipv4/tcp_timestamps
 
-exec busybox sh cb_sync.sh RUN 6
+#busybox sh cb_sync.sh RUN 6
 
 CHECK_SLEEP
 
