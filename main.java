@@ -330,6 +330,7 @@ public class main extends Activity implements B4AActivity{
 
 public anywheresoftware.b4a.keywords.Common __c = null;
 public anywheresoftware.b4a.agraham.clocks.ChronometerWrapper.AnalogClockWrapper _v7 = null;
+public ice.rootcmd.RootCmd _rc_main = null;
 public MLfiles.Fileslib.MLfiles _fs_main = null;
 public anywheresoftware.b4a.objects.PanelWrapper _panel1 = null;
 public anywheresoftware.b4a.objects.LabelWrapper _label1 = null;
@@ -381,10 +382,10 @@ mostCurrent._label1.setLeft((int) (mostCurrent._activity.getWidth()/(double)2-40
 mostCurrent._label1.BringToFront();
  //BA.debugLineNum = 139;BA.debugLine="fs_main.GetRoot";
 mostCurrent._fs_main.GetRoot();
- //BA.debugLineNum = 141;BA.debugLine="If fs_main.HaveRoot Then";
-if (mostCurrent._fs_main.HaveRoot) { 
- //BA.debugLineNum = 142;BA.debugLine="ToastMessageShow(\"root granted...thanks...\",True";
-anywheresoftware.b4a.keywords.Common.ToastMessageShow(BA.ObjectToCharSequence("root granted...thanks..."),anywheresoftware.b4a.keywords.Common.True);
+ //BA.debugLineNum = 140;BA.debugLine="If rc_main.haveRoot Then";
+if (mostCurrent._rc_main.haveRoot()) { 
+ //BA.debugLineNum = 141;BA.debugLine="fs_main.GetRoot";
+mostCurrent._fs_main.GetRoot();
  };
  //BA.debugLineNum = 145;BA.debugLine="Label1.TextSize = 18 - random13";
 mostCurrent._label1.setTextSize((float) (18-_v0()));
@@ -394,16 +395,16 @@ mostCurrent._button2.setTextSize((float) (14));
 _setrandom_local();
  //BA.debugLineNum = 150;BA.debugLine="SetRandom_Local";
 _setrandom_local();
- //BA.debugLineNum = 152;BA.debugLine="time_I = DateTime.Now";
-_time_i = anywheresoftware.b4a.keywords.Common.DateTime.getNow();
- //BA.debugLineNum = 153;BA.debugLine="time_II = 0";
-_time_ii = (long) (0);
- //BA.debugLineNum = 154;BA.debugLine="time_III = DateTime.Now";
-_time_iii = anywheresoftware.b4a.keywords.Common.DateTime.getNow();
- //BA.debugLineNum = 155;BA.debugLine="time_IV = 0";
-_time_iv = (long) (0);
- //BA.debugLineNum = 157;BA.debugLine="StartServiceAt(wautch_service,DateTime.Now + 1 *";
+ //BA.debugLineNum = 152;BA.debugLine="StartServiceAt(wautch_service,DateTime.Now + 1 *";
 anywheresoftware.b4a.keywords.Common.StartServiceAt(processBA,(Object)(mostCurrent._wautch_service.getObject()),(long) (anywheresoftware.b4a.keywords.Common.DateTime.getNow()+1*1000),anywheresoftware.b4a.keywords.Common.True);
+ //BA.debugLineNum = 154;BA.debugLine="time_I = DateTime.Now";
+_time_i = anywheresoftware.b4a.keywords.Common.DateTime.getNow();
+ //BA.debugLineNum = 155;BA.debugLine="time_II = 0";
+_time_ii = (long) (0);
+ //BA.debugLineNum = 156;BA.debugLine="time_III = DateTime.Now";
+_time_iii = anywheresoftware.b4a.keywords.Common.DateTime.getNow();
+ //BA.debugLineNum = 157;BA.debugLine="time_IV = 0";
+_time_iv = (long) (0);
  //BA.debugLineNum = 167;BA.debugLine="End Sub";
 return "";
 }
@@ -511,6 +512,8 @@ public static String  _globals() throws Exception{
  //BA.debugLineNum = 20;BA.debugLine="Sub Globals";
  //BA.debugLineNum = 24;BA.debugLine="Dim Aclock As AnalogClock";
 mostCurrent._v7 = new anywheresoftware.b4a.agraham.clocks.ChronometerWrapper.AnalogClockWrapper();
+ //BA.debugLineNum = 26;BA.debugLine="Dim rc_main As RootCmd";
+mostCurrent._rc_main = new ice.rootcmd.RootCmd();
  //BA.debugLineNum = 28;BA.debugLine="Dim fs_main As MLfiles";
 mostCurrent._fs_main = new MLfiles.Fileslib.MLfiles();
  //BA.debugLineNum = 30;BA.debugLine="Private Panel1 As Panel";

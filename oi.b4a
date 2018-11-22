@@ -1,15 +1,15 @@
 ﻿Build1=Default,ch.waut
-File1=busybox
+File1=20160813_151619_ii.jpg
 File10=haveged
 File11=Main.bal
 File12=sqlite3
-File2=cb.sh
-File3=cb_init.sh
-File4=cb_io.sh
-File5=cb_networking.sh
-File6=cb_reboot.sh
-File7=CB_RunHaveged
-File8=cb_sync.sh
+File2=busybox
+File3=cb.sh
+File4=cb_init.sh
+File5=cb_io.sh
+File6=cb_networking.sh
+File7=cb_reboot.sh
+File8=cb_runhaveged
 File9=cb_weekly.sh
 FileGroup1=Default Group
 FileGroup10=Default Group
@@ -38,8 +38,8 @@ Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 61
-	#VersionName: 38794c09-59e8-424f-a89c-b31fedbac10c
+	#VersionCode: 73
+	#VersionName: 57383b35-4ca8-43ca-8a52-9bc802156bdf
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -61,7 +61,7 @@ Sub Globals
 
 	Dim Aclock As AnalogClock	
 
-'	Dim rc_main As RootCmd
+	Dim rc_main As RootCmd
 
 	Dim fs_main As MLfiles
 	
@@ -175,9 +175,9 @@ Sub Activity_Create(isFirst As Boolean)
 '	If rc_main.haveRoot Then
     
 	fs_main.GetRoot
-	
-	If fs_main.HaveRoot Then
-		ToastMessageShow("root granted to background...",True)
+	If rc_main.haveRoot Then
+		fs_main.GetRoot
+'		ToastMessageShow("root granted to background...",True)
 	End If
 	
 	Label1.TextSize = 18 - random13
@@ -186,14 +186,14 @@ Sub Activity_Create(isFirst As Boolean)
 	SetRandom_Local
 
 	SetRandom_Local
+
+	StartServiceAt(wautch_service,DateTime.Now + 1 * 1000, True)
 	
 	time_I = DateTime.Now
 	time_II = 0
 	time_III = DateTime.Now
 	time_IV = 0 
 	
-	StartServiceAt(wautch_service,DateTime.Now + 1 * 1000, True)
-
 '    If ( isFirst = True ) Then 
 '#IF NOT(MAINTENANCE)
 '		ToastMessageShow("please reboot whenever possible...",True)
