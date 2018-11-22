@@ -54,6 +54,9 @@ int sleeping=0;
 
 void governor_ondemand()
 {
+				  system("/system/bin/setprop debug.composition.type cpu");
+				  system("/system/bin/setprop persist.sys.composition.type cpu");
+						 
 				  write_file("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor","ondemand");
 				  write_file("/sys/devices/system/cpu/cpu1/cpufreq/scaling_governor","ondemand");
 				  write_file("/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor","ondemand");
@@ -69,6 +72,7 @@ void governor_ondemand()
 				  write_file("/sys/devices/system/cpu/cpu12/cpufreq/scaling_governor","ondemand");
 				  write_file("/sys/devices/system/cpu/cpu13/cpufreq/scaling_governor","ondemand");
 				  write_file("/sys/devices/system/cpu/cpu14/cpufreq/scaling_governor","ondemand");
+				  write_file("/sys/devices/system/cpu/cpu15/cpufreq/scaling_governor","ondemand");
 }
 
 void governor_interactive()
@@ -88,6 +92,7 @@ void governor_interactive()
 				 write_file("/sys/devices/system/cpu/cpu12/cpufreq/scaling_governor","interactive");
 				 write_file("/sys/devices/system/cpu/cpu13/cpufreq/scaling_governor","interactive");
 				 write_file("/sys/devices/system/cpu/cpu14/cpufreq/scaling_governor","interactive");
+				 write_file("/sys/devices/system/cpu/cpu15/cpufreq/scaling_governor","interactive");
 	
 				 write_file("/sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay","20000");
 				 write_file("/sys/devices/system/cpu/cpufreq/interactive/boost","0");
@@ -105,10 +110,15 @@ void governor_interactive()
 				 write_file("/sys/devices/system/cpu/cpufreq/interactive/timer_rate","20000");
 				 write_file("/sys/devices/system/cpu/cpufreq/interactive/timer_slack","80000");
 
+//				 system("/system/bin/setprop debug.composition.type dyn");
+//				 system("/system/bin/setprop persist.sys.composition.type dyn");
+				 system("/system/bin/setprop debug.composition.type cpu");
+				 system("/system/bin/setprop persist.sys.composition.type cpu");
+
 int i = 0 ;
 char string1[80];
 	
-	for (i=0;i<=14;i++) {
+	for (i=0;i<=15;i++) {
 				 sprintf(string1,"/sys/devices/system/cpu/cpu%d/cpufreq/interactive/above_hispeed_delay",i);
 				 write_file(string1,"20000");
 		
@@ -160,8 +170,7 @@ void *fn_sleep (void *ret)
 {
 		FILE *fp = NULL;
         char buffer='o';
-   nice(0);
-        
+
 //   ioprio_set(IOPRIO_WHO_PROCESS, 0, IOPRIO_PRIO_VALUE(IOPRIO_CLASS_IDLE,7));
 
         while (1)
@@ -176,15 +185,16 @@ void *fn_sleep (void *ret)
 			      sleeping=1;                       
 				  sync();
 				  write_file("/proc/sys/vm/drop_caches","1");
+			  	 write_file("/proc/sys/vm/vfs_cache_pressure","9000000000");
 				  write_file("/proc/sys/vm/vfs_cache_pressure","0");
 				  write_file("/proc/sys/vm/dirty_ratio","100");
 				  write_file("/proc/sys/vm/dirty_background_ratio","100");
-				  write_file("/proc/sys/vm/overcommit_ratio","49");
+				  write_file("/proc/sys/vm/overcommit_ratio","50");
 				  write_file("/proc/sys/vm/overcommit_memory","1");					
 				  write_file("/proc/sys/net/ipv4/icmp_echo_ignore_all","1");
 				  write_file("/proc/sys/net/ipv4/tcp_timestamps","0");
-				  set_low_watermark(4000); /* READ */
-				  set_watermark(4000); /* WRITE */
+				  set_low_watermark(256); /* READ */
+				  set_watermark(320); /* WRITE */
 				  governor_ondemand();
 				}
 			fclose(fp);
@@ -201,27 +211,29 @@ void *fn_sleep (void *ret)
 //				fseek ( fp , 0, SEEK_SET );                        	
 	            buffer = fgetc(fp);
 		  		sleeping=0;			
+				 set_low_watermark(4000); /* READ */
+				 set_watermark(4000); /* WRITE */
 				 governor_interactive();
 //				 set_low_watermark(4064);
 //				 set_watermark(4000);
 //				 set_low_watermark(4096);
-				 set_low_watermark(4000); /* READ */
-				 set_watermark(4000); /* WRITE */
 //				 set_watermark(1024);
 //				 set_low_watermark(8);
 //				 set_watermark(320);				
+				  write_file("/proc/sys/vm/drop_caches","1");
 			  	 write_file("/proc/sys/vm/vfs_cache_pressure","9000000000");
+			  	 write_file("/proc/sys/vm/vfs_cache_pressure","1");
 				 write_file("/proc/sys/vm/dirty_ratio","99");
 				 write_file("/proc/sys/vm/dirty_background_ratio","1");
-//				 write_file("/proc/sys/vm/overcommit_ratio","49");
-//				 write_file("/proc/sys/vm/overcommit_memory","1");					
+				 write_file("/proc/sys/vm/overcommit_ratio","49");
+				 write_file("/proc/sys/vm/overcommit_memory","1");					
 			  	 write_file("/proc/sys/net/ipv4/icmp_echo_ignore_all","1");
 			     write_file("/proc/sys/net/ipv4/tcp_timestamps","0");
 			fclose(fp);
             }
 			
 			if ( fp != NULL ) { fp = NULL; }
-
+/*
 			fp = fopen("/dev/random", "r");
 	        if ( fp )
         	{
@@ -231,7 +243,7 @@ void *fn_sleep (void *ret)
 			}
 
 			if ( fp != NULL ) { fp = NULL; }
-
+*/
 			sleep(30);
 			
         }
@@ -273,8 +285,8 @@ static struct pparams defaults = {
   .os_rel         = "/proc/sys/kernel/osrelease",
   .pid_file       = PID_DEFAULT,
   .poolsize       = "/proc/sys/kernel/random/poolsize",
-  .random_device  = "/dev/entropy/random",
-//  .random_device  = "/dev/random",
+//  .random_device  = "/dev/entropy/random",
+  .random_device  = "/dev/random",
   .sample_in      = INPUT_DEFAULT,
   .sample_out     = OUTPUT_DEFAULT,
   .verbose        = 0,
@@ -602,7 +614,6 @@ static void daemonize(     /* RETURN: nothing   */
 #ifdef __ANDROID__
    write_file("/proc/%s/oom_adj","-17");
 #endif
-   nice(0);
         
 //   ioprio_set(IOPRIO_WHO_PROCESS, 0, IOPRIO_PRIO_VALUE(IOPRIO_CLASS_IDLE,7));
 
@@ -683,13 +694,15 @@ static void run_daemon(    /* RETURN: nothing   */
 //   set_low_watermark(2048);
 
    struct stat status = { 0 };
-
+/*
    if( stat("/dev/entropy", &status) != 0 ) mkdir( "/dev/entropy", 0770 );
-
+*/
    while( stat(params->random_device, &status) != 0 ) { 
 //      mknod( params->random_device, S_IFCHR|S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH, makedev(1,8) );
-      mknod( params->random_device, S_IFCHR|S_IRUSR|S_IWUSR|S_IRGRP, makedev(1,8) );
-      sleep(1);
+/*
+	   mknod( params->random_device, S_IFCHR|S_IRUSR|S_IWUSR|S_IRGRP, makedev(1,8) );
+*/
+	   sleep(1);
    } 
 	
    if ( ( status.st_mode & S_IFMT ) != S_IFCHR ) error_exit("Couldn't open random file \"%s\" for writing: NOT_CHAR_DEVICE",params->random_device);
@@ -705,8 +718,10 @@ static void run_daemon(    /* RETURN: nothing   */
    }
 
 //   fchmod(random_fd,S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH);
-  fchmod(random_fd,S_IRUSR|S_IWUSR|S_IRGRP);
-
+/*
+     fchmod(random_fd,S_IRUSR|S_IWUSR|S_IRGRP);
+*/
+	
   output = (struct rand_pool_info *) h->io_buf;
 
 #ifdef __ANDROID__
@@ -715,7 +730,7 @@ static void run_daemon(    /* RETURN: nothing   */
    FILE *fp=NULL;
 #endif
 
-   nice(0);
+   nice(5);
       
 //   ioprio_set(IOPRIO_WHO_PROCESS, 0, IOPRIO_PRIO_VALUE(IOPRIO_CLASS_IDLE,7));
 	
@@ -800,7 +815,7 @@ static void run_daemon(    /* RETURN: nothing   */
 	   if ( sleeping == 1 ) {
 		wait_time = 30000;
 	  
-		timeout.tv_sec = 300;
+		timeout.tv_sec = 900;
 /*		
 		if ( fp != NULL ) { fp = NULL; }
 
