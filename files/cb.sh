@@ -3,7 +3,7 @@
 ARG=$1
 
 if [ "x$ARG" = "xRUN" ]; then
-  cd /data/data/ch.waut/files/bin && PATH=. busybox nice busybox sh -x cb.sh $2 > ../cb.log 2>&1 &
+  cd /data/data/ch.waut/files/bin && PATH=. busybox nice -n 0 busybox sh -x cb.sh $2 > ../cb.log 2>&1 &
   return 0
 fi
 
@@ -60,7 +60,7 @@ busybox killall -9 haveged
 #( busybox nice -n -1 haveged -r 0 -o ta8bcb ) <&- >/dev/null &
 #( busybox nice -n -1 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
 
-( busybox nice cb_runhaveged ) <&- >/dev/null &
+( busybox nice -n 0 cb_runhaveged ) <&- >/dev/null &
 
 SETPROP persist.sys.scrollingcache 4
 
@@ -97,7 +97,7 @@ SYSCTL vm.dirty_ratio=99
 SYSCTL vm.dirty_writeback_centisecs=0
 SYSCTL vm.dirty_expire_centisecs=0
 
-if [ 1 = 0 ]; then 
+#if [ 1 = 0 ]; then 
 
 #for pid in $(busybox ps | busybox awk '{ if ($2 !~ /^app_/) print $1 }'); do
 #  if [ -f /proc/$pid/oom_adj ]; then 
@@ -152,7 +152,7 @@ for pid in $(/system/bin/dumpsys activity services | busybox grep -i app=Process
  fi
 done
 
-fi
+#fi
 
 if [ -e /dev/cpuctl/bg_non_interactive/cpu.shares ]; then 
   ECHO 50 > /dev/cpuctl/bg_non_interactive/cpu.shares
@@ -253,8 +253,9 @@ POOLSIZE=4000
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name add_random -print 2>/dev/null); do ECHO 0 > $i; done 
 
-for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-#  busybox renice 5 -p $pid
+#for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
+for pid in $(busybox pgrep haveged 2>/dev/null); do
+  busybox renice 0 $pid
   busybox ionice -c 3 -n 5 -p $pid
   busybox chrt -o -p 0 $pid
   if [ -f /proc/$pid/oom_adj ]; then
@@ -274,12 +275,13 @@ else
 #   ( busybox nice haveged -F -o tbc ) <&- >/dev/null &
 #   ( haveged -F -o tbc ) <&- >/dev/null &
 
-   ( busybox nice cb_runhaveged ) <&- >/dev/null &
+   ( busybox nice -n 0 cb_runhaveged ) <&- >/dev/null &
    
    busybox sleep 5
    
-for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
-#  busybox renice 5 -p $pid
+#for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
+for pid in $(busybox pgrep haveged 2>/dev/null); do
+  busybox renice 0 $pid
   busybox ionice -c 3 -n 5 -p $pid
   busybox chrt -o -p 0 $pid
   if [ -f /proc/$pid/oom_adj ]; then
