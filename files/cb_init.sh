@@ -244,6 +244,8 @@ busybox rm -f /dev/log/main
         ADD=''
         if [ "x$j" = "x/system" ]; then ADD=',ro'; fi
           busybox echo $j
+          busybox mount -o commit=1,remount${ADD} $j 
+          busybox mount -o barrier=0,remount${ADD} $j 
           busybox mount -o noatime,nodiratime,remount${ADD} $j 
         done
 
@@ -251,6 +253,8 @@ busybox rm -f /dev/log/main
         ADD=''
         if [ "x$j" = "x/system" ]; then ADD=',ro'; fi
           busybox echo $j
+          busybox mount -o commit=1,remount${ADD} $j 
+          busybox mount -o barrier=0,remount${ADD} $j 
           busybox mount -o noatime,nodiratime,remount${ADD} $j 
         done
 
