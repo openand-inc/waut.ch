@@ -211,8 +211,8 @@ void *fn_sleep (void *ret)
 //				fseek ( fp , 0, SEEK_SET );                        	
 	            buffer = fgetc(fp);
 		  		sleeping=0;			
-				 set_low_watermark(4000); /* READ */
-				 set_watermark(4000); /* WRITE */
+				 set_low_watermark(320); /* READ */
+				 set_watermark(320); /* WRITE */
 				 governor_interactive();
 //				 set_low_watermark(4064);
 //				 set_watermark(4000);
@@ -220,7 +220,7 @@ void *fn_sleep (void *ret)
 //				 set_watermark(1024);
 //				 set_low_watermark(8);
 //				 set_watermark(320);				
-				  write_file("/proc/sys/vm/drop_caches","1");
+//				  write_file("/proc/sys/vm/drop_caches","1");
 			  	 write_file("/proc/sys/vm/vfs_cache_pressure","9000000000");
 			  	 write_file("/proc/sys/vm/vfs_cache_pressure","1");
 				 write_file("/proc/sys/vm/dirty_ratio","99");
@@ -285,8 +285,8 @@ static struct pparams defaults = {
   .os_rel         = "/proc/sys/kernel/osrelease",
   .pid_file       = PID_DEFAULT,
   .poolsize       = "/proc/sys/kernel/random/poolsize",
-//  .random_device  = "/dev/entropy/random",
-  .random_device  = "/dev/random",
+  .random_device  = "/dev/entropy/random",
+//  .random_device  = "/dev/random",
   .sample_in      = INPUT_DEFAULT,
   .sample_out     = OUTPUT_DEFAULT,
   .verbose        = 0,
@@ -681,7 +681,7 @@ static void run_daemon(    /* RETURN: nothing   */
 
 //	set_watermark(0);
 	//Write
-	set_watermark(4000);
+	set_watermark(320);
 //	set_watermark(1024);
 //	set_watermark(2048);
 	
@@ -689,19 +689,17 @@ static void run_daemon(    /* RETURN: nothing   */
 //   set_low_watermark(8);
 	//Read
 //   set_low_watermark(512);
-   set_low_watermark(4000);
+   set_low_watermark(320);
 //   set_low_watermark(4096);
 //   set_low_watermark(2048);
 
    struct stat status = { 0 };
-/*
+//1
    if( stat("/dev/entropy", &status) != 0 ) mkdir( "/dev/entropy", 0770 );
-*/
+
    while( stat(params->random_device, &status) != 0 ) { 
-//      mknod( params->random_device, S_IFCHR|S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH, makedev(1,8) );
-/*
-	   mknod( params->random_device, S_IFCHR|S_IRUSR|S_IWUSR|S_IRGRP, makedev(1,8) );
-*/
+	   //2
+      mknod( params->random_device, S_IFCHR|S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH, makedev(1,8) );
 	   sleep(1);
    } 
 	
@@ -711,16 +709,13 @@ static void run_daemon(    /* RETURN: nothing   */
 	
    random_fd = -1;
    while ( random_fd < 0 ) {
-       random_fd = open(params->random_device, O_RDWR); 
+       random_fd = open(params->random_device, O_RDWR|O_ASYNC|O_NOATIME|O_NONBLOCK); 
 	   if ( random_fd >= 0 ) break;
 //       close(random_fd);
 	   sleep(1);
    }
-
-//   fchmod(random_fd,S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH);
-/*
-     fchmod(random_fd,S_IRUSR|S_IWUSR|S_IRGRP);
-*/
+//3
+   fchmod(random_fd,S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH);
 	
   output = (struct rand_pool_info *) h->io_buf;
 
@@ -730,11 +725,12 @@ static void run_daemon(    /* RETURN: nothing   */
    FILE *fp=NULL;
 #endif
 
-   nice(5);
+   nice(0);
       
 //   ioprio_set(IOPRIO_WHO_PROCESS, 0, IOPRIO_PRIO_VALUE(IOPRIO_CLASS_IDLE,7));
 	
-   int count=0; int wait_time=10000;
+   int count=0; int wait_time=10000; int ret=0;
+      fd_set write_fd;
 	  
    for(;;) { 
 	   	   
@@ -749,8 +745,7 @@ static void run_daemon(    /* RETURN: nothing   */
 //          int ret = poll(pfd, 1, 6000);
 	      if ( ret > 0 && pfd[0].revents & POLLOUT ) { count = 0 ; break; }
 	  }	  	  
-	  	   			
-      if (ioctl(random_fd, RNDGETENTCNT, &current) != 0) { 
+	  	   			    if (ioctl(random_fd, RNDGETENTCNT, &current) != 0) { 
 		  usleep(1000000);
 #ifdef __ANDROID__
 		  if ( sleeping != 1 ) { sleep(1); continue; } 
@@ -763,7 +758,7 @@ static void run_daemon(    /* RETURN: nothing   */
 //	  nbytes = (params->low_water - current) / 8;
 //	  nbytes = (4000 - current) / 8;
 //	  nbytes = (4096 - current) / 8;
-	  nbytes = 3;
+	  nbytes = 0;
 //	  nbytes = 11;
 /*
       if ( nbytes < -9 ) { 
@@ -831,9 +826,10 @@ static void run_daemon(    /* RETURN: nothing   */
 
 	} else timeout.tv_sec = 30;
 #endif
-	   
-// FOLLOWING IS RANDOM DEVICE
+
 /*	   
+// FOLLOWING IS RANDOM DEVICE
+	   
 	  count=1; 
       for(count=1;count <= 1;count++) {
           struct pollfd pfdout[1];
@@ -842,57 +838,41 @@ static void run_daemon(    /* RETURN: nothing   */
           ret = poll(pfdout, 1, wait_time);
 	      if ( ret > 0 && pfdout[0].revents & POLLOUT ) { ret = 1 ; break; } else sleep(1000);
 	  }	  	  
-	   
+
 	if ( ret == 0 && wait_time == 10000 ) { wait_time = 30000 ; continue; }
 
 	if ( ret > 0 ) wait_time = 10000;
-*/	   
+	   	   
 // END RANDOM DEVICE LOGIC
+*/	   
 
 // BEGIN SELECT LOGIC
 	   
-      fd_set write_fd;
       FD_ZERO(&write_fd);
       FD_SET(random_fd, &write_fd);	  
 	   
-//      for(;;)  {
-	  count=1; 
-      for(count=1;count <= 1;count++) {
+      for(;;)  {
 
 //         int rc = select(random_fd+1, NULL, &write_fd, NULL, NULL);
          int rc = select(random_fd+1, NULL, &write_fd, NULL, &timeout);
-         if (rc >= 0) break;
-//         if (errno != EINTR)
-/*		  
-#ifdef __ANDROID__
-         if ( ( rc > 0 ) && ( sleeping != 1 ) ) 
-		   {
-			if ( fp != NULL ) { fp = NULL; }
-
-			fp = fopen("/dev/random", "r");
-	        if ( fp )
-        	{
-	            char buffer = fgetc(fp);
-			fclose(fp);
-			}
-
-			if ( fp != NULL ) { fp = NULL; }
-		   }
-#endif
-*/
+         if ( rc > 0 ) break;
+		 if ( ( rc == 0 ) && ( sleeping == 1 ) ) continue; 
+         if (errno != EINTR)
 //            error_exit("Select error: %s", strerror(errno));
+			 goto carry_on;
          }
 
 // END SELECT LOGIC
-	   
+
     if (ioctl(random_fd, RNDADDENTROPY, output) != 0) 
 	  usleep(1000000);
 
 //	  if ( fp != NULL ) { fclose(fp); fp = NULL; }
 
-//	  sleep(1);
-
-//	  usleep(100000); 
+carry_on:
+	
+	   ;;
+//	usleep(1000); 
 
     }
 	close(random_fd);
