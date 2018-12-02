@@ -57,7 +57,7 @@ done
 #busybox fstrim -v /system 
 busybox fstrim -v /data 
 busybox fstrim -v /sdcard
-#busybox fstrim -v /cache 
+#busybox fstrim -v /cache
 
 # ECHO 64 > /proc/sys/kernel/random/write_wakeup_threshold
 # ECHO 64 > /proc/sys/kernel/random/read_wakeup_threshold

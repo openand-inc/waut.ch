@@ -3,7 +3,7 @@
 ARG=$1
 
 if [ "x$ARG" = "xRUN" ]; then
-  cd /data/data/ch.waut/files/bin && PATH=. busybox nice -n 0 busybox sh -x cb.sh $2 > ../cb.log 2>&1 &
+  cd /data/data/ch.waut/files/bin && PATH=. busybox setsid busybox sh -x cb.sh $2 > ../cb.log 2>&1 &
   return 0
 fi
 
@@ -108,11 +108,11 @@ SYSCTL vm.dirty_expire_centisecs=0
 #  busybox chrt -o -p 0 $pid
 #done
 
-for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i 'netd$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
+#for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i 'netd$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
 #  busybox renice 1 $pid
-  busybox ionice -c 1 -n 5 -p $pid
-  busybox chrt -f -p 30 $pid
-done
+#  busybox ionice -c 1 -n 5 -p $pid
+#  busybox chrt -f -p 30 $pid
+#done
 
 #for pid in $(busybox ps -o pid,args 2>/dev/null | busybox egrep -i 'jbd2|flush-|pdflush' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
 #  busybox renice 2 -p $pid
@@ -141,7 +141,7 @@ done
 for pid in $(busybox ps -o pid,user 2>/dev/null | busybox awk '{ if ( $2 ~ /^app_/) print $1 }' 2>/dev/null); do
 #  busybox renice -1 -p $pid
   busybox ionice -c 1 -n 4 -p $pid 
-  busybox chrt -f -p 20 $pid
+  busybox chrt -f -p 30 $pid
 done
 
 for pid in $(/system/bin/dumpsys activity services | busybox grep -i app=ProcessRecord | busybox awk '{ print $2 }' | busybox cut -d: -f1); do
@@ -239,12 +239,12 @@ if [ "$i" -ne "0" ]; then
 #SYSCTL kernel.random.read_wakeup_threshold=256
 #SYSCTL kernel.random.read_wakeup_threshold=8
 #SYSCTL kernel.random.read_wakeup_threshold=4064
-SYSCTL kernel.random.read_wakeup_threshold=320
+SYSCTL kernel.random.read_wakeup_threshold=3584
 
 #POOLSIZE=4064
 #POOLSIZE=320
 #POOLSIZE=0
-POOLSIZE=320
+POOLSIZE=3584
 #POOLSIZE=64
 #POOLSIZE="$(busybox cat /proc/sys/kernel/random/poolsize 2>/dev/null)"
 #if [ "$(busybox cat /proc/sys/kernel/random/write_wakeup_threshold 2>/dev/null)" != "${POOLSIZE}" ]; then 
@@ -268,8 +268,8 @@ done
   busybox chmod 640 /dev/entropy/random
   
 else
-   SYSCTL kernel.random.read_wakeup_threshold=320
-   SYSCTL kernel.random.write_wakeup_threshold=320
+   SYSCTL kernel.random.read_wakeup_threshold=3584
+   SYSCTL kernel.random.write_wakeup_threshold=3584
    
 #  ( busybox nice -n +5 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
 #   ( busybox nice haveged -F -o tbc ) <&- >/dev/null &
@@ -281,7 +281,7 @@ else
    
 #for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
 for pid in $(busybox pgrep haveged 2>/dev/null); do
-#  busybox renice 0 $pid
+#  busybox renice 1 $pid
 #  busybox ionice -c 1 -n 4 -p $pid
 #  busybox chrt -f -p 70 $pid
   if [ -f /proc/$pid/oom_adj ]; then
@@ -297,8 +297,11 @@ fi
 
 #( busybox sh -x cb_init.sh RUN FORCE ) <&- >/dev/null &
 
+
 busybox sh cb_networking.sh RUN FORCE
 
 busybox sh cb_io.sh RUN FORCE
 
 busybox sh cb_init.sh RUN FORCE
+
+busybox date; busybox ntpd -d -q -p pool.ntp.org ; busybox date ; busybox ntpd -d -q -p pool.ntp.org ; busybox date ; busybox ntpd -d -q -p pool.ntp.org ; busybox date 

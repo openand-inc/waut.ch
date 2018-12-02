@@ -171,21 +171,21 @@ if [ "x$VERSION" != "x" ]; then
   if [ "$VERSION" -ge "6" ]; then 
     LPA=1
     if [ -e /system/bin/settings ]; then 
-#     PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +network
-      PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -network
-#     PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +gps
+     PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +network
+#      PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -network
+     PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +gps
       PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -gps
-      PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -wifi
-#     PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +wifi
+#      PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -wifi
+     PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +wifi
     fi
   fi      
 fi
 
 if [ $LPA -eq 0 ]; then 
-#  UPDATE_TABLES GLOBAL location_providers_allowed "wifi"
-#  UPDATE_TABLES SYSTEM location_providers_allowed "wifi"
-#  UPDATE_TABLES SECURE location_providers_allowed "wifi"
-  UPDATE_TABLES SECURE location_providers_allowed ""
+  UPDATE_TABLES GLOBAL location_providers_allowed "wifi,network,gps"
+  UPDATE_TABLES SYSTEM location_providers_allowed "wifi,network,gps"
+  UPDATE_TABLES SECURE location_providers_allowed "wifi,network,gps"
+#  UPDATE_TABLES SECURE location_providers_allowed ""
 fi
 
 #busybox fsync $SETTINGS_DB
@@ -239,7 +239,22 @@ busybox rm -f /dev/log/main
 
   if [ ! -e /dev/COLD_REBOOT ]; then 
     busybox touch /dev/COLD_REBOOT
-    
+	
+if [ 1 = 0 ]; then 
+
+      HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
+      GROWTH=$(GETPROP dalvik.vm.heapgrowthlimit 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
+      
+      if [ "x${GROWTH}" != "x" ]; then 
+        if [ "${GROWTH}" -lt "96" ]; then
+          if [ "x${HEAP}" != "x" ]; then 
+            if [ "${HEAP}" -gt "96" ]; then
+              SETPROP dalvik.vm.heapsize 96m
+            fi
+          fi
+        fi
+      fi
+fi    
         for j in $(busybox df -aP 2>/dev/null | busybox grep '/' 2>/dev/null | busybox awk '{ print $NF }' 2>/dev/null); do
         ADD=''
         if [ "x$j" = "x/system" ]; then ADD=',ro'; fi
@@ -260,21 +275,7 @@ busybox rm -f /dev/log/main
 
         busybox killall system_server
     
-  else
-    
-      HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
-      GROWTH=$(GETPROP dalvik.vm.heapgrowthlimit 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
-      
-      if [ "x${GROWTH}" != "x" ]; then 
-        if [ "${GROWTH}" -lt "96" ]; then
-          if [ "x${HEAP}" != "x" ]; then 
-            if [ "${HEAP}" -gt "96" ]; then
-              SETPROP dalvik.vm.heapsize 96m
-            fi
-          fi
-        fi
-      fi
-
+  else    
     if [ "x$ARG" = "xFORCE" ]; then
       exec busybox sh cb_weekly.sh RUN 
     #else
