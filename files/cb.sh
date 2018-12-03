@@ -108,11 +108,11 @@ SYSCTL vm.dirty_expire_centisecs=0
 #  busybox chrt -o -p 0 $pid
 #done
 
-#for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i 'netd$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
+for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i 'netd$' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
 #  busybox renice 1 $pid
-#  busybox ionice -c 1 -n 5 -p $pid
-#  busybox chrt -f -p 30 $pid
-#done
+  busybox ionice -c 2 -n 1 -p $pid
+  busybox chrt -o -p 0 $pid
+done
 
 #for pid in $(busybox ps -o pid,args 2>/dev/null | busybox egrep -i 'jbd2|flush-|pdflush' 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
 #  busybox renice 2 -p $pid
@@ -140,7 +140,7 @@ SYSCTL vm.dirty_expire_centisecs=0
 
 for pid in $(busybox ps -o pid,user 2>/dev/null | busybox awk '{ if ( $2 ~ /^app_/) print $1 }' 2>/dev/null); do
 #  busybox renice -1 -p $pid
-  busybox ionice -c 1 -n 4 -p $pid 
+  busybox ionice -c 1 -n 3 -p $pid 
   busybox chrt -f -p 30 $pid
 done
 
@@ -155,7 +155,7 @@ done
 #fi
 
 if [ -e /dev/cpuctl/bg_non_interactive/cpu.shares ]; then 
-  ECHO 100 > /dev/cpuctl/bg_non_interactive/cpu.shares
+  ECHO 50 > /dev/cpuctl/bg_non_interactive/cpu.shares
 fi
 
 if [ -e /dev/cpuctl/cpu.shares ]; then 
@@ -256,8 +256,8 @@ for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /d
 #for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
 for pid in $(busybox pgrep haveged 2>/dev/null); do
 #  busybox renice 0 $pid
-#  busybox ionice -c 1 -n 4 -p $pid
-#  busybox chrt -f -p 70 $pid
+#  busybox ionice -c 2 -n 4 -p $pid
+#  busybox chrt -o -p 0 $pid
   if [ -f /proc/$pid/oom_adj ]; then
     ECHO -17 > /proc/$pid/oom_adj
   fi
@@ -282,8 +282,8 @@ else
 #for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
 for pid in $(busybox pgrep haveged 2>/dev/null); do
 #  busybox renice 1 $pid
-#  busybox ionice -c 1 -n 4 -p $pid
-#  busybox chrt -f -p 70 $pid
+#  busybox ionice -c 2 -n 4 -p $pid
+#  busybox chrt -o -p 0 $pid
   if [ -f /proc/$pid/oom_adj ]; then
     ECHO -17 > /proc/$pid/oom_adj
   fi
