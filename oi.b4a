@@ -1,20 +1,18 @@
 ﻿Build1=Default,ch.waut
 File1=20160813_151619_ii.jpg
-File10=haveged
-File11=Main.bal
-File12=sqlite3
+File10=Main.bal
+File11=sqlite3
 File2=busybox
 File3=cb.sh
 File4=cb_init.sh
 File5=cb_io.sh
-File6=cb_networking.sh
-File7=cb_reboot.sh
-File8=cb_runhaveged
-File9=cb_weekly.sh
+File6=cb_reboot.sh
+File7=cb_runhaveged
+File8=cb_weekly.sh
+File9=haveged
 FileGroup1=Default Group
 FileGroup10=Default Group
 FileGroup11=Default Group
-FileGroup12=Default Group
 FileGroup2=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
@@ -31,15 +29,15 @@ Library3=b4arootcmd
 Library4=mlfiles
 ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~AddPermission("android.permission.WAKE_LOCK")
 Module1=wautch_service
-NumberOfFiles=12
+NumberOfFiles=11
 NumberOfLibraries=4
 NumberOfModules=1
 Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 78
-	#VersionName: 59ea3d9f-a8a1-4001-a03a-58d87331057f
+	#VersionCode: 79
+	#VersionName: 0ef22990-db5a-49dd-b831-b00d0f0e1a1a
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
