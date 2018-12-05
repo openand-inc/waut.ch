@@ -41,6 +41,8 @@ MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ p
     fi
 #fi
 
+SETPROP ro.ril.enable.amr.wideband 1
+
 # busybox chmod 666 /proc/sys/net/ipv4/icmp_echo_ignore_all
  ECHO 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
 # busybox chmod 444 /proc/sys/net/ipv4/icmp_echo_ignore_all
@@ -293,15 +295,13 @@ fi
 
 #( busybox sh -x cb_networking.sh RUN FORCE ) <&- >/dev/null &
 
-#( busybox sh -x cb_io.sh RUN FORCE ) <&- >/dev/null &
+( busybox sh -x cb_io.sh RUN FORCE ) <&- >/dev/null &
 
-#( busybox sh -x cb_init.sh RUN FORCE ) <&- >/dev/null &
+( busybox sh -x cb_init.sh RUN FORCE ) <&- >/dev/null &
 
 
-busybox sh cb_networking.sh RUN FORCE
+#busybox sh cb_networking.sh RUN FORCE
 
-busybox sh cb_io.sh RUN FORCE
+#busybox sh cb_io.sh RUN FORCE
 
-busybox sh cb_init.sh RUN FORCE
-
-busybox date; busybox ntpd -d -q -p pool.ntp.org ; busybox date ; busybox ntpd -d -q -p pool.ntp.org ; busybox date ; busybox ntpd -d -q -p pool.ntp.org ; busybox date 
+#busybox sh cb_init.sh RUN FORCE

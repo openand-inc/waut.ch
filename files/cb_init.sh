@@ -50,64 +50,64 @@ UPDATE_TABLES() {
   fi
 }
 
-UPDATE_TABLES GLOBAL transition_animation_scale 0.25
-UPDATE_TABLES GLOBAL window_animation_scale 0.25
-UPDATE_TABLES GLOBAL animator_duration_scale 0.25
+UPDATE_TABLES GLOBAL transition_animation_scale 0.01
+UPDATE_TABLES GLOBAL window_animation_scale 0.01
+UPDATE_TABLES GLOBAL animator_duration_scale 0.01
 
 GLOBAL_WINDOW_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from GLOBAL where name='window_animation_scale';" 2>/dev/null)
 GLOBAL_TRANSITION_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from GLOBAL where name='transition_animation_scale';" 2>/dev/null)
 GLOBAL_ANIMATOR_DURATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from GLOBAL where name='animator_duration_scale';" 2>/dev/null)
 
 if [ "x${GLOBAL_WINDOW_ANIMATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into GLOBAL values(null, 'window_animation_scale', '0.25');"
+  sqlite3 ${SETTINGS_DB} "insert into GLOBAL values(null, 'window_animation_scale', '0.01');"
 fi
 
 if [ "x${GLOBAL_TRANSITION_ANIMATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into GLOBAL values(null, 'transition_animation_scale', '0.25');"
+  sqlite3 ${SETTINGS_DB} "insert into GLOBAL values(null, 'transition_animation_scale', '0.01');"
 fi
 
 if [ "x${GLOBAL_ANIMATOR_DURATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into GLOBAL values(null, 'animator_duration_scale', '0.25');"
+  sqlite3 ${SETTINGS_DB} "insert into GLOBAL values(null, 'animator_duration_scale', '0.01');"
 fi
 
-UPDATE_TABLES SYSTEM transition_animation_scale 0.25
-UPDATE_TABLES SYSTEM window_animation_scale 0.25
-UPDATE_TABLES SYSTEM animator_duration_scale 0.25
+UPDATE_TABLES SYSTEM transition_animation_scale 0.01
+UPDATE_TABLES SYSTEM window_animation_scale 0.01
+UPDATE_TABLES SYSTEM animator_duration_scale 0.01
 
 SYSTEM_WINDOW_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SYSTEM where name='window_animation_scale';" 2>/dev/null)
 SYSTEM_TRANSITION_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SYSTEM where name='transition_animation_scale';" 2>/dev/null)
 SYSTEM_ANIMATOR_DURATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SYSTEM where name='animator_duration_scale';" 2>/dev/null)
 
 if [ "x${SYSTEM_WINDOW_ANIMATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into SYSTEM values(null, 'window_animation_scale', '0.25');"
+  sqlite3 ${SETTINGS_DB} "insert into SYSTEM values(null, 'window_animation_scale', '0.01');"
 fi
 
 if [ "x${SYSTEM_TRANSITION_ANIMATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into SYSTEM values(null, 'transition_animation_scale', '0.25');"
+  sqlite3 ${SETTINGS_DB} "insert into SYSTEM values(null, 'transition_animation_scale', '0.01');"
 fi
 
 if [ "x${SYSTEM_ANIMATOR_DURATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into SYSTEM values(null, 'animator_duration_scale', '0.25');"
+  sqlite3 ${SETTINGS_DB} "insert into SYSTEM values(null, 'animator_duration_scale', '0.01');"
 fi
 
-UPDATE_TABLES SECURE transition_animation_scale 0.25
-UPDATE_TABLES SECURE window_animation_scale 0.25
-UPDATE_TABLES SECURE animator_duration_scale 0.25
+UPDATE_TABLES SECURE transition_animation_scale 0.01
+UPDATE_TABLES SECURE window_animation_scale 0.01
+UPDATE_TABLES SECURE animator_duration_scale 0.01
 
 SECURE_WINDOW_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SECURE where name='window_animation_scale';" 2>/dev/null)
 SECURE_TRANSITION_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SECURE where name='transition_animation_scale';" 2>/dev/null)
 SECURE_ANIMATOR_DURATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SECURE where name='animator_duration_scale';" 2>/dev/null)
 
 if [ "x${SECURE_WINDOW_ANIMATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into SECURE values(null, 'window_animation_scale', '0.25');"
+  sqlite3 ${SETTINGS_DB} "insert into SECURE values(null, 'window_animation_scale', '0.01');"
 fi
 
 if [ "x${SECURE_TRANSITION_ANIMATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into SECURE values(null, 'transition_animation_scale', '0.25');"
+  sqlite3 ${SETTINGS_DB} "insert into SECURE values(null, 'transition_animation_scale', '0.01');"
 fi
 
 if [ "x${SECURE_ANIMATOR_DURATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into SECURE values(null, 'animator_duration_scale', '0.25');"
+  sqlite3 ${SETTINGS_DB} "insert into SECURE values(null, 'animator_duration_scale', '0.01');"
 fi
 
 if [ 1 = 0 ]; then 
@@ -117,22 +117,22 @@ if [ "x$VERSION" != "x" ]; then
         if [ "x$MEM" != "x" ]; then 
           if [ "$MEM" -gt "800000" ]; then        
             
-            UPDATE_TABLES GLOBAL transition_animation_scale 0.25
-            UPDATE_TABLES GLOBAL window_animation_scale 0.25
-            UPDATE_TABLES GLOBAL animator_duration_scale 0.25
+            UPDATE_TABLES GLOBAL transition_animation_scale 0.01
+            UPDATE_TABLES GLOBAL window_animation_scale 0.01
+            UPDATE_TABLES GLOBAL animator_duration_scale 0.01
 
-            UPDATE_TABLES SYSTEM transition_animation_scale 0.25
-            UPDATE_TABLES SYSTEM window_animation_scale 0.25
-            UPDATE_TABLES SYSTEM animator_duration_scale 0.25
+            UPDATE_TABLES SYSTEM transition_animation_scale 0.01
+            UPDATE_TABLES SYSTEM window_animation_scale 0.01
+            UPDATE_TABLES SYSTEM animator_duration_scale 0.01
           else        
           
-            UPDATE_TABLES GLOBAL transition_animation_scale 0.25
-            UPDATE_TABLES GLOBAL window_animation_scale 0.25
-            UPDATE_TABLES GLOBAL animator_duration_scale 0.25
+            UPDATE_TABLES GLOBAL transition_animation_scale 0.01
+            UPDATE_TABLES GLOBAL window_animation_scale 0.01
+            UPDATE_TABLES GLOBAL animator_duration_scale 0.01
 
-            UPDATE_TABLES SYSTEM transition_animation_scale 0.25
-            UPDATE_TABLES SYSTEM window_animation_scale 0.25
-            UPDATE_TABLES SYSTEM animator_duration_scale 0.25
+            UPDATE_TABLES SYSTEM transition_animation_scale 0.01
+            UPDATE_TABLES SYSTEM window_animation_scale 0.01
+            UPDATE_TABLES SYSTEM animator_duration_scale 0.01
           fi
         fi
     fi
@@ -146,46 +146,48 @@ if [ "x$SWAP" != "x" ]; then
     SYSCTL vm.swappiness=75
     
 if [ 1 = 0 ]; then
-    UPDATE_TABLES GLOBAL transition_animation_scale 0.25
-    UPDATE_TABLES GLOBAL window_animation_scale 0.25
-    UPDATE_TABLES GLOBAL animator_duration_scale 0.25
+    UPDATE_TABLES GLOBAL transition_animation_scale 0.01
+    UPDATE_TABLES GLOBAL window_animation_scale 0.01
+    UPDATE_TABLES GLOBAL animator_duration_scale 0.01
 
-    UPDATE_TABLES SYSTEM transition_animation_scale 0.25
-    UPDATE_TABLES SYSTEM window_animation_scale 0.25
-    UPDATE_TABLES SYSTEM animator_duration_scale 0.25
+    UPDATE_TABLES SYSTEM transition_animation_scale 0.01
+    UPDATE_TABLES SYSTEM window_animation_scale 0.01
+    UPDATE_TABLES SYSTEM animator_duration_scale 0.01
 fi
 
   fi
 fi
 
-UPDATE_TABLES GLOBAL location_mode 2
-UPDATE_TABLES SYSTEM location_mode 2
-UPDATE_TABLES SECURE location_mode 2
+#UPDATE_TABLES GLOBAL location_mode 2
+#UPDATE_TABLES SYSTEM location_mode 2
+#UPDATE_TABLES SECURE location_mode 2
 
-#UPDATE_TABLES GLOBAL location_mode 0
-#UPDATE_TABLES SYSTEM location_mode 0
-#UPDATE_TABLES SECURE location_mode 0
+UPDATE_TABLES GLOBAL location_mode 0
+UPDATE_TABLES SYSTEM location_mode 0
+UPDATE_TABLES SECURE location_mode 0
 
 LPA=0
 if [ "x$VERSION" != "x" ]; then 
   if [ "$VERSION" -ge "6" ]; then 
     LPA=1
     if [ -e /system/bin/settings ]; then 
-     PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +network
-#      PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -network
+#     PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +network
+      PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -network
 #     PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +gps
-       PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -gps
-#      PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -wifi
-     PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +wifi
+      PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -gps
+      PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed -wifi
+#     PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put SECURE location_providers_allowed +wifi
     fi
   fi      
 fi
 
 if [ $LPA -eq 0 ]; then 
-  UPDATE_TABLES GLOBAL location_providers_allowed "wifi,network"
-  UPDATE_TABLES SYSTEM location_providers_allowed "wifi,network"
-  UPDATE_TABLES SECURE location_providers_allowed "wifi,network"
-#  UPDATE_TABLES SECURE location_providers_allowed ""
+#  UPDATE_TABLES GLOBAL location_providers_allowed "wifi,network"
+#  UPDATE_TABLES SYSTEM location_providers_allowed "wifi,network"
+#  UPDATE_TABLES SECURE location_providers_allowed "wifi,network"
+  UPDATE_TABLES SECURE location_providers_allowed ""
+  UPDATE_TABLES GLOBAL location_providers_allowed ""
+  UPDATE_TABLES SYSTEM location_providers_allowed ""
 fi
 
 #busybox fsync $SETTINGS_DB
@@ -203,25 +205,21 @@ SETPROP wifi.supplicant_scan_interval 30
 
 # Put outgoing only IPSEC logic here
 
+SETPROP persist.sys.ui.hw false
+SETPROP debug.sf.hw 0
+SETPROP debug.performance.tuning 0
+SETPROP video.accelerate.hw 0
+
+SETPROP debug.composition.type cpu
+SETPROP persist.sys.composition.type cpu
+
 SETPROP persist.sys.ui.hw true
 SETPROP debug.sf.hw 1
 SETPROP debug.performance.tuning 1
 SETPROP video.accelerate.hw 1
 
-#SETPROP persist.sys.ui.hw false
-#SETPROP debug.sf.hw 0
-#SETPROP debug.performance.tuning 0
-#SETPROP video.accelerate.hw 0
-
-#SETPROP debug.composition.type cpu
-#SETPROP persist.sys.composition.type cpu
-
-#SETPROP debug.composition.type cpu
-#SETPROP persist.sys.composition.type cpu
-SETPROP debug.composition.type gpu
-SETPROP persist.sys.composition.type gpu
-#SETPROP debug.composition.type dyn
-#SETPROP persist.sys.composition.type dyn
+SETPROP debug.composition.type cpu
+SETPROP persist.sys.composition.type cpu
 
 SETPROP ro.media.dec.jpeg.memcap 8000000
 SETPROP ro.media.enc.hprof.vid.bps 8000000
