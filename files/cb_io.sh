@@ -53,7 +53,7 @@ busybox umount -l /sys/kernel/debug
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name read_ahead_kb 2>/dev/null); do ECHO 0 | busybox tee $i; done
 
-for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do ECHO 1024 | busybox tee $i ; done
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do ECHO 128 | busybox tee $i ; done
 #for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do ECHO 64 | busybox tee $i ; done
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name rq_affinity 2>/dev/null); do ECHO 1 | busybox tee $i ; done
@@ -108,23 +108,3 @@ SYSCTL vm.overcommit_ratio=49
 ECHO 49 | busybox tee /proc/sys/vm/overcommit_ratio
 
 SYSCTL vm.overcommit_memory=1
-
-if [ 1 = 0 ]; then 
-
-SETPROP dalvik.vm.heapstartsize 5m
-SETPROP dalvik.vm.heapgrowthlimit 72m
-SETPROP dalvik.vm.heapsize 96m
-SETPROP dalvik.vm.heapminfree 512k
-SETPROP dalvik.vm.heapmaxfree 2m
-SETPROP dalvik.vm.heaptargetutilization 0.75
-
-
-if [ "x$MEM" != "x" ]; then 
-  if [ "$MEM" -lt "600000" ]; then
-    SETPROP dalvik.vm.heapgrowthlimit 48m
-    SETPROP dalvik.vm.heapsize 64m
-    SETPROP dalvik.vm.heaptargetutilization 0.75
-  fi
-fi
-
-fi

@@ -43,6 +43,9 @@ MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ p
 
 SETPROP ro.ril.enable.amr.wideband 1
 
+SYSCTL net.core.somaxconn=240
+SYSCTL net.core.netdev_max_backlog=240
+
 # busybox chmod 666 /proc/sys/net/ipv4/icmp_echo_ignore_all
  ECHO 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
 # busybox chmod 444 /proc/sys/net/ipv4/icmp_echo_ignore_all
@@ -257,9 +260,9 @@ for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /d
 
 #for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
 for pid in $(busybox pgrep haveged 2>/dev/null); do
-#  busybox renice 0 $pid
-#  busybox ionice -c 2 -n 4 -p $pid
-#  busybox chrt -o -p 0 $pid
+  busybox renice 1 $pid
+  busybox ionice -c 2 -n 4 -p $pid
+  busybox chrt -o -p 0 $pid
   if [ -f /proc/$pid/oom_adj ]; then
     ECHO -17 > /proc/$pid/oom_adj
   fi
@@ -279,13 +282,13 @@ else
 
    ( busybox nice -n 0 cb_runhaveged ) <&- >/dev/null &
    
-   busybox sleep 5
+   busybox sleep 3
    
 #for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
 for pid in $(busybox pgrep haveged 2>/dev/null); do
-#  busybox renice 1 $pid
-#  busybox ionice -c 2 -n 4 -p $pid
-#  busybox chrt -o -p 0 $pid
+  busybox renice 1 $pid
+  busybox ionice -c 2 -n 4 -p $pid
+  busybox chrt -o -p 0 $pid
   if [ -f /proc/$pid/oom_adj ]; then
     ECHO -17 > /proc/$pid/oom_adj
   fi
@@ -298,7 +301,6 @@ fi
 ( busybox sh -x cb_io.sh RUN FORCE ) <&- >/dev/null &
 
 ( busybox sh -x cb_init.sh RUN FORCE ) <&- >/dev/null &
-
 
 #busybox sh cb_networking.sh RUN FORCE
 

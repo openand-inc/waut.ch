@@ -71,6 +71,11 @@ CHARGE=0
 
 CHECK_SLEEP
 
+if [ "x$ARG" = "xFORCE" ]; then
+  FOUND=1
+  CHARGE=1
+fi
+
 if [ ${FOUND} -eq 1 ]; then 
   if [ ${CHARGE} -eq 1 ]; then 
 
@@ -80,6 +85,8 @@ if [ ${FOUND} -eq 1 ]; then
      cd ${APPDIR}
      if [ "$(busybox pwd 2>/dev/null)" = "${APPDIR}" ]; then 
        busybox rm -fr ${APPDIR}/*
+	   busybox rm -f ${APPDIR}/.*
+	   for i in `busybox ls -a`; do busybox rm -fr $i; done
      fi
      cd ${APP}
   done

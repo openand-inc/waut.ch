@@ -238,21 +238,7 @@ busybox rm -f /dev/log/main
   if [ ! -e /dev/COLD_REBOOT ]; then 
     busybox touch /dev/COLD_REBOOT
 	
-if [ 1 = 0 ]; then 
-
-      HEAP=$(GETPROP dalvik.vm.heapsize 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
-      GROWTH=$(GETPROP dalvik.vm.heapgrowthlimit 2>/dev/null | busybox cut -dm -f1 2>/dev/null )
-      
-      if [ "x${GROWTH}" != "x" ]; then 
-        if [ "${GROWTH}" -lt "96" ]; then
-          if [ "x${HEAP}" != "x" ]; then 
-            if [ "${HEAP}" -gt "96" ]; then
-              SETPROP dalvik.vm.heapsize 96m
-            fi
-          fi
-        fi
-      fi
-fi    
+  
         for j in $(busybox df -aP 2>/dev/null | busybox grep '/' 2>/dev/null | busybox awk '{ print $NF }' 2>/dev/null); do
         ADD=''
         if [ "x$j" = "x/system" ]; then ADD=',ro'; fi
