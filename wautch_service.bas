@@ -113,7 +113,7 @@ Sub myStart
 		
 		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb.sh RUN FORCE" )
 
-		ToastMessageShow("running cold...",True)
+		ToastMessageShow("run...",True)
 				
 '		rc.execRootCmd( File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb.sh RUN FORCE" )
 

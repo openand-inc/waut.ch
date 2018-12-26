@@ -212,8 +212,8 @@ _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()
 _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chown 0.0 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/*");
  //BA.debugLineNum = 108;BA.debugLine="rc.execRootCmd( File.DirInternal & \"/bin/busybox";
 _v5.execRootCmd(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox setsid "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox sh "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb.sh RUN FORCE");
- //BA.debugLineNum = 110;BA.debugLine="ToastMessageShow(\"running cold...\",True)";
-anywheresoftware.b4a.keywords.Common.ToastMessageShow(BA.ObjectToCharSequence("running cold..."),anywheresoftware.b4a.keywords.Common.True);
+ //BA.debugLineNum = 110;BA.debugLine="ToastMessageShow(\"run...\",True)";
+anywheresoftware.b4a.keywords.Common.ToastMessageShow(BA.ObjectToCharSequence("run..."),anywheresoftware.b4a.keywords.Common.True);
  };
  //BA.debugLineNum = 133;BA.debugLine="End Sub";
 return "";
