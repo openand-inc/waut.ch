@@ -257,7 +257,7 @@ busybox rm -f /dev/log/main
           busybox mount -o noatime,nodiratime,remount${ADD} $j 
         done
 
-        busybox killall system_server
+#        busybox killall system_server
     
   else    
     if [ "x$ARG" = "xFORCE" ]; then
