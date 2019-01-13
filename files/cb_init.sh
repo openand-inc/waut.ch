@@ -205,21 +205,21 @@ SETPROP wifi.supplicant_scan_interval 30
 
 # Put outgoing only IPSEC logic here
 
-SETPROP persist.sys.ui.hw false
-SETPROP debug.sf.hw 0
-SETPROP debug.performance.tuning 0
-SETPROP video.accelerate.hw 0
+#SETPROP persist.sys.ui.hw false
+#SETPROP debug.sf.hw 0
+#SETPROP debug.performance.tuning 0
+#SETPROP video.accelerate.hw 0
 
-SETPROP debug.composition.type cpu
-SETPROP persist.sys.composition.type cpu
+#SETPROP debug.composition.type cpu
+#SETPROP persist.sys.composition.type cpu
 
 SETPROP persist.sys.ui.hw true
 SETPROP debug.sf.hw 1
 SETPROP debug.performance.tuning 1
 SETPROP video.accelerate.hw 1
 
-SETPROP debug.composition.type cpu
-SETPROP persist.sys.composition.type cpu
+SETPROP debug.composition.type gpu
+SETPROP persist.sys.composition.type gpu
 
 SETPROP ro.media.dec.jpeg.memcap 8000000
 SETPROP ro.media.enc.hprof.vid.bps 8000000

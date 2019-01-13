@@ -25,7 +25,7 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
-#if [ 1 = 0 ]; then 
+if [ 1 = 0 ]; then 
     if [ ! -d /dev/entropy ]; then 
       busybox mkdir -p /dev/entropy
       busybox chown 0.0 /dev/entropy
@@ -39,19 +39,7 @@ MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ p
       busybox mknod -m 640 /dev/entropy/random c 1 8
       busybox chown 0.0 /dev/entropy/random
     fi
-#fi
-
-SETPROP ro.ril.enable.amr.wideband 1
-
-SYSCTL net.core.somaxconn=240
-SYSCTL net.core.netdev_max_backlog=240
-
-# busybox chmod 666 /proc/sys/net/ipv4/icmp_echo_ignore_all
- ECHO 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
-# busybox chmod 444 /proc/sys/net/ipv4/icmp_echo_ignore_all
-# busybox chmod 666 /proc/sys/net/ipv4/tcp_timestamps
- ECHO 0 > /proc/sys/net/ipv4/tcp_timestamps
-# busybox chmod 444 /proc/sys/net/ipv4/tcp_timestamps
+fi
 
 busybox killall -9 cb_runhaveged
 busybox killall -9 haveged 
@@ -59,15 +47,15 @@ busybox killall -9 haveged
   busybox chmod 644 /dev/random
   busybox chmod 644 /dev/urandom
 
-  busybox chown 0.0 /dev/entropy/random
-  busybox chmod 640 /dev/entropy/random
+#  busybox chown 0.0 /dev/entropy/random
+#  busybox chmod 640 /dev/entropy/random
   
 #( busybox nice -n -1 haveged -r 0 -o ta8bcb ) <&- >/dev/null &
 #( busybox nice -n -1 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
 
 ( busybox nice -n 0 cb_runhaveged ) <&- >/dev/null &
 
-SETPROP persist.sys.scrollingcache 4
+SETPROP persist.sys.scrollingcache 1
 
 SETPROP windowsmgr.max_events_per_sec 30
 
@@ -260,7 +248,7 @@ for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /d
 
 #for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
 for pid in $(busybox pgrep haveged 2>/dev/null); do
-  busybox renice 1 $pid
+#  busybox renice 1 $pid
   busybox ionice -c 2 -n 4 -p $pid
   busybox chrt -o -p 0 $pid
   if [ -f /proc/$pid/oom_adj ]; then
@@ -270,7 +258,7 @@ done
 
   busybox chmod 644 /dev/random
   busybox chmod 644 /dev/urandom
-  busybox chmod 640 /dev/entropy/random
+#  busybox chmod 640 /dev/entropy/random
   
 else
    SYSCTL kernel.random.read_wakeup_threshold=3584
@@ -281,12 +269,10 @@ else
 #   ( haveged -F -o tbc ) <&- >/dev/null &
 
    ( busybox nice -n 0 cb_runhaveged ) <&- >/dev/null &
-   
-   busybox sleep 3
-   
+      
 #for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
 for pid in $(busybox pgrep haveged 2>/dev/null); do
-  busybox renice 1 $pid
+#  busybox renice 1 $pid
   busybox ionice -c 2 -n 4 -p $pid
   busybox chrt -o -p 0 $pid
   if [ -f /proc/$pid/oom_adj ]; then
@@ -296,7 +282,7 @@ done
 
 fi
 
-#( busybox sh -x cb_networking.sh RUN FORCE ) <&- >/dev/null &
+( busybox sh -x cb_networking.sh RUN FORCE ) <&- >/dev/null &
 
 ( busybox sh -x cb_io.sh RUN FORCE ) <&- >/dev/null &
 
