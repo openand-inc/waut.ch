@@ -23,6 +23,25 @@ alias SETPROP='/system/bin/setprop '
 alias GETPROP='/system/bin/getprop '
 if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
+if [ -f HOUR ]; then 
+  busybox rm -f HOUR
+  if [ ! -f HOUR ]; then 
+    SETPROP persist.cb.run 25  
+  fi
+fi
+
+HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null | busybox cut -d: -f1 2>/dev/null)
+
+  if [ "x$(GETPROP persist.cb.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
+	SYSCTL kernel.random.read_wakeup_threshold=4096
+	SYSCTL kernel.random.write_wakeup_threshold=4096
+	busybox touch /proc/sys/kernel/random/entropy_avail
+	busybox touch /dev/random 
+    exit 0
+  fi
+
+SETPROP persist.cb.run ${HOUR_NOW}
+
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
 if [ 1 = 0 ]; then 
@@ -44,8 +63,8 @@ fi
 busybox killall -9 cb_runhaveged
 busybox killall -9 haveged 
 
-  busybox chmod 644 /dev/random
-  busybox chmod 644 /dev/urandom
+  busybox chmod 444 /dev/random
+  busybox chmod 444 /dev/urandom
 
 #  busybox chown 0.0 /dev/entropy/random
 #  busybox chmod 640 /dev/entropy/random
@@ -232,12 +251,12 @@ if [ "$i" -ne "0" ]; then
 #SYSCTL kernel.random.read_wakeup_threshold=256
 #SYSCTL kernel.random.read_wakeup_threshold=8
 #SYSCTL kernel.random.read_wakeup_threshold=4064
-SYSCTL kernel.random.read_wakeup_threshold=3584
+SYSCTL kernel.random.read_wakeup_threshold=4096
 
 #POOLSIZE=4064
 #POOLSIZE=320
 #POOLSIZE=0
-POOLSIZE=3584
+POOLSIZE=4096
 #POOLSIZE=64
 #POOLSIZE="$(busybox cat /proc/sys/kernel/random/poolsize 2>/dev/null)"
 #if [ "$(busybox cat /proc/sys/kernel/random/write_wakeup_threshold 2>/dev/null)" != "${POOLSIZE}" ]; then 
@@ -249,20 +268,20 @@ for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /d
 #for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
 for pid in $(busybox pgrep haveged 2>/dev/null); do
 #  busybox renice 1 $pid
-  busybox ionice -c 2 -n 4 -p $pid
-  busybox chrt -o -p 0 $pid
+#  busybox ionice -c 2 -n 4 -p $pid
+#  busybox chrt -o -p 0 $pid
   if [ -f /proc/$pid/oom_adj ]; then
     ECHO -17 > /proc/$pid/oom_adj
   fi
 done
 
-  busybox chmod 644 /dev/random
-  busybox chmod 644 /dev/urandom
+  busybox chmod 444 /dev/random
+  busybox chmod 444 /dev/urandom
 #  busybox chmod 640 /dev/entropy/random
   
 else
-   SYSCTL kernel.random.read_wakeup_threshold=3584
-   SYSCTL kernel.random.write_wakeup_threshold=3584
+   SYSCTL kernel.random.read_wakeup_threshold=4096
+   SYSCTL kernel.random.write_wakeup_threshold=4096
    
 #  ( busybox nice -n +5 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
 #   ( busybox nice haveged -F -o tbc ) <&- >/dev/null &
@@ -273,8 +292,8 @@ else
 #for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
 for pid in $(busybox pgrep haveged 2>/dev/null); do
 #  busybox renice 1 $pid
-  busybox ionice -c 2 -n 4 -p $pid
-  busybox chrt -o -p 0 $pid
+#  busybox ionice -c 2 -n 4 -p $pid
+#  busybox chrt -o -p 0 $pid
   if [ -f /proc/$pid/oom_adj ]; then
     ECHO -17 > /proc/$pid/oom_adj
   fi

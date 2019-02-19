@@ -2,6 +2,11 @@
 
 ARG=$1
 
+if [ "x$ARG" = "xRUN" ]; then
+  cd /data/data/ch.waut/files/bin && PATH=. busybox nice -n +5 busybox sh -x cb_reboot.sh $2 > ../cb_reboot.log 2>&1
+  return 0
+fi
+
 set +e
 trap " " 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 export APP=/data/data/ch.waut/files/bin
@@ -79,8 +84,6 @@ fi
 if [ ${FOUND} -eq 1 ]; then 
   if [ ${CHARGE} -eq 1 ]; then 
 
-  busybox sleep 5
-  
   for APPDIR in $(busybox timeout -t 15 -s KILL busybox find /data/data -name cache 2>/dev/null); do 
      cd ${APPDIR}
      if [ "$(busybox pwd 2>/dev/null)" = "${APPDIR}" ]; then 
