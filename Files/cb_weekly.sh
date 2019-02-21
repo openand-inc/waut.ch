@@ -21,6 +21,7 @@ if [ "$(GETPROP persist.cb_weekly.enabled 2>/dev/null)" = "FALSE" ]; then return
 
 CHECK_SLEEP() {
 if [ "x$ARG" != "xFORCE" ]; then
+  if [ -f AWAKE ]; then return 0; fi
   busybox timeout -t 0 -s KILL busybox cat /sys/power/wait_for_fb_wake >/dev/null 2>&1
   ret=$?
   if [ $ret -eq 0 ]; then 
@@ -43,7 +44,9 @@ busybox touch /dev/random
 
 for DB in $(busybox timeout -t 15 -s KILL busybox find /data/data -name *.db 2>/dev/null); do 
 
-  CHECK_SLEEP
+#  CHECK_SLEEP
+ 
+  if [ -f AWAKE ]; then return 0; fi
   
   if [ "x$DB" = "x$SETTINGS_DB" ]; then continue; fi
 
