@@ -47,6 +47,7 @@ static void set_watermark(int level);
 #ifdef __ANDROID__
 
 static void write_file( char file_name[], char value[] );
+static void read_file( char file_name[] );
 
 #include <linux/ioprio.h>
 #include <pthread.h>
@@ -54,8 +55,8 @@ int sleeping=0;
 
 void governor_ondemand()
 {
-				  system("/system/bin/setprop debug.composition.type cpu");
-				  system("/system/bin/setprop persist.sys.composition.type cpu");
+				  system("/system/bin/setprop debug.composition.type gpu");
+				  system("/system/bin/setprop persist.sys.composition.type gpu");
 						 
 				  write_file("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor","ondemand");
 				  write_file("/sys/devices/system/cpu/cpu1/cpufreq/scaling_governor","ondemand");
@@ -112,8 +113,8 @@ void governor_interactive()
 
 //				 system("/system/bin/setprop debug.composition.type dyn");
 //				 system("/system/bin/setprop persist.sys.composition.type dyn");
-				 system("/system/bin/setprop debug.composition.type cpu");
-				 system("/system/bin/setprop persist.sys.composition.type cpu");
+				 system("/system/bin/setprop debug.composition.type gpu");
+				 system("/system/bin/setprop persist.sys.composition.type gpu");
 
 int i = 0 ;
 char string1[80];
@@ -166,6 +167,25 @@ char string1[80];
 	}
 }
 
+void read_char(void)
+{
+		FILE *fp = NULL;
+ 		char buffer='o';
+	
+			if ( fp != NULL ) fp = NULL;
+
+			fp = fopen("/dev/random", "r");
+	        if ( fp )
+        	{
+			    buffer='o';
+	            buffer = fgetc(fp);
+			fclose(fp);
+			}
+
+			if ( fp != NULL ) fp = NULL;
+	
+}
+
 void *fn_sleep (void *ret)
 {
 		FILE *fp = NULL;
@@ -183,6 +203,8 @@ void *fn_sleep (void *ret)
         	    buffer = fgetc(fp);
 				if ( buffer == 's' ) {
 			      sleeping=1;                       
+				  unlink("AWAKE");
+				  write_file("SLEEPING","1");
 				  sync();
 				  write_file("/proc/sys/vm/drop_caches","1");
 			  	 write_file("/proc/sys/vm/vfs_cache_pressure","9000000000");
@@ -193,14 +215,17 @@ void *fn_sleep (void *ret)
 				  write_file("/proc/sys/vm/overcommit_memory","1");					
 				  write_file("/proc/sys/net/ipv4/icmp_echo_ignore_all","1");
 				  write_file("/proc/sys/net/ipv4/tcp_timestamps","0");
-				  set_low_watermark(256); /* READ */
-				  set_watermark(320); /* WRITE */
-				  governor_ondemand();
+				  set_low_watermark(4000); /* READ */
+				  set_watermark(4000); /* WRITE */
+				  read_file("/proc/sys/kernel/random/entropy_avail");
+				  read_char();
+//				  read_file("/dev/random");
+				  governor_interactive();
 				}
 			fclose(fp);
             }
 			
-			if ( fp != NULL ) { fp = NULL; }
+//			if ( fp != NULL ) { fp = NULL; }
 			
 //			sleep(1);
 
@@ -210,13 +235,18 @@ void *fn_sleep (void *ret)
 			    buffer='o';
 //				fseek ( fp , 0, SEEK_SET );                        	
 	            buffer = fgetc(fp);
-		  		sleeping=0;			
-				 set_low_watermark(320); /* READ */
-				 set_watermark(320); /* WRITE */
+		  		sleeping=0;
+				  unlink("SLEEPING");
+				  write_file("AWAKE","1");
+				 set_low_watermark(4000); /* READ */
+				 set_watermark(4000); /* WRITE */
+				 read_file("/proc/sys/kernel/random/entropy_avail");
+				 read_char();
+//				 read_file("/dev/random");
 				 governor_interactive();
-//				 set_low_watermark(4064);
+//				 set_low_watermark(4000);
 //				 set_watermark(4000);
-//				 set_low_watermark(4096);
+//				 set_low_watermark(4000);
 //				 set_watermark(1024);
 //				 set_low_watermark(8);
 //				 set_watermark(320);				
@@ -232,18 +262,7 @@ void *fn_sleep (void *ret)
 			fclose(fp);
             }
 			
-			if ( fp != NULL ) { fp = NULL; }
-/*
-			fp = fopen("/dev/random", "r");
-	        if ( fp )
-        	{
-			    buffer='o';
-	            buffer = fgetc(fp);
-			fclose(fp);
-			}
 
-			if ( fp != NULL ) { fp = NULL; }
-*/
 			sleep(30);
 			
         }
@@ -285,8 +304,8 @@ static struct pparams defaults = {
   .os_rel         = "/proc/sys/kernel/osrelease",
   .pid_file       = PID_DEFAULT,
   .poolsize       = "/proc/sys/kernel/random/poolsize",
-  .random_device  = "/dev/entropy/random",
-//  .random_device  = "/dev/random",
+//  .random_device  = "/dev/entropy/random",
+  .random_device  = "/dev/random",
   .sample_in      = INPUT_DEFAULT,
   .sample_out     = OUTPUT_DEFAULT,
   .verbose        = 0,
@@ -681,7 +700,8 @@ static void run_daemon(    /* RETURN: nothing   */
 
 //	set_watermark(0);
 	//Write
-	set_watermark(320);
+	int threshold = 4000;
+	set_watermark(threshold);
 //	set_watermark(1024);
 //	set_watermark(2048);
 	
@@ -689,17 +709,18 @@ static void run_daemon(    /* RETURN: nothing   */
 //   set_low_watermark(8);
 	//Read
 //   set_low_watermark(512);
-   set_low_watermark(320);
-//   set_low_watermark(4096);
+   set_low_watermark(threshold);
+//   set_low_watermark(4000);
 //   set_low_watermark(2048);
 
    struct stat status = { 0 };
+
 //1
-   if( stat("/dev/entropy", &status) != 0 ) mkdir( "/dev/entropy", 0770 );
+//   if( stat("/dev/entropy", &status) != 0 ) mkdir( "/dev/entropy", 0770 );
 
    while( stat(params->random_device, &status) != 0 ) { 
 	   //2
-      mknod( params->random_device, S_IFCHR|S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH, makedev(1,8) );
+//      mknod( params->random_device, S_IFCHR|S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH, makedev(1,8) );
 	   sleep(1);
    } 
 	
@@ -709,13 +730,15 @@ static void run_daemon(    /* RETURN: nothing   */
 	
    random_fd = -1;
    while ( random_fd < 0 ) {
-       random_fd = open(params->random_device, O_RDWR|O_ASYNC|O_NOATIME|O_NONBLOCK); 
+       random_fd = open(params->random_device, O_RDWR|O_ASYNC|01000000|O_NONBLOCK); 
 	   if ( random_fd >= 0 ) break;
 //       close(random_fd);
 	   sleep(1);
    }
 //3
-   fchmod(random_fd,S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH);
+//   fchmod(random_fd,S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH);
+//   fchmod(random_fd,S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
+   fchmod(random_fd,S_IRUSR|S_IRGRP|S_IROTH);
 	
   output = (struct rand_pool_info *) h->io_buf;
 
@@ -757,36 +780,11 @@ static void run_daemon(    /* RETURN: nothing   */
 //	  nbytes = (poolSize - current) / 8;
 //	  nbytes = (params->low_water - current) / 8;
 //	  nbytes = (4000 - current) / 8;
-//	  nbytes = (4096 - current) / 8;
-	  nbytes = 0;
-//	  nbytes = 11;
-/*
-      if ( nbytes < -9 ) { 
-		fp = fopen("/dev/random", "r");
-		if ( fp ) { 
-		  char buffer=fgetc(fp);
-		}
-		fclose(fp);
-		continue;
-	  }
+//	  nbytes = (4000 - current) / 8;
 
-      if ( ( nbytes < 1 ) && ( nbytes >= -9 ) ) {
-		sleep(1); 
-		continue; 
-	  }
-*/	   
-//	  if ( nbytes > 50 ) nbytes = 50;
-/*
-      if ( nbytes == -1 ) {
-#ifdef __ANDROID__
-		  if ( sleeping != 1 ) { sleep(1); continue; } else nbytes=0; 
-#endif
-	    nbytes=0;
-	  }
+	  nbytes = 1;
 
-//	  fprintf(stderr,"p = %d ; c = %d ; n = %d", poolSize, current, nbytes);
-*/
-	  nbytes += 1;
+	  nbytes += 7;
 	   	   
       /* get that many random bytes */
       r = (nbytes+sizeof(H_UINT)-1)/sizeof(H_UINT);
@@ -803,28 +801,26 @@ static void run_daemon(    /* RETURN: nothing   */
 
 	  struct timeval timeout;
 	   
-	  timeout.tv_sec = 30;
+	  timeout.tv_sec = 1;
       timeout.tv_usec = 0;
+//      timeout.tv_usec = 333333;
 	   
+	  threshold = 4000;
 #ifdef __ANDROID__
 	   if ( sleeping == 1 ) {
 		wait_time = 30000;
 	  
-		timeout.tv_sec = 900;
-/*		
-		if ( fp != NULL ) { fp = NULL; }
-
-		fp = fopen("/sys/power/wait_for_fb_wake", "r");
-		if ( fp ) { 
-		  char buffer=fgetc(fp);
-		  fclose(fp);
-		} 
+//	  timeout.tv_sec = 300;
+	  timeout.tv_sec = 1;
+      timeout.tv_usec = 0;
 		
-		if ( fp != NULL ) { fp = NULL; }
-*/
-//	    usleep(10000);
+		   threshold=4000;
 
-	} else timeout.tv_sec = 30;
+	} else {		   
+		   timeout.tv_sec = 1;
+		   timeout.tv_usec = 0;
+//		   timeout.tv_usec = 333333;
+	}
 #endif
 
 /*	   
@@ -855,12 +851,23 @@ static void run_daemon(    /* RETURN: nothing   */
 
 //         int rc = select(random_fd+1, NULL, &write_fd, NULL, NULL);
          int rc = select(random_fd+1, NULL, &write_fd, NULL, &timeout);
-         if ( rc > 0 ) break;
-		 if ( ( rc == 0 ) && ( sleeping == 1 ) ) continue; 
+         if ( rc >= 0 ) break;
+//       if ( rc > 0 ) break;
+//		 if ( ( rc == 0 ) && ( sleeping == 1 ) ) continue; 
          if (errno != EINTR)
 //            error_exit("Select error: %s", strerror(errno));
 			 goto carry_on;
          }
+
+	   current=0;
+	   if (ioctl(random_fd, RNDGETENTCNT, &current) == 0) {
+
+		   if ( current >= threshold ) {
+//			   if ( current == ( threshold + 96 ) ) read_char();
+			   usleep(10000);
+			   continue;
+		   }
+	   }
 
 // END SELECT LOGIC
 
@@ -919,6 +926,23 @@ static void write_file( char file_name[], char value[] )
       fprintf(wm_fh, "%s\n", value);                                                                                                 
       fclose(wm_fh);
       }
+}
+
+/**
+ * Read File
+ */
+static void read_file( char file_name[] )              
+{
+	
+   int fd = open(file_name, O_RDONLY|O_NOCTTY|O_NONBLOCK);
+
+//   int rc = utimensat(AT_FDCWD,file_name,NULL,0);
+
+//   int rc = futimens(file_name,NULL);
+   
+   int rc = utime(file_name,NULL);
+	   
+   if ( fd >= 0 ) close(fd);
 }
 
 #endif
