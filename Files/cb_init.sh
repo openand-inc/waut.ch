@@ -166,14 +166,6 @@ UPDATE_TABLES GLOBAL location_mode 0
 UPDATE_TABLES SYSTEM location_mode 0
 UPDATE_TABLES SECURE location_mode 0
 
-UPDATE_TABLES GLOBAL location_mode_off 1
-UPDATE_TABLES SYSTEM location_mode_off 1
-UPDATE_TABLES SECURE location_mode_off 1
-
-UPDATE_TABLES GLOBAL install_non_market_apps 0
-UPDATE_TABLES SYSTEM install_non_market_apps 0
-UPDATE_TABLES SECURE install_non_market_apps 0
-
 LPA=0
 if [ "x$VERSION" != "x" ]; then 
   if [ "$VERSION" -ge "6" ]; then 
@@ -245,6 +237,10 @@ SETPROP logcat.live disable
 busybox rm -f /dev/log/main
 
 /system/bin/stop adbd
+
+UPDATE_TABLES GLOBAL install_non_market_apps 0
+UPDATE_TABLES SYSTEM install_non_market_apps 0
+UPDATE_TABLES SECURE install_non_market_apps 0
 
   if [ ! -e /dev/COLD_REBOOT ]; then 
     busybox touch /dev/COLD_REBOOT
