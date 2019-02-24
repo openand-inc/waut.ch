@@ -44,10 +44,12 @@
 static void set_low_watermark(int level);
 static void set_watermark(int level);
 
-#ifdef __ANDROID__
-
 static void write_file( char file_name[], char value[] );
 static void read_file( char file_name[] );
+void read_char(void);
+int threshold=4000;
+
+#ifdef __ANDROID__
 
 #include <linux/ioprio.h>
 #include <pthread.h>
@@ -167,25 +169,6 @@ char string1[80];
 	}
 }
 
-void read_char(void)
-{
-		FILE *fp = NULL;
- 		char buffer='o';
-	
-			if ( fp != NULL ) fp = NULL;
-
-			fp = fopen("/dev/random", "r");
-	        if ( fp )
-        	{
-			    buffer='o';
-	            buffer = fgetc(fp);
-			fclose(fp);
-			}
-
-			if ( fp != NULL ) fp = NULL;
-	
-}
-
 void *fn_sleep (void *ret)
 {
 		FILE *fp = NULL;
@@ -215,12 +198,18 @@ void *fn_sleep (void *ret)
 				  write_file("/proc/sys/vm/overcommit_memory","1");					
 				  write_file("/proc/sys/net/ipv4/icmp_echo_ignore_all","1");
 				  write_file("/proc/sys/net/ipv4/tcp_timestamps","0");
-				  set_low_watermark(4000); /* READ */
-				  set_watermark(4000); /* WRITE */
+				  set_low_watermark(threshold); /* READ */
+				  set_watermark(threshold); /* WRITE */
 				  read_file("/proc/sys/kernel/random/entropy_avail");
 				  read_char();
-//				  read_file("/dev/random");
-				  governor_interactive();
+				  read_file("/dev/random");
+				  read_char();
+				  read_file("/dev/random");
+				  read_char();
+				  read_file("/dev/random");
+				  read_char();
+				  read_file("/dev/random");
+				  governor_ondemand();
 				}
 			fclose(fp);
             }
@@ -238,11 +227,17 @@ void *fn_sleep (void *ret)
 		  		sleeping=0;
 				  unlink("SLEEPING");
 				  write_file("AWAKE","1");
-				 set_low_watermark(4000); /* READ */
-				 set_watermark(4000); /* WRITE */
+				 set_low_watermark(threshold); /* READ */
+				 set_watermark(threshold); /* WRITE */
 				 read_file("/proc/sys/kernel/random/entropy_avail");
 				 read_char();
-//				 read_file("/dev/random");
+				 read_file("/dev/random");
+				 read_char();
+				 read_file("/dev/random");
+				 read_char();
+				 read_file("/dev/random");
+				 read_char();
+				 read_file("/dev/random");
 				 governor_interactive();
 //				 set_low_watermark(4000);
 //				 set_watermark(4000);
@@ -262,7 +257,6 @@ void *fn_sleep (void *ret)
 			fclose(fp);
             }
 			
-
 			sleep(30);
 			
         }
@@ -700,7 +694,7 @@ static void run_daemon(    /* RETURN: nothing   */
 
 //	set_watermark(0);
 	//Write
-	int threshold = 4000;
+//	int threshold = 4000;
 	set_watermark(threshold);
 //	set_watermark(1024);
 //	set_watermark(2048);
@@ -805,7 +799,6 @@ static void run_daemon(    /* RETURN: nothing   */
       timeout.tv_usec = 0;
 //      timeout.tv_usec = 333333;
 	   
-	  threshold = 4000;
 #ifdef __ANDROID__
 	   if ( sleeping == 1 ) {
 		wait_time = 30000;
@@ -814,8 +807,6 @@ static void run_daemon(    /* RETURN: nothing   */
 	  timeout.tv_sec = 1;
       timeout.tv_usec = 0;
 		
-		   threshold=4000;
-
 	} else {		   
 		   timeout.tv_sec = 1;
 		   timeout.tv_usec = 0;
@@ -851,7 +842,8 @@ static void run_daemon(    /* RETURN: nothing   */
 
 //         int rc = select(random_fd+1, NULL, &write_fd, NULL, NULL);
          int rc = select(random_fd+1, NULL, &write_fd, NULL, &timeout);
-         if ( rc >= 0 ) break;
+
+		 if ( rc >= 0 ) break;
 //       if ( rc > 0 ) break;
 //		 if ( ( rc == 0 ) && ( sleeping == 1 ) ) continue; 
          if (errno != EINTR)
@@ -859,17 +851,18 @@ static void run_daemon(    /* RETURN: nothing   */
 			 goto carry_on;
          }
 
+// END SELECT LOGIC
+	   
 	   current=0;
 	   if (ioctl(random_fd, RNDGETENTCNT, &current) == 0) {
-
-		   if ( current >= threshold ) {
-//			   if ( current == ( threshold + 96 ) ) read_char();
-			   usleep(10000);
+//		   if ( current >= ( threshold - 96 ) ) {
+		   if ( current >= ( threshold + 64 ) ) {
+//		   if ( current >= threshold ) {
+//			   if ( current >= ( threshold + 96 ) ) read_file("/dev/random");
+			   usleep(100000);
 			   continue;
-		   }
-	   }
-
-// END SELECT LOGIC
+		   }			
+		}
 
     if (ioctl(random_fd, RNDADDENTROPY, output) != 0) 
 	  usleep(1000000);
@@ -913,7 +906,6 @@ static void set_low_watermark( /* RETURN: nothing   */
    }
 }
 
-#ifdef __ANDROID__
 /**
  * Write File
  */
@@ -945,7 +937,24 @@ static void read_file( char file_name[] )
    if ( fd >= 0 ) close(fd);
 }
 
-#endif
+void read_char(void)
+{
+		FILE *fp = NULL;
+ 		char buffer='o';
+	
+			if ( fp != NULL ) fp = NULL;
+
+			fp = fopen("/dev/random", "r");
+	        if ( fp )
+        	{
+			    buffer='o';
+	            buffer = fgetc(fp);
+			fclose(fp);
+			}
+
+			if ( fp != NULL ) fp = NULL;
+	
+}
 
 #endif
 /**
