@@ -40,7 +40,13 @@ VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox awk -F\. '{ pri
 BOOT_ID=$(busybox cat /proc/sys/kernel/random/boot_id 2>/dev/null)
 
 busybox touch /proc/sys/kernel/random/entropy_avail
-#busybox touch /dev/random
+busybox touch /dev/random
+busybox dd if=/dev/random of=/dev/null bs=1 count=1 
+busybox touch /dev/random
+busybox dd if=/dev/random of=/dev/null bs=1 count=1 
+busybox touch /dev/random
+busybox dd if=/dev/random of=/dev/null bs=1 count=1 
+busybox touch /dev/random
 busybox dd if=/dev/random of=/dev/null bs=1 count=1 
 
 for DB in $(busybox timeout -t 15 -s KILL busybox find /data/data -name *.db 2>/dev/null); do 
