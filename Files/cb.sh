@@ -23,18 +23,16 @@ alias SETPROP='/system/bin/setprop '
 alias GETPROP='/system/bin/getprop '
 if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
-if [ -f HOUR ]; then 
-  busybox rm -f HOUR
-  if [ ! -f HOUR ]; then 
-    SETPROP persist.cb.run 25  
-  fi
-fi
-
 HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null | busybox cut -d: -f1 2>/dev/null)
 
-  if [ "x$(GETPROP persist.cb.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
-	SYSCTL kernel.random.read_wakeup_threshold=64
-	SYSCTL kernel.random.write_wakeup_threshold=128
+  if [ "x$(GETPROP cb.fbb9417d.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
+    SYSCTL vm.vfs_cache_pressure=9000000000
+    SYSCTL vm.vfs_cache_pressure=5	
+	SYSCTL vm.overcommit_ratio=51
+	SYSCTL vm.overcommit_ratio=49
+	SYSCTL vm.overcommit_memory=1
+	SYSCTL kernel.random.read_wakeup_threshold=4000
+	SYSCTL kernel.random.write_wakeup_threshold=4000
 	busybox touch /proc/sys/kernel/random/entropy_avail
 	busybox touch /dev/random 
 	busybox dd if=/dev/random of=/dev/null bs=1 count=1
@@ -44,10 +42,10 @@ HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null 
 	busybox dd if=/dev/random of=/dev/null bs=1 count=1
 	busybox touch /dev/random 
 	busybox dd if=/dev/random of=/dev/null bs=1 count=1
-    exit 0
+    return 0
   fi
 
-SETPROP persist.cb.run ${HOUR_NOW}
+SETPROP cb.fbb9417d.run ${HOUR_NOW} 
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
@@ -258,12 +256,12 @@ if [ "$i" -ne "0" ]; then
 #SYSCTL kernel.random.read_wakeup_threshold=256
 #SYSCTL kernel.random.read_wakeup_threshold=8
 #SYSCTL kernel.random.read_wakeup_threshold=4064
-SYSCTL kernel.random.read_wakeup_threshold=64
+SYSCTL kernel.random.read_wakeup_threshold=4000
 
 #POOLSIZE=4064
 #POOLSIZE=320
 #POOLSIZE=0
-POOLSIZE=128
+POOLSIZE=4000
 #POOLSIZE=64
 #POOLSIZE="$(busybox cat /proc/sys/kernel/random/poolsize 2>/dev/null)"
 #if [ "$(busybox cat /proc/sys/kernel/random/write_wakeup_threshold 2>/dev/null)" != "${POOLSIZE}" ]; then 
@@ -287,8 +285,8 @@ done
 #  busybox chmod 640 /dev/entropy/random
   
 else
-   SYSCTL kernel.random.read_wakeup_threshold=64
-   SYSCTL kernel.random.write_wakeup_threshold=128
+   SYSCTL kernel.random.read_wakeup_threshold=4000
+   SYSCTL kernel.random.write_wakeup_threshold=4000
    
 #  ( busybox nice -n +5 haveged -r 0 -o tbca8wbw ) <&- >/dev/null &
 #   ( busybox nice haveged -F -o tbc ) <&- >/dev/null &
