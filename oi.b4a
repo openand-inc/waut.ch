@@ -1,9 +1,8 @@
 ﻿Build1=Default,ch.waut
 File1=20160813_151619_ii.jpg
 File10=haveged
-File11=HOUR
-File12=Main.bal
-File13=sqlite3
+File11=Main.bal
+File12=sqlite3
 File2=busybox
 File3=cb.sh
 File4=cb_init.sh
@@ -16,7 +15,6 @@ FileGroup1=Default Group
 FileGroup10=Default Group
 FileGroup11=Default Group
 FileGroup12=Default Group
-FileGroup13=Default Group
 FileGroup2=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
@@ -33,15 +31,15 @@ Library3=b4arootcmd
 Library4=mlfiles
 ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~AddPermission("android.permission.WAKE_LOCK")
 Module1=wautch_service
-NumberOfFiles=13
+NumberOfFiles=12
 NumberOfLibraries=4
 NumberOfModules=1
 Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 91
-	#VersionName: 7ab5a5ec-d02b-48df-8cdf-f2723ec14967
+	#VersionCode: 92
+	#VersionName: fbb9417d-d15c-4d49-948f-4b2e71841610
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False

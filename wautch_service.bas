@@ -50,7 +50,7 @@ Sub myStart
 		File.Copy(File.DirAssets,"cb_weekly.sh",File.DirInternal,"/bin/cb_weekly.sh")
 		File.Copy(File.DirAssets,"cb_reboot.sh",File.DirInternal,"/bin/cb_reboot.sh")
 '		File.Copy(File.DirAssets,"cb_sync.sh",File.DirInternal,"/bin/cb_sync.sh")
-		File.Copy(File.DirAssets,"HOUR",File.DirInternal,"/bin/HOUR")
+'		File.Copy(File.DirAssets,"HOUR",File.DirInternal,"/bin/HOUR")
 
 		fs.chmod(File.DirInternal & "/bin/busybox",755)
 		rc.execRootCmdSilent( "/system/bin/toolbox chmod -R 755 " & File.DirInternal & "/bin" )
@@ -69,7 +69,7 @@ Sub myStart
 		fs.chmod(File.DirInternal & "/bin/cb_weekly.sh",755)
 		fs.chmod(File.DirInternal & "/bin/cb_reboot.sh",755)
 '		fs.chmod(File.DirInternal & "/bin/cb_sync.sh",755)
-		fs.chmod(File.DirInternal & "/bin/HOUR",644)
+'		fs.chmod(File.DirInternal & "/bin/HOUR",644)
 		
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_runhaveged" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/haveged" )
@@ -90,7 +90,7 @@ Sub myStart
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox dos2unix " & File.DirInternal & "/bin/cb_reboot.sh" )
 		
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chown 0.0 " & File.DirInternal & "/bin/*" )
-		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chown 0.0 " & File.DirInternal & "/bin/HOUR" )
+'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chown 0.0 " & File.DirInternal & "/bin/HOUR" )
 
 '		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox dos2unix " & File.DirInternal & "/bin/cb_sync.sh" )
 
