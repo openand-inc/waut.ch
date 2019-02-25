@@ -21,11 +21,14 @@ if [ "$(GETPROP persist.cb_reboot.enabled 2>/dev/null)" = "FALSE" ]; then return
 
 CHECK_SLEEP() {
 if [ "x$ARG" != "xFORCE" ]; then
+  if [ -f AWAKE ]; then exit 0; fi
+  if [ ! -f SLEEPING ]; then exit 0; fi
+
   busybox timeout -t 0 -s KILL busybox cat /sys/power/wait_for_fb_wake >/dev/null 2>&1
   ret=$?
   if [ $ret -eq 0 ]; then 
 #    exec busybox sh cb_sync.sh 6
-    return 0; 
+    exit 0; 
   fi
 fi
 }
