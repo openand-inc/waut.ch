@@ -64,7 +64,7 @@ for DB in $(busybox timeout -t 15 -s KILL busybox find /data/data -name *.db 2>/
 
   sqlite3 "$NAME" ";;PRAGMA synchronous=FULL;;REINDEX;;VACUUM;;" 
 
-  busybox fsync "$DB"
+#  busybox fsync "$DB"
 
 # busybox sleep 0.1
 
@@ -74,6 +74,10 @@ done
 busybox fstrim -v /data 
 busybox fstrim -v /sdcard
 #busybox fstrim -v /cache
+
+#busybox sysctl -w vm.drop_caches=1
+
+#busybox sync
 
 # ECHO 64 > /proc/sys/kernel/random/write_wakeup_threshold
 # ECHO 64 > /proc/sys/kernel/random/read_wakeup_threshold
@@ -91,7 +95,7 @@ busybox fstrim -v /sdcard
 
 #busybox sh cb_sync.sh RUN 6
 
-CHECK_SLEEP
+#CHECK_SLEEP
 
-exec busybox sh cb_reboot.sh RUN
+#exec busybox sh cb_reboot.sh RUN
 

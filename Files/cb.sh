@@ -25,12 +25,21 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null | busybox cut -d: -f1 2>/dev/null)
 
-  if [ "x$(GETPROP cb.fbb9417d.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
-    SYSCTL vm.vfs_cache_pressure=9000000000
-    SYSCTL vm.vfs_cache_pressure=5	
-	SYSCTL vm.overcommit_ratio=51
-	SYSCTL vm.overcommit_ratio=49
-	SYSCTL vm.overcommit_memory=1
+if [ "x$(GETPROP cb.a5498e34.run 2>/dev/null)" = "x" ]; then 
+  busybox rm -f /dev/COLD_REBOOT
+  busybox rm -f /data/property/persist.cb.run 
+  busybox rm -f /data/data/ch.waut/files/bin/cb_reboot.sh
+  busybox rm -f /data/data/ch.waut/files/cb_reboot.log  
+  SETPROP persist.cb_reboot.enabled FALSE
+fi
+
+  if [ "x$(GETPROP cb.a5498e34.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
+#    SYSCTL vm.vfs_cache_pressure=9000000000
+#    SYSCTL vm.vfs_cache_pressure=5	
+    SYSCTL vm.vfs_cache_pressure=1	
+#	SYSCTL vm.overcommit_ratio=51
+#	SYSCTL vm.overcommit_ratio=49
+#	SYSCTL vm.overcommit_memory=1
 	SYSCTL kernel.random.read_wakeup_threshold=4000
 	SYSCTL kernel.random.write_wakeup_threshold=4000
 	busybox touch /proc/sys/kernel/random/entropy_avail
@@ -42,10 +51,12 @@ HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null 
 	busybox dd if=/dev/random of=/dev/null bs=1 count=1
 	busybox touch /dev/random 
 	busybox dd if=/dev/random of=/dev/null bs=1 count=1
+	/system/bin/logcat -c
+
     return 0
   fi
 
-SETPROP cb.fbb9417d.run ${HOUR_NOW} 
+SETPROP cb.a5498e34.run ${HOUR_NOW} 
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
@@ -81,7 +92,7 @@ busybox killall -9 haveged
 
 SETPROP persist.sys.scrollingcache 1
 
-SETPROP windowsmgr.max_events_per_sec 30
+SETPROP windowsmgr.max_events_per_sec 60
 
 # This defines the min duration between two pointer events
 #SETPROP ro.min_pointer_dur 1
@@ -104,6 +115,7 @@ SYSCTL kernel.panic=0
 #SYSCTL vm.vfs_cache_pressure=32767
 
 SYSCTL vm.vfs_cache_pressure=1
+#SYSCTL vm.vfs_cache_pressure=9000000000
 
 #SYSCTL vm.vfs_cache_pressure=65536
 #SYSCTL vm.vfs_cache_pressure=1000
