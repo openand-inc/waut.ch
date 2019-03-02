@@ -238,14 +238,18 @@ busybox rm -f /dev/log/main
 
 /system/bin/stop adbd
 
+/system/bin/logcat -b main -b system -b crash -G 64Kb
+/system/bin/logcat -b all -G 64Kb
+/system/bin/logcat -c
+
 UPDATE_TABLES GLOBAL install_non_market_apps 0
 UPDATE_TABLES SYSTEM install_non_market_apps 0
 UPDATE_TABLES SECURE install_non_market_apps 0
 
   if [ ! -e /dev/COLD_REBOOT ]; then 
     busybox touch /dev/COLD_REBOOT
-	
-  
+	  if [ -e /dev/COLD_REBOOT ]; then
+		
         for j in $(busybox df -aP 2>/dev/null | busybox grep '/' 2>/dev/null | busybox awk '{ print $NF }' 2>/dev/null); do
         ADD=''
         if [ "x$j" = "x/system" ]; then ADD=',ro'; fi
@@ -264,8 +268,10 @@ UPDATE_TABLES SECURE install_non_market_apps 0
           busybox mount -o noatime,nodiratime,remount${ADD} $j 
         done
 
-#        busybox killall system_server
-    
+#		SYSCTL vm.overcommit_ratio=49
+		
+#       busybox killall system_server
+      fi
   else
     busybox touch /dev/COLD_REBOOT
 
