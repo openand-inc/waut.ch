@@ -47,7 +47,7 @@ static void set_watermark(int level);
 static void write_file( char file_name[], char value[] );
 static void read_file( char file_name[] );
 void read_char(void);
-int threshold=4000;
+int threshold=4032;
 
 #ifdef __ANDROID__
 
@@ -174,17 +174,22 @@ void *fn_sleep (void *ret)
 		FILE *fp = NULL;
         char buffer='o';
 
+		int fin, fout;
+		char input[10];
+	
 //   ioprio_set(IOPRIO_WHO_PROCESS, 0, IOPRIO_PRIO_VALUE(IOPRIO_CLASS_IDLE,7));
 
         while (1)
         {
-			fp = fopen("/sys/power/wait_for_fb_sleep", "r");
-        	if ( fp )
-        	{
+//			fp = fopen("/sys/power/wait_for_fb_sleep", "r");
+//        	if ( fp )
+       		fin = open("/sys/power/wait_for_fb_sleep", O_RDONLY|O_ASYNC|01000000); 
+			if ( fin >= 0 ) 
+			{
 			    buffer='o';
-//				fseek ( fp , 0, SEEK_SET );
-        	    buffer = fgetc(fp);
-				if ( buffer == 's' ) {
+//        	    buffer = fgetc(fp);
+				read(fin,input,1);
+//				if ( buffer == 's' ) {
 			      sleeping=1;                       
 				  unlink("AWAKE");
 				  write_file("SLEEPING","1");
@@ -210,21 +215,21 @@ void *fn_sleep (void *ret)
 				  read_file("/dev/random");
 				  read_char();
 				  read_file("/dev/random");
-				  governor_ondemand();
-				}
-			fclose(fp);
+				  governor_interactive();
+//				}
+//			fclose(fp);
+			close(fin);
             }
 			
-//			if ( fp != NULL ) { fp = NULL; }
-			
-//			sleep(1);
-
-			fp = fopen("/sys/power/wait_for_fb_wake", "r");
-	        if ( fp )
+//			fp = fopen("/sys/power/wait_for_fb_wake", "r");
+//	        if ( fp )
+       		fout = open("/sys/power/wait_for_fb_wake", O_RDONLY|O_ASYNC|01000000); 
+			if ( fout >= 0 ) 
         	{
 			    buffer='o';
-//				fseek ( fp , 0, SEEK_SET );                        	
-	            buffer = fgetc(fp);
+//	            buffer = fgetc(fp);
+				read(fout,input,1);
+
 		  		sleeping=0;
 				  unlink("SLEEPING");
 				  write_file("AWAKE","1");
@@ -256,7 +261,8 @@ void *fn_sleep (void *ret)
 //				 write_file("/proc/sys/vm/overcommit_memory","1");					
 			  	 write_file("/proc/sys/net/ipv4/icmp_echo_ignore_all","1");
 			     write_file("/proc/sys/net/ipv4/tcp_timestamps","0");
-			fclose(fp);
+//			fclose(fp);
+			close(fout);
             }
 			
 			sleep(30);
