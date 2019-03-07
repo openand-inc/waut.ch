@@ -47,7 +47,7 @@ static void set_watermark(int level);
 static void write_file( char file_name[], char value[] );
 static void read_file( char file_name[] );
 void read_char(void);
-int threshold=4032;
+int threshold=4000;
 
 #ifdef __ANDROID__
 
@@ -756,10 +756,15 @@ static void run_daemon(    /* RETURN: nothing   */
 	
    int count=0; int wait_time=10000; int ret=0;
       fd_set write_fd;
-	  
+
+	  struct timeval timeout;
+	   
+	  int current,nbytes,r;
+	   
+	nbytes = 16;
+	
    for(;;) { 
 	   	   
-	  int current,nbytes,r;
 /*	   
       count=1;
       for(count=1;count <= 1;count++) {
@@ -783,45 +788,34 @@ static void run_daemon(    /* RETURN: nothing   */
 //	  nbytes = (params->low_water - current) / 8;
 //	  nbytes = (4000 - current) / 8;
 //	  nbytes = (4000 - current) / 8;
-
-	  nbytes = 1;
-
-	  nbytes += 7;
 	   	   
       /* get that many random bytes */
       r = (nbytes+sizeof(H_UINT)-1)/sizeof(H_UINT);
       if (havege_rng(h, (H_UINT *)output->buf, r)<1) { 
 		  usleep(1000000); 
-#ifdef __ANDROID__
-		  if ( sleeping != 1 ) { sleep(1); continue; } 
-#endif
 	  }
 
       output->buf_size = nbytes;
       /* entropy is 8 bits per byte */
       output->entropy_count = nbytes * 8;
-
-	  struct timeval timeout;
-	   
-	  timeout.tv_sec = 1;
+/*
+  	  timeout.tv_sec = 1;
       timeout.tv_usec = 0;
-//      timeout.tv_usec = 333333;
-	   
+ 
 #ifdef __ANDROID__
 	   if ( sleeping == 1 ) {
 		wait_time = 30000;
 	  
-//	  timeout.tv_sec = 300;
-	  timeout.tv_sec = 1;
-      timeout.tv_usec = 0;
+	  timeout.tv_sec = 0;
+      timeout.tv_usec = 250000;
 		
 	} else {		   
-		   timeout.tv_sec = 1;
-		   timeout.tv_usec = 0;
-//		   timeout.tv_usec = 333333;
+		   timeout.tv_sec = 0;
+		   timeout.tv_usec = 250000;
 	}
 #endif
-
+*/
+	   
 /*	   
 // FOLLOWING IS RANDOM DEVICE
 	   
@@ -845,16 +839,26 @@ static void run_daemon(    /* RETURN: nothing   */
 	   
       FD_ZERO(&write_fd);
       FD_SET(random_fd, &write_fd);	  
+
 	   
       for(;;)  {
 
-//         int rc = select(random_fd+1, NULL, &write_fd, NULL, NULL);
+//       int rc = select(random_fd+1, NULL, &write_fd, NULL, NULL);
          int rc = select(random_fd+1, NULL, &write_fd, NULL, &timeout);
-
-		 if ( rc >= 0 ) break;
-//       if ( rc > 0 ) break;
+//Timeout
+		 if ( rc > 0 ) { nbytes = 8; 
+						 timeout.tv_sec = 0; timeout.tv_usec = 250000;
+						break; }
+		  
+	   	  nbytes = 16;
+ 		  timeout.tv_sec = 0; timeout.tv_usec = 1000000;
+  
+//Normal		  
+         if ( rc == 0 ) break; 
+		  
 //		 if ( ( rc == 0 ) && ( sleeping == 1 ) ) continue; 
-         if (errno != EINTR)
+//         if (errno != EINTR)
+         if ( rc < 0 )
 //            error_exit("Select error: %s", strerror(errno));
 			 goto carry_on;
          }
@@ -864,8 +868,8 @@ static void run_daemon(    /* RETURN: nothing   */
 	   current=0;
 	   if (ioctl(random_fd, RNDGETENTCNT, &current) == 0) {
 //		   if ( current >= ( threshold - 96 ) ) {
-		   if ( current >= ( threshold + 64 ) ) {
-//		   if ( current >= threshold ) {
+//		   if ( current >= ( threshold + 64 ) ) {
+		   if ( current >= threshold ) {
 //			   if ( current >= ( threshold + 96 ) ) read_file("/dev/random");
 			   usleep(100000);
 			   continue;
