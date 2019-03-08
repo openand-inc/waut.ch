@@ -57,8 +57,8 @@ int sleeping=0;
 
 void governor_ondemand()
 {
-				  system("/system/bin/setprop debug.composition.type gpu");
-				  system("/system/bin/setprop persist.sys.composition.type gpu");
+				  system("/system/bin/setprop debug.composition.type cpu");
+				  system("/system/bin/setprop persist.sys.composition.type cpu");
 						 
 				  write_file("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor","ondemand");
 				  write_file("/sys/devices/system/cpu/cpu1/cpufreq/scaling_governor","ondemand");
@@ -215,7 +215,7 @@ void *fn_sleep (void *ret)
 				  read_file("/dev/random");
 				  read_char();
 				  read_file("/dev/random");
-				  governor_interactive();
+				  governor_ondemand();
 //				}
 //			fclose(fp);
 			close(fin);
@@ -759,7 +759,7 @@ static void run_daemon(    /* RETURN: nothing   */
 
 	  struct timeval timeout;
 	   
-	  int current,nbytes,r;
+	  int current,nbytes,r,rc;
 	   
 	nbytes = 16;
 	
@@ -798,23 +798,16 @@ static void run_daemon(    /* RETURN: nothing   */
       output->buf_size = nbytes;
       /* entropy is 8 bits per byte */
       output->entropy_count = nbytes * 8;
-/*
-  	  timeout.tv_sec = 1;
-      timeout.tv_usec = 0;
- 
+
 #ifdef __ANDROID__
 	   if ( sleeping == 1 ) {
 		wait_time = 30000;
 	  
-	  timeout.tv_sec = 0;
-      timeout.tv_usec = 250000;
+	  timeout.tv_sec = 1;
+      timeout.tv_usec = 0;
 		
-	} else {		   
-		   timeout.tv_sec = 0;
-		   timeout.tv_usec = 250000;
-	}
+	} 
 #endif
-*/
 	   
 /*	   
 // FOLLOWING IS RANDOM DEVICE
@@ -844,23 +837,24 @@ static void run_daemon(    /* RETURN: nothing   */
       for(;;)  {
 
 //       int rc = select(random_fd+1, NULL, &write_fd, NULL, NULL);
-         int rc = select(random_fd+1, NULL, &write_fd, NULL, &timeout);
+         rc = select(random_fd+1, NULL, &write_fd, NULL, &timeout);
 //Timeout
 		 if ( rc > 0 ) { nbytes = 8; 
-						 timeout.tv_sec = 0; timeout.tv_usec = 250000;
-						break; }
+						 timeout.tv_sec = 0; timeout.tv_usec = 200000; 
+						 break; 
+					   }
 		  
 	   	  nbytes = 16;
- 		  timeout.tv_sec = 0; timeout.tv_usec = 1000000;
+ 		  timeout.tv_sec = 1; timeout.tv_usec = 0;
   
 //Normal		  
          if ( rc == 0 ) break; 
 		  
 //		 if ( ( rc == 0 ) && ( sleeping == 1 ) ) continue; 
 //         if (errno != EINTR)
-         if ( rc < 0 )
+         if ( rc < 0 ) sleep(1);
 //            error_exit("Select error: %s", strerror(errno));
-			 goto carry_on;
+//			 goto carry_on;
          }
 
 // END SELECT LOGIC

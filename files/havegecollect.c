@@ -47,71 +47,35 @@
  * Provide a generic timer fallback
  */
 
-/* Credits https://en.wikipedia.org/wiki/Xorshift */
-
-uint64_t x, y;
-
-
-static void set_S_0(void)
+/*
+static uint64_t havege_clock_old(void)
 {
-	struct timespec ts_I, ts_II;
+   struct timespec ts;
 
-	clock_gettime(CLOCK_REALTIME, &ts_I);
-	clock_gettime(CLOCK_REALTIME, &ts_II);
-	
-	x = ts_I.tv_nsec;
-	y = ts_II.tv_nsec;
-		
+   clock_gettime(CLOCK_REALTIME, &ts);
+   return ts.tv_nsec + ts.tv_sec * 1000000000LL;
 }
+*/
+
+/* Credits https://en.wikipedia.org/wiki/Xorshift */
 
 static uint64_t havege_clock(void)
 {
-	unsigned int count = 0;
-    static int init = 0;
-	static int z=0;
 	
-	if ( init == 0 ) {
-//		set_S_0();
-//		x = 22337203685;
-//		y = 74586302733;
+		uint64_t x, y;
+		struct timespec ts_I, ts_II;
 
-		for ( count = 1; count <= 4; count++ )
-		  srandom(random());
-		
-		x = random();
-		y = random();
-
-		z = ( random() * 16 ) / RAND_MAX;
-	}
+		clock_gettime(CLOCK_REALTIME, &ts_I);
+		clock_gettime(CLOCK_REALTIME, &ts_II);
 	
-	if ( z <= 0 ) z=16;
-	
-	if ( z > 16 ) z=16;
-	
-	init++;
-		
-	x = x  + ( y * 1000000000LL );
-	
-	for ( count = 1; count <= ( 16 + z ) ; count++ ) {
-		
-    if ( init <= 5 ) { 
-		if ( count == ( 8 + z ) ) continue; 
-//		if ( ( count > 64 ) && ( ( count / 2 ) == 1 ) && ( ( init / 2 ) == 1 ) ) continue;
-	} else init = 2;
-		
-// "Or something"		
-		
+		x = ts_I.tv_nsec  + ( ts_II.tv_nsec * 1000000000LL );
+					
 		x ^= x >> 12; // a
 		x ^= x << 25; // b
 		x ^= x >> 27; // c
 		
-		x = x * UINT64_C(2685821657736338717);
+		return x * 0x2545F4914F6CDD1D;
 	
-//fprintf(stderr,"x = %llu ; y = %llu ; z = %llu ; w = %llu", x, y, z, w);	
-	}	
-
-//fprintf(stderr,"x = %llu ; count = %d", x, count);	
-	return x;
 }
 #endif
 
