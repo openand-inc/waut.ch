@@ -25,7 +25,7 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null | busybox cut -d: -f1 2>/dev/null)
 
-if [ "x$(GETPROP cb.92d6d8e3.run 2>/dev/null)" = "x" ]; then 
+if [ "x$(GETPROP cb.9aca3954.run 2>/dev/null)" = "x" ]; then 
   busybox rm -f /dev/COLD_REBOOT
   busybox rm -f /data/property/persist.cb.run 
   busybox rm -f /data/data/ch.waut/files/bin/cb_reboot.sh
@@ -33,8 +33,9 @@ if [ "x$(GETPROP cb.92d6d8e3.run 2>/dev/null)" = "x" ]; then
   SETPROP persist.cb_reboot.enabled FALSE
 fi
 
-  if [ "x$(GETPROP cb.92d6d8e3.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
+  if [ "x$(GETPROP cb.9aca3954.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
     SYSCTL vm.vfs_cache_pressure=1	
+    SYSCTL vm.vfs_cache_pressure=9000000000	
 	SYSCTL kernel.random.read_wakeup_threshold=4000
 	SYSCTL kernel.random.write_wakeup_threshold=4000
 	busybox touch /proc/sys/kernel/random/entropy_avail
@@ -51,7 +52,7 @@ fi
     return 0
   fi
 
-SETPROP cb.92d6d8e3.run ${HOUR_NOW} 
+SETPROP cb.9aca3954.run ${HOUR_NOW} 
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
@@ -110,7 +111,7 @@ SYSCTL kernel.panic=0
 #SYSCTL vm.vfs_cache_pressure=32767
 
 SYSCTL vm.vfs_cache_pressure=1
-#SYSCTL vm.vfs_cache_pressure=9000000000
+SYSCTL vm.vfs_cache_pressure=9000000000
 
 #SYSCTL vm.vfs_cache_pressure=65536
 #SYSCTL vm.vfs_cache_pressure=1000
