@@ -42,6 +42,7 @@ VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox awk -F\. '{ pri
 BOOT_ID=$(busybox cat /proc/sys/kernel/random/boot_id 2>/dev/null)
 
     SYSCTL vm.vfs_cache_pressure=1	
+    SYSCTL vm.vfs_cache_pressure=9000000000
 	SYSCTL kernel.random.read_wakeup_threshold=4000
 	SYSCTL kernel.random.write_wakeup_threshold=4000
 	busybox touch /proc/sys/kernel/random/entropy_avail

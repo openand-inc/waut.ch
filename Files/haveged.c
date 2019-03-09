@@ -252,8 +252,8 @@ void *fn_sleep (void *ret)
 //				 set_low_watermark(8);
 //				 set_watermark(320);				
 //				  write_file("/proc/sys/vm/drop_caches","1");
-			  	 write_file("/proc/sys/vm/vfs_cache_pressure","9000000000");
 			  	 write_file("/proc/sys/vm/vfs_cache_pressure","1");
+			  	 write_file("/proc/sys/vm/vfs_cache_pressure","9000000000");
 				 write_file("/proc/sys/vm/dirty_ratio","99");
 				 write_file("/proc/sys/vm/dirty_background_ratio","1");
 //				 write_file("/proc/sys/vm/overcommit_ratio","51");
