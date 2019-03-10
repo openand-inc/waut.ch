@@ -13,7 +13,7 @@ Sub Process_Globals
 	'These variables can be accessed from all modules.
 
 	Dim rc As RootCmd
-	Dim fs As MLfiles
+'	Dim fs As MLfiles
 	
 '	Dim PE As PhoneEvents
 
@@ -33,9 +33,9 @@ Sub Service_Create
 End Sub
 
 Sub myStart
-	fs.GetRoot
+'	fs.GetRoot
 	If rc.haveRoot Then
-		fs.GetRoot
+'		fs.GetRoot
 
 		File.MakeDir(File.DirInternal, "bin")
 		File.Copy(File.DirAssets,"busybox",File.DirInternal,"/bin/busybox")
@@ -52,22 +52,23 @@ Sub myStart
 '		File.Copy(File.DirAssets,"cb_sync.sh",File.DirInternal,"/bin/cb_sync.sh")
 '		File.Copy(File.DirAssets,"HOUR",File.DirInternal,"/bin/HOUR")
 
-		fs.chmod(File.DirInternal & "/bin/busybox",755)
+'		fs.chmod(File.DirInternal & "/bin/busybox",755)
 		rc.execRootCmdSilent( "/system/bin/toolbox chmod -R 755 " & File.DirInternal & "/bin" )
 		rc.execRootCmdSilent( "/system/bin/toolbox chmod 755 " & File.DirInternal & "/bin/busybox" )
 		
 		rc.execRootCmdSilent("/system/bin/toolbox chmod -R 755 " & File.DirInternal & "/bin")
 		rc.execRootCmdSilent("/system/bin/toolbox chmod 755 " & File.DirInternal & "/bin/busybox")
 		
-		fs.chmod(File.DirInternal & "/bin/cb_runhaveged",755)
-		fs.chmod(File.DirInternal & "/bin/haveged",755)
-		fs.chmod(File.DirInternal & "/bin/sqlite3",755)
-		fs.chmod(File.DirInternal & "/bin/cb.sh",755)
-		fs.chmod(File.DirInternal & "/bin/cb_init.sh",755)
-		fs.chmod(File.DirInternal & "/bin/cb_io.sh",755)
-		fs.chmod(File.DirInternal & "/bin/cb_networking.sh",755)
-		fs.chmod(File.DirInternal & "/bin/cb_weekly.sh",755)
-		fs.chmod(File.DirInternal & "/bin/cb_reboot.sh",755)
+'		fs.chmod(File.DirInternal & "/bin/cb_runhaveged",755)
+'		fs.chmod(File.DirInternal & "/bin/haveged",755)
+'		fs.chmod(File.DirInternal & "/bin/sqlite3",755)
+'		fs.chmod(File.DirInternal & "/bin/cb.sh",755)
+'		fs.chmod(File.DirInternal & "/bin/cb_init.sh",755)
+'		fs.chmod(File.DirInternal & "/bin/cb_io.sh",755)
+'		fs.chmod(File.DirInternal & "/bin/cb_networking.sh",755)
+'		fs.chmod(File.DirInternal & "/bin/cb_weekly.sh",755)
+'		fs.chmod(File.DirInternal & "/bin/cb_reboot.sh",755)
+
 '		fs.chmod(File.DirInternal & "/bin/cb_sync.sh",755)
 '		fs.chmod(File.DirInternal & "/bin/HOUR",644)
 		
