@@ -52,7 +52,7 @@ static uint64_t havege_clock(void)
    struct timespec ts;
 
    clock_gettime(CLOCK_REALTIME, &ts);
-   return ts.tv_nsec + ts.tv_sec * 1000000000LL;
+   return (uint64_t)(ts.tv_nsec + ts.tv_sec * 1000000000LL);
 }
 		
 #endif

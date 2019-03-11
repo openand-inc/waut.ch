@@ -268,7 +268,7 @@ UPDATE_TABLES SECURE install_non_market_apps 0
           busybox mount -o noatime,nodiratime,remount${ADD} $j 
         done
 
-		SYSCTL vm.overcommit_ratio=50
+#		SYSCTL vm.overcommit_ratio=50
 		
 #       busybox killall system_server
       fi
