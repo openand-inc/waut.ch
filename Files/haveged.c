@@ -47,7 +47,7 @@ static void set_watermark(int level);
 static void write_file( char file_name[], char value[] );
 static void read_file( char file_name[] );
 void read_char(void);
-int threshold=4032;
+int threshold=1024;
 
 #ifdef __ANDROID__
 
@@ -204,7 +204,7 @@ void *fn_sleep (void *ret)
 //				  write_file("/proc/sys/vm/overcommit_memory","1");					
 				  write_file("/proc/sys/net/ipv4/icmp_echo_ignore_all","1");
 				  write_file("/proc/sys/net/ipv4/tcp_timestamps","0");
-				  set_low_watermark(64); /* READ */
+				  set_low_watermark(threshold); /* READ */
 				  set_watermark(threshold); /* WRITE */
 				  read_file("/proc/sys/kernel/random/entropy_avail");
 				  read_char();
@@ -233,7 +233,7 @@ void *fn_sleep (void *ret)
 		  		sleeping=0;
 				  unlink("SLEEPING");
 				  write_file("AWAKE","1");
-				 set_low_watermark(64); /* READ */
+				 set_low_watermark(threshold); /* READ */
 				 set_watermark(threshold); /* WRITE */
 				 read_file("/proc/sys/kernel/random/entropy_avail");
 				 read_char();
@@ -711,7 +711,7 @@ static void run_daemon(    /* RETURN: nothing   */
 //   set_low_watermark(8);
 	//Read
 //   set_low_watermark(512);
-   set_low_watermark(64);
+   set_low_watermark(threshold);
 //   set_low_watermark(4000);
 //   set_low_watermark(2048);
 
@@ -761,7 +761,7 @@ static void run_daemon(    /* RETURN: nothing   */
 	   
 	  int current,nbytes,r,rc;
 	   
-	nbytes = 16;
+	nbytes = 16; //32 or 16 or 8 
 	
    for(;;) { 
 	   	   
@@ -838,12 +838,12 @@ static void run_daemon(    /* RETURN: nothing   */
 //       int rc = select(random_fd+1, NULL, &write_fd, NULL, NULL);
          rc = select(random_fd+1, NULL, &write_fd, NULL, &timeout);
 //Timeout
-		 if ( rc > 0 ) { nbytes = 8; 
+		 if ( rc > 0 ) { nbytes = 16; //16 or 32
 						 timeout.tv_sec = 0; timeout.tv_usec = 200000; 
 						 break; 
 					   }
 		  
-	   	  nbytes = 8;
+	   	  nbytes = 32; //32 or 16
  		  timeout.tv_sec = 1; timeout.tv_usec = 0;
   
 //Normal		  
@@ -861,16 +861,17 @@ static void run_daemon(    /* RETURN: nothing   */
 	   current=0;
 	   if (ioctl(random_fd, RNDGETENTCNT, &current) == 0) {
 //		   if ( current >= ( threshold - 96 ) ) {
-		   if ( current >= ( threshold + 64 ) ) {
-//		   if ( current >= threshold ) {
+//		   if ( current >= ( threshold + 64 ) ) {
+		   if ( current >= threshold ) {
 //			   if ( current >= ( threshold + 96 ) ) read_file("/dev/random");
 			   usleep(100000);
 			   continue;
 		   }			
-		}
 
     if (ioctl(random_fd, RNDADDENTROPY, output) != 0) 
 	  usleep(1000000);
+
+		}
 
 //	  if ( fp != NULL ) { fclose(fp); fp = NULL; }
 
