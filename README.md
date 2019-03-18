@@ -60,4 +60,4 @@ Havged source code:
 
 https://github.com/Openand-I/haveged
 
-Donation Link: https://paypal.me/openand/5
+Payment URL: https://paypal.me/openand/10
