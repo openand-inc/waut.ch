@@ -42,9 +42,9 @@ VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox awk -F\. '{ pri
 BOOT_ID=$(busybox cat /proc/sys/kernel/random/boot_id 2>/dev/null)
 
     SYSCTL vm.vfs_cache_pressure=1	
-    SYSCTL vm.vfs_cache_pressure=9000000000
-	SYSCTL kernel.random.read_wakeup_threshold=1024
-	SYSCTL kernel.random.write_wakeup_threshold=1024
+    SYSCTL vm.vfs_cache_pressure=10000
+	SYSCTL kernel.random.read_wakeup_threshold=4008
+	SYSCTL kernel.random.write_wakeup_threshold=4008
 	busybox touch /proc/sys/kernel/random/entropy_avail
 	busybox touch /dev/random 
 	busybox dd if=/dev/random of=/dev/null bs=1 count=1
@@ -80,9 +80,9 @@ busybox fstrim -v /data
 busybox fstrim -v /sdcard
 #busybox fstrim -v /cache
 
-#busybox sysctl -w vm.drop_caches=1
+busybox sysctl -w vm.drop_caches=1
 
-#busybox sync
+busybox sync
 
 # ECHO 64 > /proc/sys/kernel/random/write_wakeup_threshold
 # ECHO 64 > /proc/sys/kernel/random/read_wakeup_threshold

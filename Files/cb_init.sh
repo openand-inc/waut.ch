@@ -257,6 +257,9 @@ UPDATE_TABLES SECURE install_non_market_apps 0
           busybox mount -o commit=1,remount${ADD} $j 
           busybox mount -o barrier=0,remount${ADD} $j 
           busybox mount -o noatime,nodiratime,remount${ADD} $j 
+
+#          busybox mount -o journal_checksum,journal_async_commit,remount${ADD} $j 
+		  		  
         done
 
         for j in $(busybox mount 2>/dev/null | busybox awk '{ print $3 }' 2>/dev/null); do
@@ -266,7 +269,10 @@ UPDATE_TABLES SECURE install_non_market_apps 0
           busybox mount -o commit=1,remount${ADD} $j 
           busybox mount -o barrier=0,remount${ADD} $j 
           busybox mount -o noatime,nodiratime,remount${ADD} $j 
-        done
+
+#          busybox mount -o journal_checksum,journal_async_commit,remount${ADD} $j 
+
+		done
 
 #		SYSCTL vm.overcommit_ratio=50
 		
