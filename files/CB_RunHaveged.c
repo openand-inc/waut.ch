@@ -29,13 +29,13 @@ if (pipe(fd) < 0) return 1;
 //char *const parmList[] = {"/data/data/ch.waut/files/bin/haveged", "-F", "-o", "tbca8wbw", NULL}; 
 //char *const parmList[] = {"/data/data/ch.waut/files/bin/haveged", "-F", "-o", "tba8cba8", NULL}; 
 //char *const parmList[] = {"/data/data/ch.waut/files/bin/haveged", "-F", "-o", "ta8bcb", NULL}; 
-char *const parmList[] = {"/data/data/ch.waut/files/bin/haveged", "-F", "-o", "tabcb", NULL}; 
+char *const parmList[] = {"/data/data/ch.waut/files/bin/haveged", "-F", "-o", "tba8cbw", "-v", "1", NULL}; 
 //char *const parmList[] = {"/data/data/ch.waut/files/bin/haveged", "-F", "-o", "ta8wbwcbw", NULL}; 
 //char *const parmList[] = {"/data/data/ch.waut/files/bin/haveged", "-F", NULL}; 
 char *const envParms[2] = {"", NULL};
 int i=1;
 loop:
-if ( i >=16 ) return 1; 
+if ( i >=32768 ) return 1; 
 i++;
 if ((pid = fork()) ==-1) 
   perror("fork error"); 
@@ -46,6 +46,6 @@ else if (pid == 0)
   execve("/data/data/ch.waut/files/bin/haveged", parmList, envParms); 
   printf("Return not expected. Must be an execve error"); 
  }
- else { wait(NULL); sleep(i);goto loop; }
+ else { wait(NULL); sleep(5);goto loop; }
 }
 

@@ -47,7 +47,7 @@ static void set_watermark(int level);
 static void write_file( char file_name[], char value[] );
 static void read_file( char file_name[] );
 void read_char(void);
-int threshold=1024;
+int threshold=4008;
 
 #ifdef __ANDROID__
 
@@ -306,7 +306,7 @@ static struct pparams defaults = {
   .os_rel         = "/proc/sys/kernel/osrelease",
   .pid_file       = PID_DEFAULT,
   .poolsize       = "/proc/sys/kernel/random/poolsize",
-//  .random_device  = "/dev/entropy/random",
+//  .random_device  = "/dev/entropy/urandom",
   .random_device  = "/dev/random",
   .sample_in      = INPUT_DEFAULT,
   .sample_out     = OUTPUT_DEFAULT,
@@ -714,7 +714,9 @@ static void run_daemon(    /* RETURN: nothing   */
    set_low_watermark(threshold);
 //   set_low_watermark(4000);
 //   set_low_watermark(2048);
-
+really_carry_on:
+	;;
+	
    struct stat status = { 0 };
 
 //1
@@ -761,7 +763,7 @@ static void run_daemon(    /* RETURN: nothing   */
 	   
 	  int current,nbytes,r,rc;
 	   
-	nbytes = 16; //32 or 16 or 8 
+	nbytes = 8; // 12 / 16
 	
    for(;;) { 
 	   	   
@@ -838,22 +840,16 @@ static void run_daemon(    /* RETURN: nothing   */
 //       int rc = select(random_fd+1, NULL, &write_fd, NULL, NULL);
          rc = select(random_fd+1, NULL, &write_fd, NULL, &timeout);
 //Timeout
-		 if ( rc > 0 ) { nbytes = 16; //16 or 32
-						 timeout.tv_sec = 0; timeout.tv_usec = 200000; 
-						 break; 
-					   }
-		  
-	   	  nbytes = 32; //32 or 16
- 		  timeout.tv_sec = 1; timeout.tv_usec = 0;
-  
+		 if ( rc > 0 ) {  count = 0; break; }
+		  			  
 //Normal		  
-         if ( rc == 0 ) break; 
+         if ( rc == 0 ) { count = 1 ; break; }
 		  
 //		 if ( ( rc == 0 ) && ( sleeping == 1 ) ) continue; 
 //         if (errno != EINTR)
-         if ( rc < 0 ) sleep(1);
+         if ( rc < 0 ) { count = 2 ; sleep(7); close(random_fd); sleep(7); goto really_carry_on; }
 //            error_exit("Select error: %s", strerror(errno));
-//			 goto carry_on;
+			 
          }
 
 // END SELECT LOGIC
@@ -865,7 +861,7 @@ static void run_daemon(    /* RETURN: nothing   */
 		   if ( current >= threshold ) {
 //			   if ( current >= ( threshold + 96 ) ) read_file("/dev/random");
 			   usleep(100000);
-			   continue;
+			   goto carry_on;
 		   }			
 
     if (ioctl(random_fd, RNDADDENTROPY, output) != 0) 
@@ -876,8 +872,17 @@ static void run_daemon(    /* RETURN: nothing   */
 //	  if ( fp != NULL ) { fclose(fp); fp = NULL; }
 
 carry_on:
-	
-	   ;;
+	   
+	   if ( count == 0 ) {
+		   nbytes == 8 ? ( nbytes=9 ) : ( nbytes=8 );
+		   timeout.tv_sec = 0; timeout.tv_usec = 200000;
+	   }
+	   else
+	   {
+		  nbytes == 9 ? ( nbytes=10 ) : ( nbytes=9 );
+ 		  timeout.tv_sec = 1; timeout.tv_usec = 0;
+	   }
+
 //	usleep(1000); 
 
     }
