@@ -43,8 +43,11 @@ busybox mount -t debugfs -o rw none /sys/kernel/debug
 
 if [ -e /sys/kernel/debug/sched_features ]; then
   ECHO NO_NORMALIZED_SLEEPER > /sys/kernel/debug/sched_features 
-  ECHO GENTLE_FAIR_SLEEPERS > /sys/kernel/debug/sched_features 
+  ECHO NO_GENTLE_FAIR_SLEEPERS > /sys/kernel/debug/sched_features 
   ECHO NO_NEW_FAIR_SLEEPERS > /sys/kernel/debug/sched_features 
+  ECHO NO_FAIR_SLEEPERS > /sys/kernel/debug/sched_features 
+  ECHO NO_WAKEUP_PREEMPT > /sys/kernel/debug/sched_features
+  ECHO NO_AFFINE_WAKEUPS > /sys/kernel/debug/sched_features 
 fi
 
 busybox umount /sys/kernel/debug 
@@ -53,14 +56,14 @@ busybox umount -l /sys/kernel/debug
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name read_ahead_kb 2>/dev/null); do ECHO 0 | busybox tee $i; done
 
-for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do ECHO 128 | busybox tee $i ; done
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do ECHO 64 | busybox tee $i ; done
 #for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do ECHO 64 | busybox tee $i ; done
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name rq_affinity 2>/dev/null); do ECHO 1 | busybox tee $i ; done
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name rotational 2>/dev/null); do ECHO 0 | busybox tee $i ; done
-for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nomerges 2>/dev/null); do ECHO 0 | busybox tee $i ; done
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nomerges 2>/dev/null); do ECHO 1 | busybox tee $i ; done
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name iostats 2>/dev/null); do ECHO 0 | busybox tee $i ; done
-#for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name low_latency 2>/dev/null); do ECHO 1 | busybox tee $i ; done
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name low_latency 2>/dev/null); do ECHO 1 | busybox tee $i ; done
 
 #for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name discard_max_bytes 2>/dev/null); do ECHO 4096 | busybox tee $i ; done
 
@@ -104,7 +107,7 @@ fi
 
 cd ${APP}
 
-SYSCTL vm.overcommit_ratio=49
-ECHO 49 | busybox tee /proc/sys/vm/overcommit_ratio
+SYSCTL vm.overcommit_ratio=50
+ECHO 50 | busybox tee /proc/sys/vm/overcommit_ratio
 
 SYSCTL vm.overcommit_memory=1

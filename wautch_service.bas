@@ -48,7 +48,7 @@ Sub myStart
 		File.Copy(File.DirAssets,"cb_io.sh",File.DirInternal,"/bin/cb_io.sh")
 		File.Copy(File.DirAssets,"cb_networking.sh",File.DirInternal,"/bin/cb_networking.sh")
 		File.Copy(File.DirAssets,"cb_weekly.sh",File.DirInternal,"/bin/cb_weekly.sh")
-		File.Copy(File.DirAssets,"cb_reboot.sh",File.DirInternal,"/bin/cb_reboot.sh")
+'		File.Copy(File.DirAssets,"cb_reboot.sh",File.DirInternal,"/bin/cb_reboot.sh")
 '		File.Copy(File.DirAssets,"cb_sync.sh",File.DirInternal,"/bin/cb_sync.sh")
 '		File.Copy(File.DirAssets,"HOUR",File.DirInternal,"/bin/HOUR")
 
@@ -80,7 +80,7 @@ Sub myStart
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_io.sh" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_networking.sh" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_weekly.sh" )
-		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_reboot.sh" )
+'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_reboot.sh" )
 '		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_sync.sh" )
 
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox dos2unix " & File.DirInternal & "/bin/cb.sh" )
@@ -88,7 +88,7 @@ Sub myStart
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox dos2unix " & File.DirInternal & "/bin/cb_io.sh" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox dos2unix " & File.DirInternal & "/bin/cb_networking.sh" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox dos2unix " & File.DirInternal & "/bin/cb_weekly.sh" )
-		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox dos2unix " & File.DirInternal & "/bin/cb_reboot.sh" )
+'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox dos2unix " & File.DirInternal & "/bin/cb_reboot.sh" )
 		
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chown 0.0 " & File.DirInternal & "/bin/*" )
 '		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chown 0.0 " & File.DirInternal & "/bin/HOUR" )

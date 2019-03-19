@@ -151,8 +151,6 @@ anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Com
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_networking.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_networking.sh");
  //BA.debugLineNum = 44;BA.debugLine="File.Copy(File.DirAssets,\"cb_weekly.sh\",File.Dir";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_weekly.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_weekly.sh");
- //BA.debugLineNum = 45;BA.debugLine="File.Copy(File.DirAssets,\"cb_reboot.sh\",File.Dir";
-anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_reboot.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_reboot.sh");
  //BA.debugLineNum = 50;BA.debugLine="rc.execRootCmdSilent( \"/system/bin/toolbox chmod";
 _v5.execRootCmdSilent("/system/bin/toolbox chmod -R 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin");
  //BA.debugLineNum = 51;BA.debugLine="rc.execRootCmdSilent( \"/system/bin/toolbox chmod";
@@ -177,8 +175,6 @@ _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()
 _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_networking.sh");
  //BA.debugLineNum = 76;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
 _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_weekly.sh");
- //BA.debugLineNum = 77;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
-_v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_reboot.sh");
  //BA.debugLineNum = 80;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
 _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox dos2unix "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb.sh");
  //BA.debugLineNum = 81;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
@@ -189,8 +185,6 @@ _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()
 _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox dos2unix "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_networking.sh");
  //BA.debugLineNum = 84;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
 _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox dos2unix "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_weekly.sh");
- //BA.debugLineNum = 85;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
-_v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox dos2unix "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_reboot.sh");
  //BA.debugLineNum = 87;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
 _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chown 0.0 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/*");
  //BA.debugLineNum = 112;BA.debugLine="rc.execRootCmd( File.DirInternal & \"/bin/busybox";

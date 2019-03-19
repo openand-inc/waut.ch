@@ -48,14 +48,14 @@ SYSCTL net.ipv4.tcp_tw_recycle=1
 SYSCTL net.ipv4.tcp_tw_reuse=1
 SYSCTL net.ipv4.tcp_moderate_rcvbuf=1
 SYSCTL net.ipv4.tcp_low_latency=1
-SYSCTL net.ipv4.tcp_slow_start_after_idle=0
+SYSCTL net.ipv4.tcp_slow_start_after_idle=1
 SYSCTL net.ipv4.tcp_window_scaling=1
 SYSCTL net.ipv4.tcp_sack=1
 SYSCTL net.ipv4.tcp_fack=1
 SYSCTL net.ipv4.tcp_dsack=1
 SYSCTL net.ipv4.tcp_thin_dupack=1
-SYSCTL net.ipv4.tcp_thin_linear_timeouts=0
-SYSCTL net.ipv4.tcp_ecn=0
+SYSCTL net.ipv4.tcp_thin_linear_timeouts=1
+SYSCTL net.ipv4.tcp_ecn=1
 SYSCTL net.ipv4.tcp_no_metrics_save=1
 
 SYSCTL net.core.somaxconn=256
@@ -64,29 +64,29 @@ SYSCTL net.core.netdev_max_backlog=256
 #SYSCTL net.netfilter.nf_conntrack_tcp_timeout_established=300
 SYSCTL net.netfilter.nf_conntrack_tcp_timeout_fin_wait=30
 SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close_wait=30
-#SYSCTL net.netfilter.nf_conntrack_tcp_timeout_last_ack=30
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_last_ack=30
 SYSCTL net.netfilter.nf_conntrack_tcp_timeout_time_wait=30
 SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close=30
 
 #SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_established=300
 SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait=30
 SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait=30
-#SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_last_ack=30
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_last_ack=30
 SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait=30
 SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close=30
 
 SYSCTL net.ipv4.tcp_fin_timeout=30
 
-#SYSCTL net.ipv4.tcp_keepalive_time=60
-#SYSCTL net.ipv4.tcp_keepalive_probes=1
-#SYSCTL net.ipv4.tcp_keepalive_intvl=60
+SYSCTL net.ipv4.tcp_keepalive_time=180
+SYSCTL net.ipv4.tcp_keepalive_probes=3
+SYSCTL net.ipv4.tcp_keepalive_intvl=180
 
 SYSCTL net.ipv4.tcp_syn_retries=1
 SYSCTL net.ipv4.tcp_synack_retries=1
 SYSCTL net.ipv4.tcp_syncookies=0
 SYSCTL net.ipv4.tcp_max_syn_backlog=1
 
-#SYSCTL net.ipv4.ip_local_port_range='2048 64000'
+SYSCTL net.ipv4.ip_local_port_range='1025 64000'
 
 SETPROP net.tcp.buffersize.default 768,7168,71680,768,7168,71680
 SETPROP net.tcp.buffersize.evdo 768,7168,71680,768,7168,71680
