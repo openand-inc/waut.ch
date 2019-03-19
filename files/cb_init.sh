@@ -202,7 +202,7 @@ SETPROP ro.media.enc.jpeg.quality 100
 
 SETPROP pm.sleep_mode 1
 
-SETPROP wifi.supplicant_scan_interval 45
+SETPROP wifi.supplicant_scan_interval 180
 
 #SETPROP wifi.supplicant_scan_interval 0
 
@@ -258,7 +258,7 @@ UPDATE_TABLES SECURE install_non_market_apps 0
           busybox mount -o barrier=0,remount${ADD} $j 
           busybox mount -o noatime,nodiratime,remount${ADD} $j 
 
-#          busybox mount -o journal_checksum,journal_async_commit,remount${ADD} $j 
+          busybox mount -o journal_checksum,journal_async_commit,remount${ADD} $j 
 		  		  
         done
 
@@ -270,11 +270,11 @@ UPDATE_TABLES SECURE install_non_market_apps 0
           busybox mount -o barrier=0,remount${ADD} $j 
           busybox mount -o noatime,nodiratime,remount${ADD} $j 
 
-#          busybox mount -o journal_checksum,journal_async_commit,remount${ADD} $j 
+          busybox mount -o journal_checksum,journal_async_commit,remount${ADD} $j 
 
 		done
 
-#		SYSCTL vm.overcommit_ratio=50
+		SYSCTL vm.overcommit_ratio=50
 		
 #       busybox killall system_server
       fi
