@@ -1,5 +1,3 @@
-Version Notes
-
 Version 102
 
 ---------
