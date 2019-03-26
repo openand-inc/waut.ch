@@ -3,7 +3,7 @@
 ARG=$1
 
 if [ "x$ARG" = "xRUN" ]; then
-  cd /data/data/ch.waut/files/bin && PATH=. busybox nice -n +5 busybox sh -x cb_networking.sh $2 > ../cb_networking.log 2>&1 &
+  cd /data/data/ch.waut/files/bin && PATH=. busybox nice -n +5 busybox sh -x cb_networking.sh $2 > /data/data/ch.waut/files/cb_networking.log 2>&1 &
   return 0
 fi
 
@@ -47,8 +47,8 @@ SETPROP persist.telephony.support.ipv4 1
 SYSCTL net.ipv4.tcp_tw_recycle=1
 SYSCTL net.ipv4.tcp_tw_reuse=1
 SYSCTL net.ipv4.tcp_moderate_rcvbuf=1
-SYSCTL net.ipv4.tcp_low_latency=1
-SYSCTL net.ipv4.tcp_slow_start_after_idle=1
+SYSCTL net.ipv4.tcp_low_latency=0
+SYSCTL net.ipv4.tcp_slow_start_after_idle=0
 SYSCTL net.ipv4.tcp_window_scaling=1
 SYSCTL net.ipv4.tcp_sack=1
 SYSCTL net.ipv4.tcp_fack=1
@@ -58,8 +58,8 @@ SYSCTL net.ipv4.tcp_thin_linear_timeouts=1
 SYSCTL net.ipv4.tcp_ecn=1
 SYSCTL net.ipv4.tcp_no_metrics_save=1
 
-SYSCTL net.core.somaxconn=256
-SYSCTL net.core.netdev_max_backlog=256
+SYSCTL net.core.somaxconn=1024
+SYSCTL net.core.netdev_max_backlog=1024
 
 #SYSCTL net.netfilter.nf_conntrack_tcp_timeout_established=300
 SYSCTL net.netfilter.nf_conntrack_tcp_timeout_fin_wait=30
@@ -78,7 +78,7 @@ SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close=30
 SYSCTL net.ipv4.tcp_fin_timeout=30
 
 SYSCTL net.ipv4.tcp_keepalive_time=180
-SYSCTL net.ipv4.tcp_keepalive_probes=3
+SYSCTL net.ipv4.tcp_keepalive_probes=10
 SYSCTL net.ipv4.tcp_keepalive_intvl=180
 
 SYSCTL net.ipv4.tcp_syn_retries=1
