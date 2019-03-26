@@ -47,7 +47,7 @@ static void set_watermark(int level);
 static void write_file( char file_name[], char value[] );
 static void read_file( char file_name[] );
 void read_char(void);
-int threshold=4016;
+int threshold=3968;
 
 #ifdef __ANDROID__
 
@@ -195,14 +195,14 @@ void *fn_sleep (void *ret)
 				  write_file("SLEEPING","1");
 				  sync();
 				  write_file("/proc/sys/vm/drop_caches","1");
-			  	 write_file("/proc/sys/vm/vfs_cache_pressure","9000000000");
-//			  	 write_file("/proc/sys/vm/vfs_cache_pressure","10000");
+//			  	 write_file("/proc/sys/vm/vfs_cache_pressure","9000000000");
+			  	 write_file("/proc/sys/vm/vfs_cache_pressure","10000");
 				  write_file("/proc/sys/vm/vfs_cache_pressure","0");
 				  write_file("/proc/sys/vm/dirty_ratio","100");
 				  write_file("/proc/sys/vm/dirty_background_ratio","100");
 //				  write_file("/proc/sys/vm/overcommit_ratio","49");
-				  write_file("/proc/sys/vm/overcommit_ratio","50");
-				  write_file("/proc/sys/vm/overcommit_memory","1");					
+//				  write_file("/proc/sys/vm/overcommit_ratio","50");
+//				  write_file("/proc/sys/vm/overcommit_memory","1");					
 				  write_file("/proc/sys/net/ipv4/icmp_echo_ignore_all","1");
 				  write_file("/proc/sys/net/ipv4/tcp_timestamps","0");
 				  set_low_watermark(threshold); /* READ */
@@ -254,13 +254,13 @@ void *fn_sleep (void *ret)
 //				 set_watermark(320);				
 //				  write_file("/proc/sys/vm/drop_caches","1");
 			  	 write_file("/proc/sys/vm/vfs_cache_pressure","1");
-			  	 write_file("/proc/sys/vm/vfs_cache_pressure","9000000000");
-//			  	 write_file("/proc/sys/vm/vfs_cache_pressure","10000");
+//			  	 write_file("/proc/sys/vm/vfs_cache_pressure","9000000000");
+			  	 write_file("/proc/sys/vm/vfs_cache_pressure","10000");
 				 write_file("/proc/sys/vm/dirty_ratio","99");
 				 write_file("/proc/sys/vm/dirty_background_ratio","1");
 //				 write_file("/proc/sys/vm/overcommit_ratio","51");
-				 write_file("/proc/sys/vm/overcommit_ratio","50");
-				 write_file("/proc/sys/vm/overcommit_memory","1");					
+//				 write_file("/proc/sys/vm/overcommit_ratio","50");
+//				 write_file("/proc/sys/vm/overcommit_memory","1");					
 			  	 write_file("/proc/sys/net/ipv4/icmp_echo_ignore_all","1");
 			     write_file("/proc/sys/net/ipv4/tcp_timestamps","0");
 //			fclose(fp);
@@ -807,7 +807,7 @@ really_carry_on:
 	   if ( sleeping == 1 ) {
 		wait_time = 30000;
 	  
-	  timeout.tv_sec = 1;
+	  timeout.tv_sec = 4;
       timeout.tv_usec = 0;
 		
 	} 
@@ -861,10 +861,11 @@ really_carry_on:
 	   current=0;
 	   if (ioctl(random_fd, RNDGETENTCNT, &current) == 0) {
 //		   if ( current >= ( threshold - 96 ) ) {
-//		   if ( current >= ( threshold + 64 ) ) {
-		   if ( current >= ( poolsize - 8 ) ) {
+		   if ( current >= threshold ) {
+//		   if ( current >= ( poolsize - 8 ) ) {
 //			   if ( current >= ( threshold + 96 ) ) read_file("/dev/random");
 			   usleep(100000);
+			   count = 0;
 			   goto carry_on;
 		   }			
 
@@ -878,12 +879,13 @@ really_carry_on:
 carry_on:
 	   
 	   if ( count == 0 ) {
-		   nbytes == 8 ? ( nbytes=9 ) : ( nbytes=8 );
-		   timeout.tv_sec = 0; timeout.tv_usec = 200000;
+		   nbytes=8;
+//		   nbytes == 8 ? ( nbytes=9 ) : ( nbytes=8 );
+		   timeout.tv_sec = 0; timeout.tv_usec = 100000;
 	   }
 	   else
 	   {
-		  nbytes == 9 ? ( nbytes=10 ) : ( nbytes=9 );
+		  nbytes == 14 ? ( nbytes=15 ) : ( nbytes=14 );
  		  timeout.tv_sec = 1; timeout.tv_usec = 0;
 	   }
 

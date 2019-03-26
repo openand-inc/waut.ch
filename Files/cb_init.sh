@@ -3,7 +3,7 @@
 ARG=$1
 
 if [ "x$ARG" = "xRUN" ]; then
-  cd /data/data/ch.waut/files/bin && PATH=. busybox nice -n +5 busybox sh -x cb_init.sh $2 > ../cb_init.log 2>&1 &
+  cd /data/data/ch.waut/files/bin && PATH=. busybox nice -n +5 busybox sh -x cb_init.sh $2 > /data/data/ch.waut/files/cb_init.log 2>&1 &
   return 0
 fi
 
@@ -143,7 +143,7 @@ fi
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 if [ "x$SWAP" != "x" ]; then 
   if [ "$SWAP" -gt "10000" ]; then  
-    SYSCTL vm.swappiness=80
+    SYSCTL vm.swappiness=1
     
 if [ 1 = 0 ]; then
     UPDATE_TABLES GLOBAL transition_animation_scale 0
@@ -202,7 +202,7 @@ SETPROP ro.media.enc.jpeg.quality 100
 
 SETPROP pm.sleep_mode 1
 
-SETPROP wifi.supplicant_scan_interval 180
+SETPROP wifi.supplicant_scan_interval 90
 
 #SETPROP wifi.supplicant_scan_interval 0
 
@@ -249,43 +249,44 @@ UPDATE_TABLES SECURE install_non_market_apps 0
   if [ ! -e /dev/COLD_REBOOT ]; then 
     busybox touch /dev/COLD_REBOOT
 	  if [ -e /dev/COLD_REBOOT ]; then
-		
+
         for j in $(busybox df -aP 2>/dev/null | busybox grep '/' 2>/dev/null | busybox awk '{ print $NF }' 2>/dev/null); do
         ADD=''
         if [ "x$j" = "x/system" ]; then ADD=',ro'; fi
           busybox echo $j
+		  busybox sleep 1
           busybox mount -o commit=1,remount${ADD} $j 
           busybox mount -o barrier=0,remount${ADD} $j 
-          busybox mount -o noatime,nodiratime,remount${ADD} $j 
+#          busybox mount -o noatime,nodiratime,remount${ADD} $j 
 
           busybox mount -o journal_checksum,journal_async_commit,remount${ADD} $j 
 		  		  
         done
 
         for j in $(busybox mount 2>/dev/null | busybox awk '{ print $3 }' 2>/dev/null); do
-        ADD=''
-        if [ "x$j" = "x/system" ]; then ADD=',ro'; fi
           busybox echo $j
-          busybox mount -o commit=1,remount${ADD} $j 
-          busybox mount -o barrier=0,remount${ADD} $j 
-          busybox mount -o noatime,nodiratime,remount${ADD} $j 
+#          busybox mount -o commit=1,remount $j 
+#          busybox mount -o barrier=0,remount $j 
+		  busybox sleep 1
+          busybox mount -o noatime,remount $j 
+          busybox mount -o nodiratime,remount $j 
 
-          busybox mount -o journal_checksum,journal_async_commit,remount${ADD} $j 
+#          busybox mount -o journal_checksum,journal_async_commit,noatime,nodiratime,remount $j 
 
 		done
 
-		SYSCTL vm.overcommit_ratio=50
+#		SYSCTL vm.overcommit_ratio=50
 		
 #       busybox killall system_server
       fi
-  else
-    busybox touch /dev/COLD_REBOOT
+ # else
+#    busybox touch /dev/COLD_REBOOT
 
-    if [ "x$ARG" = "xFORCE" ]; then
-      exec busybox sh cb_weekly.sh RUN 
+#    if [ "x$ARG" = "xFORCE" ]; then
+
     #else
     #  exec busybox sh cb_sync.sh RUN 6
-    fi
+#    fi
   fi
 
 

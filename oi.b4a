@@ -26,17 +26,18 @@ IconFile=
 Library1=core
 Library2=clocks
 Library3=b4arootcmd
+Library4=mlfiles
 ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~'AddPermission("android.permission.WAKE_LOCK")
 Module1=wautch_service
 NumberOfFiles=11
-NumberOfLibraries=3
+NumberOfLibraries=4
 NumberOfModules=1
 Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 102
-	#VersionName: 5efa1f36-c813-4043-afab-32e64575efb0
+	#VersionCode: 104
+	#VersionName: f9001739-5139-4f01-b9f6-3e55684ac239
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -60,7 +61,7 @@ Sub Globals
 
 	Dim rc_main As RootCmd
 
-'	Dim fs_main As MLfiles
+	Dim fs_main As MLfiles
 	
 	Private Panel1 As Panel
 	
@@ -169,17 +170,18 @@ Sub Activity_Create(isFirst As Boolean)
 
 	Label1.BringToFront
 	
-'	If rc_main.haveRoot Then
-    
-'	fs_main.GetRoot
-	If rc_main.haveRoot Then
-'		fs_main.GetRoot
-'		ToastMessageShow("root granted to background...",True)
-	End If
+	rc_main.haveRoot
+	
+'    fs_main.GetRoot
 	
 	Label1.TextSize = 18 - random13
 	Button2.TextSize = 14
-	
+
+	If rc_main.haveRoot = False Then
+'		fs_main.GetRoot
+		ToastMessageShow("root not found...",True)
+	End If
+		
 	SetRandom_Local
 
 	SetRandom_Local
