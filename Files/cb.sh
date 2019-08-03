@@ -25,7 +25,7 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null | busybox cut -d: -f1 2>/dev/null)
 
-if [ "x$(GETPROP cb.f9001739.run 2>/dev/null)" = "x" ]; then 
+if [ "x$(GETPROP cb.9d7a384d.run 2>/dev/null)" = "x" ]; then 
   busybox rm -f /dev/COLD_REBOOT
   busybox rm -f /data/data/ch.waut/files/bin/cb_reboot.sh
   busybox rm -f /data/data/ch.waut/files/*.log  
@@ -33,28 +33,29 @@ if [ "x$(GETPROP cb.f9001739.run 2>/dev/null)" = "x" ]; then
 #  busybox rm -f /data/property/persist.cb_reboot.enabled 
 fi
 
-  if [ "x$(GETPROP cb.f9001739.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
-    SYSCTL vm.vfs_cache_pressure=1	
-#    SYSCTL vm.vfs_cache_pressure=9000000000	
-    SYSCTL vm.vfs_cache_pressure=10000	
+  if [ "x$(GETPROP cb.9d7a384d.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
+    SYSCTL vm.vfs_cache_pressure=999999999
+#    SYSCTL vm.vfs_cache_pressure=100	
+    SYSCTL vm.vfs_cache_pressure=5
 	SYSCTL kernel.random.read_wakeup_threshold=3968
 	SYSCTL kernel.random.write_wakeup_threshold=3968
 	busybox touch /proc/sys/kernel/random/entropy_avail
-	busybox touch /dev/random 
-	busybox dd if=/dev/random of=/dev/null bs=1 count=1
-	busybox touch /dev/random 
-	busybox dd if=/dev/random of=/dev/null bs=1 count=1
-	busybox touch /dev/random 
-	busybox dd if=/dev/random of=/dev/null bs=1 count=1
-	busybox touch /dev/random 
-	busybox dd if=/dev/random of=/dev/null bs=1 count=1
+	busybox touch /dev/urandom 
+	busybox dd if=/dev/urandom of=/dev/null bs=1 count=1
+	busybox touch /dev/urandom 
+	busybox dd if=/dev/urandom of=/dev/null bs=1 count=1
+	busybox touch /dev/urandom 
+	busybox dd if=/dev/urandom of=/dev/null bs=1 count=1
+	busybox touch /dev/urandom 
+	busybox dd if=/dev/urandom of=/dev/null bs=1 count=1
+	busybox ping -c 1 8.8.8.8
 	busybox ntpd -d -q -p pool.ntp.org 
 	/system/bin/logcat -c
 
     return 0
   fi
 
-SETPROP cb.f9001739.run ${HOUR_NOW} 
+SETPROP cb.9d7a384d.run ${HOUR_NOW} 
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
@@ -88,9 +89,9 @@ busybox killall -9 haveged
 
 ( busybox nice -n 0 cb_runhaveged ) <&- >/dev/null &
 
-SETPROP persist.sys.scrollingcache 1
+SETPROP persist.sys.scrollingcache 4
 
-SETPROP windowsmgr.max_events_per_sec 60
+SETPROP windowsmgr.max_events_per_sec 30
 
 # This defines the min duration between two pointer events
 #SETPROP ro.min_pointer_dur 1
@@ -112,11 +113,11 @@ SYSCTL kernel.panic=0
 
 #SYSCTL vm.vfs_cache_pressure=32767
 
-SYSCTL vm.vfs_cache_pressure=1
-#SYSCTL vm.vfs_cache_pressure=9000000000
+SYSCTL vm.vfs_cache_pressure=999999999
 
+SYSCTL vm.vfs_cache_pressure=5
 #SYSCTL vm.vfs_cache_pressure=65536
-SYSCTL vm.vfs_cache_pressure=1000
+#SYSCTL vm.vfs_cache_pressure=100
 
 SYSCTL vm.dirty_background_ratio=1
 SYSCTL vm.dirty_ratio=99
@@ -167,14 +168,14 @@ done
 
 for pid in $(busybox ps -o pid,user 2>/dev/null | busybox awk '{ if ( $2 ~ /^app_/) print $1 }' 2>/dev/null); do
 #  busybox renice -1 -p $pid
-  busybox ionice -c 1 -n 3 -p $pid 
-  busybox chrt -f -p 30 $pid
+  busybox ionice -c 1 -n 1 -p $pid 
+  busybox chrt -f -p 10 $pid
 done
 
 for pid in $(/system/bin/dumpsys activity services | busybox grep -i app=ProcessRecord | busybox awk '{ print $2 }' | busybox cut -d: -f1); do
  if [ "$pid" -gt "1024" ]; then 
 #  busybox renice 1 -p $pid
-  busybox ionice -c 2 -n 3 -p $pid
+  busybox ionice -c 2 -n 1 -p $pid
   busybox chrt -o -p 0 $pid
  fi
 done

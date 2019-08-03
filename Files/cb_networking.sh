@@ -55,7 +55,7 @@ SYSCTL net.ipv4.tcp_fack=1
 SYSCTL net.ipv4.tcp_dsack=1
 SYSCTL net.ipv4.tcp_thin_dupack=1
 SYSCTL net.ipv4.tcp_thin_linear_timeouts=1
-SYSCTL net.ipv4.tcp_ecn=1
+SYSCTL net.ipv4.tcp_ecn=0
 SYSCTL net.ipv4.tcp_no_metrics_save=1
 
 SYSCTL net.core.somaxconn=1024

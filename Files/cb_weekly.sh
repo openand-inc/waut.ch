@@ -41,21 +41,29 @@ VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox awk -F\. '{ pri
 
 BOOT_ID=$(busybox cat /proc/sys/kernel/random/boot_id 2>/dev/null)
 
-    SYSCTL vm.vfs_cache_pressure=1	
-#    SYSCTL vm.vfs_cache_pressure=9000000000
-    SYSCTL vm.vfs_cache_pressure=10000
+    SYSCTL vm.vfs_cache_pressure=999999999
+    SYSCTL vm.vfs_cache_pressure=5
+#    SYSCTL vm.vfs_cache_pressure=100
 	SYSCTL kernel.random.read_wakeup_threshold=3968
 	SYSCTL kernel.random.write_wakeup_threshold=3968
 	busybox touch /proc/sys/kernel/random/entropy_avail
-	busybox touch /dev/random 
-	busybox dd if=/dev/random of=/dev/null bs=1 count=1
-	busybox touch /dev/random 
-	busybox dd if=/dev/random of=/dev/null bs=1 count=1
-	busybox touch /dev/random 
-	busybox dd if=/dev/random of=/dev/null bs=1 count=1
-	busybox touch /dev/random 
-	busybox dd if=/dev/random of=/dev/null bs=1 count=1
+	busybox touch /dev/urandom 
+	busybox dd if=/dev/urandom of=/dev/null bs=1 count=1
+	busybox touch /dev/urandom 
+	busybox dd if=/dev/urandom of=/dev/null bs=1 count=1
+	busybox touch /dev/urandom 
+	busybox dd if=/dev/urandom of=/dev/null bs=1 count=1
+	busybox touch /dev/urandom 
+	busybox dd if=/dev/urandom of=/dev/null bs=1 count=1
 	/system/bin/logcat -c
+
+busybox sysctl -w vm.drop_caches=1
+
+DAY_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $3 }' 2>/dev/null)
+
+ if [ "x$DAY_NOW" != "x15" ]; then 
+   return 0
+ fi
 
 for DB in $(busybox timeout -t 15 -s KILL busybox find /data/data -name *.db 2>/dev/null); do 
 
