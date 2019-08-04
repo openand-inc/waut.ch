@@ -27,7 +27,7 @@ Library1=core
 Library2=clocks
 Library3=b4arootcmd
 Library4=mlfiles
-ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~'AddPermission("android.permission.WAKE_LOCK")
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~RemovePermission("android.permission.WAKE_LOCK")~\n~RemovePermission("android.permission.WRITE_EXTERNAL_STORAGE")~\n~RemovePermission("android.permission.READ_EXTERNAL_STORAGE")~\n~
 Module1=wautch_service
 NumberOfFiles=11
 NumberOfLibraries=4
@@ -36,8 +36,8 @@ Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 107
-	#VersionName: 9d7a384d-f7ec-4afb-b3fa-c444ea08227f
+	#VersionCode: 108
+	#VersionName: 94fc7243-d70c-4bb7-9fca-7972152a328e
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -61,7 +61,7 @@ Sub Globals
 
 	Dim rc_main As RootCmd
 
-	Dim fs_main As MLfiles
+'	Dim fs_main As MLfiles
 	
 	Private Panel1 As Panel
 	

@@ -251,31 +251,34 @@ UPDATE_TABLES SECURE install_non_market_apps 0
 	  if [ -e /dev/COLD_REBOOT ]; then
 
         for j in $(busybox df -aP 2>/dev/null | busybox grep '/' 2>/dev/null | busybox awk '{ print $NF }' 2>/dev/null); do
-        ADD=''
-        if [ "x$j" = "x/system" ]; then ADD=',ro'; fi
           busybox echo $j
-          busybox mount -o commit=1,remount${ADD} $j 
-          busybox mount -o barrier=1,remount${ADD} $j 
-          busybox mount -o noatime,nodiratime,remount${ADD} $j 
-
-#          busybox mount -o journal_checksum,journal_async_commit,remount${ADD} $j 
-		  		  
+		  ADD=''
+          if [ "x$j" = "x/system" ]; then ADD=',ro'; fi
+          
+          busybox mount -o noatime,remount$ADD $j 
+          busybox mount -o nodiratime,remount$ADD $j 
+          busybox mount -o journal_checksum,journal_async_commit,remount$ADD $j 
+          busybox mount -o commit=1,remount$ADD $j
+          busybox mount -o barrier=0,remount$ADD $j
+		  busybox mount -o discard,remount$ADD $j 
         done
 
         for j in $(busybox mount 2>/dev/null | busybox awk '{ print $3 }' 2>/dev/null); do
           busybox echo $j
-          /system/xbin/su -mn -c "busybox mount -o commit=1,remount $j" 
-          /system/xbin/su -mn -c "busybox mount -o barrier=1,remount $j" 
-          /system/xbin/su -mn -c "busybox mount -o noatime,remount $j" 
-          /system/xbin/su -mn -c "busybox mount -o nodiratime,remount $j" 
-
-#          busybox mount -o journal_checksum,journal_async_commit,noatime,nodiratime,remount $j 
-
+		  ADD=''
+          if [ "x$j" = "x/system" ]; then ADD=',ro'; fi
+          
+          /system/xbin/su -mn -c "busybox mount -o noatime,remount$ADD $j"
+          /system/xbin/su -mn -c "busybox mount -o nodiratime,remount$ADD $j"
+          /system/xbin/su -mn -c "busybox mount -o journal_checksum,journal_async_commit,remount$ADD $j" 
+          /system/xbin/su -mn -c "busybox mount -o commit=1,remount$ADD $j"
+          /system/xbin/su -mn -c "busybox mount -o barrier=0,remount$ADD $j"
+		  /system/xbin/su -mn -c "busybox mount -o discard,remount$ADD $j" 
 		done
 
-#       busybox killall system_server
+#/system/xbin/su -mn -c "busybox mount -o noatime,nodiratime,remount /data"
+
       fi
   fi
 
-/system/xbin/su -mn -c "busybox mount -o commit=1,barrier=1,noatime,nodiratime,remount /data"
 

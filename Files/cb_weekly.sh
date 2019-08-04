@@ -59,11 +59,11 @@ BOOT_ID=$(busybox cat /proc/sys/kernel/random/boot_id 2>/dev/null)
 
 busybox sysctl -w vm.drop_caches=1
 
-DAY_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $3 }' 2>/dev/null)
+#DAY_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $3 }' 2>/dev/null)
 
- if [ "x$DAY_NOW" != "x15" ]; then 
-   return 0
- fi
+# if [ "x$DAY_NOW" != "x15" ]; then 
+#   return 0
+# fi
 
 for DB in $(busybox timeout -t 15 -s KILL busybox find /data/data -name *.db 2>/dev/null); do 
 

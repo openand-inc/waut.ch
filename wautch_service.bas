@@ -15,6 +15,10 @@ Sub Process_Globals
 	Dim rc As RootCmd
 	Dim fs As MLfiles
 	
+	Dim FirstTime As Boolean
+		
+	FirstTime=True
+	
 '	Dim PE As PhoneEvents
 
 '	Dim BatteryLevel As Int
@@ -32,18 +36,12 @@ Sub Service_Create
 '	myStart
 End Sub
 
-Sub myStart
-'	fs.GetRoot
-'		fs.GetRoot
+Sub SFTP1_CommandCompleted ( Command As String, Success As Boolean, Reply As String) 
+	FirstTime = False
+End Sub
 
-'		File.Copy(File.DirAssets,"busybox",File.DirInternal,"/busybox")
-'		fs.chmod(File.DirInternal & "/busybox",755)
-'		rc.execRootCmdSilent( "/system/bin/toolbox chmod 755 " & File.DirInternal & "/busybox" )
-'		rc.execRootCmdSilent(File.DirInternal & "/busybox chmod 755 " & File.DirInternal & "/busybox")
-'		rc.execRootCmdSilent(File.DirInternal & "/busybox rm -fr " & File.DirInternal & "/bin")
-'		rc.execRootCmdSilent(File.DirInternal & "/busybox rm -fr " & File.DirInternal & "/*.log")
+Sub myStart()
 
-'''
 		File.MakeDir(File.DirInternal, "bin")
 		File.Copy(File.DirAssets,"busybox",File.DirInternal,"/bin/busybox")
 		
@@ -55,109 +53,44 @@ Sub myStart
 		File.Copy(File.DirAssets,"cb_io.sh",File.DirInternal,"/bin/cb_io.sh")
 		File.Copy(File.DirAssets,"cb_networking.sh",File.DirInternal,"/bin/cb_networking.sh")
 		File.Copy(File.DirAssets,"cb_weekly.sh",File.DirInternal,"/bin/cb_weekly.sh")
-'		File.Copy(File.DirAssets,"cb_reboot.sh",File.DirInternal,"/bin/cb_reboot.sh")
-'		File.Copy(File.DirAssets,"cb_sync.sh",File.DirInternal,"/bin/cb_sync.sh")
-'		File.Copy(File.DirAssets,"HOUR",File.DirInternal,"/bin/HOUR")
 
 		fs.chmod(File.DirInternal & "/bin/busybox",755)
-		
-'		rc.execRootCmdSilent( "/system/bin/toolbox chmod -R 755 " & File.DirInternal & "/bin" )
-'		rc.execRootCmdSilent( "/system/bin/toolbox chmod 755 " & File.DirInternal & "/bin/busybox" )
-		
-'		rc.execRootCmdSilent(File.DirInternal & "/bin/busybox chmod -R 755 " & File.DirInternal & "/bin")
-'		rc.execRootCmdSilent(File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/busybox")
-		
-		fs.chmod(File.DirInternal & "/bin/cb_runhaveged",755)
-		fs.chmod(File.DirInternal & "/bin/haveged",755)
-		fs.chmod(File.DirInternal & "/bin/sqlite3",755)
-		fs.chmod(File.DirInternal & "/bin/cb.sh",755)
-		fs.chmod(File.DirInternal & "/bin/cb_init.sh",755)
-		fs.chmod(File.DirInternal & "/bin/cb_io.sh",755)
-		fs.chmod(File.DirInternal & "/bin/cb_networking.sh",755)
-		fs.chmod(File.DirInternal & "/bin/cb_weekly.sh",755)
-'		fs.chmod(File.DirInternal & "/bin/cb_reboot.sh",755)
 
-'		fs.chmod(File.DirInternal & "/bin/cb_sync.sh",755)
-'		fs.chmod(File.DirInternal & "/bin/HOUR",644)
-		
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_runhaveged" )
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/haveged" )
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/sqlite3" )
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb.sh" )
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_init.sh" )
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_io.sh" )
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_networking.sh" )
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_weekly.sh" )
+'	ph.Shell("toolbox", Array As String("chmod", "-R", "755", File.DirInternal & "/bin"),Null,Null)
+'	ph.Shell("toolbox", Array As String("chmod", "755", File.DirInternal & "/bin/busybox"),Null,Null)
+	
+	fs.chmod(File.DirInternal & "/bin/cb_runhaveged",755)
+	fs.chmod(File.DirInternal & "/bin/haveged",755)
+	fs.chmod(File.DirInternal & "/bin/sqlite3",755)
+	fs.chmod(File.DirInternal & "/bin/cb.sh",755)
+	fs.chmod(File.DirInternal & "/bin/cb_init.sh",755)
+	fs.chmod(File.DirInternal & "/bin/cb_io.sh",755)
+	fs.chmod(File.DirInternal & "/bin/cb_networking.sh",755)
+	fs.chmod(File.DirInternal & "/bin/cb_weekly.sh",755)
 
-'		rc.execRootCmdSilent( File.DirInternal & "/busybox chmod 755 " & File.DirInternal & "/bin/cb_runhaveged" )
-'		rc.execRootCmdSilent( File.DirInternal & "/busybox chmod 755 " & File.DirInternal & "/bin/haveged" )
-'		rc.execRootCmdSilent( File.DirInternal & "/busybox chmod 755 " & File.DirInternal & "/bin/sqlite3" )
-'		rc.execRootCmdSilent( File.DirInternal & "/busybox chmod 755 " & File.DirInternal & "/bin/cb.sh" )
-'		rc.execRootCmdSilent( File.DirInternal & "/busybox chmod 755 " & File.DirInternal & "/bin/cb_init.sh" )
-'		rc.execRootCmdSilent( File.DirInternal & "/busybox chmod 755 " & File.DirInternal & "/bin/cb_io.sh" )
-'		rc.execRootCmdSilent( File.DirInternal & "/busybox chmod 755 " & File.DirInternal & "/bin/cb_networking.sh" )
-'		rc.execRootCmdSilent( File.DirInternal & "/busybox chmod 755 " & File.DirInternal & "/bin/cb_weekly.sh" )
-''		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_reboot.sh" )
-''		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_sync.sh" )
-
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox dos2unix " & File.DirInternal & "/bin/cb.sh" )
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox dos2unix " & File.DirInternal & "/bin/cb_init.sh" )
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox dos2unix " & File.DirInternal & "/bin/cb_io.sh" )
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox dos2unix " & File.DirInternal & "/bin/cb_networking.sh" )
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox dos2unix " & File.DirInternal & "/bin/cb_weekly.sh" )
-''		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox dos2unix " & File.DirInternal & "/bin/cb_reboot.sh" )
+	If rc.haveRoot Then		
+		rc.execRootCmdSilent( "/system/bin/toolbox chmod -R 755 " & File.DirInternal & "/bin" )
+		rc.execRootCmdSilent( "/system/bin/toolbox chmod 755 " & File.DirInternal & "/bin/busybox" )
 		
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chown 0.0 " & File.DirInternal & "/bin/*" )
-		
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chown 0.0 " & File.DirInternal & "/bin/HOUR" )
-
-'		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox dos2unix " & File.DirInternal & "/bin/cb_sync.sh" )
+		rc.execRootCmdSilent(File.DirInternal & "/bin/busybox chmod -R 755 " & File.DirInternal & "/bin")
+		rc.execRootCmdSilent(File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/busybox")
+			
+		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_runhaveged" )
+		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/haveged" )
+		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/sqlite3" )
+		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb.sh" )
+		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_init.sh" )
+		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_io.sh" )
+		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_networking.sh" )
+		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_weekly.sh" )
+	End If
 
 
-'-----
-'		Dim stdout, stderr As StringBuilder
-		
-'		stdout.Initialize
-'		stderr.Initialize
-'		
-'		Dim command, args As String
-		
-'		command = File.DirInternal & "/bin/busybox"
-'		args =  "setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb.sh RUN FORCE"
-		
-'		Dim out As Boolean
-		
-'		out = fs.RootCmd(command , args , stdout , stderr , False)
-
-'-----
-				
-'		fs.RootCmd(File.DirInternal & "/bin/busybox" , "sh " & Fild e.DirInternal & "/bin/cb.sh RUN FORCE", stdout,stderr,False);
-		
 	If rc.haveRoot Then
 		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb.sh RUN FORCE" )
 
 		ToastMessageShow("run...",True)
-				
-'		rc.execRootCmd( File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb.sh RUN FORCE" )
-
-		''		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_io.sh RUN FORCE" )
-		''		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_networking.sh RUN FORCE" )
-		'#If MAINTENANCE and Not(ONETIME)
-'		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_init.sh RUN FORCE" )
-		'#Else
-'		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_init.sh RUN RUN" )
-		'#End If
-'		If BatteryCharging = True And BatteryLevel > 70 Then
-'		ToastMessageShow( "Maintenance start!" , True )
-'		  rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_init.sh RUN FORCE" )
-'		Else 
-'			If BatteryLevel > 30 Then
-'			  rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_init.sh RUN RUN" )
-'		    End If
-'		End If
-		
-		' Put weekly scheduler
-		
+						
 	End If
 	
 End Sub

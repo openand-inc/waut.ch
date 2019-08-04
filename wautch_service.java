@@ -127,55 +127,83 @@ public class wautch_service extends  android.app.Service{
 	}public anywheresoftware.b4a.keywords.Common __c = null;
 public static ice.rootcmd.RootCmd _v5 = null;
 public static MLfiles.Fileslib.MLfiles _v6 = null;
-public ch.waut.main _vv4 = null;
-public static String  _vv3() throws Exception{
- //BA.debugLineNum = 29;BA.debugLine="Sub myStart";
- //BA.debugLineNum = 41;BA.debugLine="File.MakeDir(File.DirInternal, \"bin\")";
+public static boolean _v7 = false;
+public ch.waut.main _vv5 = null;
+public static String  _vv4() throws Exception{
+ //BA.debugLineNum = 37;BA.debugLine="Sub myStart()";
+ //BA.debugLineNum = 39;BA.debugLine="File.MakeDir(File.DirInternal, \"bin\")";
 anywheresoftware.b4a.keywords.Common.File.MakeDir(anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"bin");
- //BA.debugLineNum = 42;BA.debugLine="File.Copy(File.DirAssets,\"busybox\",File.DirInter";
+ //BA.debugLineNum = 40;BA.debugLine="File.Copy(File.DirAssets,\"busybox\",File.DirInter";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"busybox",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/busybox");
- //BA.debugLineNum = 44;BA.debugLine="File.Copy(File.DirAssets,\"cb_runhaveged\",File.Di";
+ //BA.debugLineNum = 42;BA.debugLine="File.Copy(File.DirAssets,\"cb_runhaveged\",File.Di";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_runhaveged",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_runhaveged");
- //BA.debugLineNum = 45;BA.debugLine="File.Copy(File.DirAssets,\"haveged\",File.DirInter";
+ //BA.debugLineNum = 43;BA.debugLine="File.Copy(File.DirAssets,\"haveged\",File.DirInter";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"haveged",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/haveged");
- //BA.debugLineNum = 46;BA.debugLine="File.Copy(File.DirAssets,\"sqlite3\",File.DirInter";
+ //BA.debugLineNum = 44;BA.debugLine="File.Copy(File.DirAssets,\"sqlite3\",File.DirInter";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"sqlite3",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/sqlite3");
- //BA.debugLineNum = 47;BA.debugLine="File.Copy(File.DirAssets,\"cb.sh\",File.DirInterna";
+ //BA.debugLineNum = 45;BA.debugLine="File.Copy(File.DirAssets,\"cb.sh\",File.DirInterna";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb.sh");
- //BA.debugLineNum = 48;BA.debugLine="File.Copy(File.DirAssets,\"cb_init.sh\",File.DirIn";
+ //BA.debugLineNum = 46;BA.debugLine="File.Copy(File.DirAssets,\"cb_init.sh\",File.DirIn";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_init.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_init.sh");
- //BA.debugLineNum = 49;BA.debugLine="File.Copy(File.DirAssets,\"cb_io.sh\",File.DirInte";
+ //BA.debugLineNum = 47;BA.debugLine="File.Copy(File.DirAssets,\"cb_io.sh\",File.DirInte";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_io.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_io.sh");
- //BA.debugLineNum = 50;BA.debugLine="File.Copy(File.DirAssets,\"cb_networking.sh\",File";
+ //BA.debugLineNum = 48;BA.debugLine="File.Copy(File.DirAssets,\"cb_networking.sh\",File";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_networking.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_networking.sh");
- //BA.debugLineNum = 51;BA.debugLine="File.Copy(File.DirAssets,\"cb_weekly.sh\",File.Dir";
+ //BA.debugLineNum = 49;BA.debugLine="File.Copy(File.DirAssets,\"cb_weekly.sh\",File.Dir";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_weekly.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_weekly.sh");
- //BA.debugLineNum = 56;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/busybox\",755)";
+ //BA.debugLineNum = 51;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/busybox\",755)";
 _v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox",BA.NumberToString(755));
- //BA.debugLineNum = 64;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_runhaveged\"";
+ //BA.debugLineNum = 56;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_runhaveged\",";
 _v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_runhaveged",BA.NumberToString(755));
- //BA.debugLineNum = 65;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/haveged\",755)";
+ //BA.debugLineNum = 57;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/haveged\",755)";
 _v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/haveged",BA.NumberToString(755));
- //BA.debugLineNum = 66;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/sqlite3\",755)";
+ //BA.debugLineNum = 58;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/sqlite3\",755)";
 _v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/sqlite3",BA.NumberToString(755));
- //BA.debugLineNum = 67;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb.sh\",755)";
+ //BA.debugLineNum = 59;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb.sh\",755)";
 _v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb.sh",BA.NumberToString(755));
- //BA.debugLineNum = 68;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_init.sh\",75";
+ //BA.debugLineNum = 60;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_init.sh\",755";
 _v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_init.sh",BA.NumberToString(755));
- //BA.debugLineNum = 69;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_io.sh\",755)";
+ //BA.debugLineNum = 61;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_io.sh\",755)";
 _v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_io.sh",BA.NumberToString(755));
- //BA.debugLineNum = 70;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_networking.";
+ //BA.debugLineNum = 62;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_networking.s";
 _v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_networking.sh",BA.NumberToString(755));
- //BA.debugLineNum = 71;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_weekly.sh\",";
+ //BA.debugLineNum = 63;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_weekly.sh\",7";
 _v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_weekly.sh",BA.NumberToString(755));
- //BA.debugLineNum = 130;BA.debugLine="If rc.haveRoot Then";
+ //BA.debugLineNum = 65;BA.debugLine="If rc.haveRoot Then";
 if (_v5.haveRoot()) { 
- //BA.debugLineNum = 131;BA.debugLine="rc.execRootCmd( File.DirInternal & \"/bin/busybox";
+ //BA.debugLineNum = 66;BA.debugLine="rc.execRootCmdSilent( \"/system/bin/toolbox chmod";
+_v5.execRootCmdSilent("/system/bin/toolbox chmod -R 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin");
+ //BA.debugLineNum = 67;BA.debugLine="rc.execRootCmdSilent( \"/system/bin/toolbox chmod";
+_v5.execRootCmdSilent("/system/bin/toolbox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox");
+ //BA.debugLineNum = 69;BA.debugLine="rc.execRootCmdSilent(File.DirInternal & \"/bin/bu";
+_v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod -R 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin");
+ //BA.debugLineNum = 70;BA.debugLine="rc.execRootCmdSilent(File.DirInternal & \"/bin/bu";
+_v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox");
+ //BA.debugLineNum = 72;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
+_v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_runhaveged");
+ //BA.debugLineNum = 73;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
+_v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/haveged");
+ //BA.debugLineNum = 74;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
+_v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/sqlite3");
+ //BA.debugLineNum = 75;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
+_v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb.sh");
+ //BA.debugLineNum = 76;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
+_v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_init.sh");
+ //BA.debugLineNum = 77;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
+_v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_io.sh");
+ //BA.debugLineNum = 78;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
+_v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_networking.sh");
+ //BA.debugLineNum = 79;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/b";
+_v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox chmod 755 "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_weekly.sh");
+ };
+ //BA.debugLineNum = 83;BA.debugLine="If rc.haveRoot Then";
+if (_v5.haveRoot()) { 
+ //BA.debugLineNum = 84;BA.debugLine="rc.execRootCmd( File.DirInternal & \"/bin/busybox";
 _v5.execRootCmd(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox setsid "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox sh "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb.sh RUN FORCE");
- //BA.debugLineNum = 133;BA.debugLine="ToastMessageShow(\"run...\",True)";
+ //BA.debugLineNum = 86;BA.debugLine="ToastMessageShow(\"run...\",True)";
 anywheresoftware.b4a.keywords.Common.ToastMessageShow(BA.ObjectToCharSequence("run..."),anywheresoftware.b4a.keywords.Common.True);
  };
- //BA.debugLineNum = 157;BA.debugLine="End Sub";
+ //BA.debugLineNum = 90;BA.debugLine="End Sub";
 return "";
 }
 public static String  _process_globals() throws Exception{
@@ -184,31 +212,42 @@ public static String  _process_globals() throws Exception{
 _v5 = new ice.rootcmd.RootCmd();
  //BA.debugLineNum = 10;BA.debugLine="Dim fs As MLfiles";
 _v6 = new MLfiles.Fileslib.MLfiles();
- //BA.debugLineNum = 17;BA.debugLine="End Sub";
+ //BA.debugLineNum = 12;BA.debugLine="Dim FirstTime As Boolean";
+_v7 = false;
+ //BA.debugLineNum = 14;BA.debugLine="FirstTime=True";
+_v7 = anywheresoftware.b4a.keywords.Common.True;
+ //BA.debugLineNum = 21;BA.debugLine="End Sub";
 return "";
 }
 public static String  _service_create() throws Exception{
- //BA.debugLineNum = 25;BA.debugLine="Sub Service_Create";
- //BA.debugLineNum = 27;BA.debugLine="End Sub";
+ //BA.debugLineNum = 29;BA.debugLine="Sub Service_Create";
+ //BA.debugLineNum = 31;BA.debugLine="End Sub";
 return "";
 }
 public static String  _service_destroy() throws Exception{
- //BA.debugLineNum = 170;BA.debugLine="Sub Service_Destroy";
- //BA.debugLineNum = 172;BA.debugLine="End Sub";
+ //BA.debugLineNum = 103;BA.debugLine="Sub Service_Destroy";
+ //BA.debugLineNum = 105;BA.debugLine="End Sub";
 return "";
 }
 public static String  _service_start(anywheresoftware.b4a.objects.IntentWrapper _startingintent) throws Exception{
 long _timeofday = 0L;
- //BA.debugLineNum = 159;BA.debugLine="Sub Service_Start (StartingIntent As Intent)";
- //BA.debugLineNum = 162;BA.debugLine="Dim timeofday As Long";
+ //BA.debugLineNum = 92;BA.debugLine="Sub Service_Start (StartingIntent As Intent)";
+ //BA.debugLineNum = 95;BA.debugLine="Dim timeofday As Long";
 _timeofday = 0L;
- //BA.debugLineNum = 163;BA.debugLine="timeofday = DateTime.Now + ( ( 27 - DateTime.GetH";
+ //BA.debugLineNum = 96;BA.debugLine="timeofday = DateTime.Now + ( ( 27 - DateTime.GetH";
 _timeofday = (long) (anywheresoftware.b4a.keywords.Common.DateTime.getNow()+((27-anywheresoftware.b4a.keywords.Common.DateTime.GetHour(anywheresoftware.b4a.keywords.Common.DateTime.getNow()))*3600000));
- //BA.debugLineNum = 164;BA.debugLine="StartServiceAt(\"\", timeofday , True)";
+ //BA.debugLineNum = 97;BA.debugLine="StartServiceAt(\"\", timeofday , True)";
 anywheresoftware.b4a.keywords.Common.StartServiceAt(processBA,(Object)(""),_timeofday,anywheresoftware.b4a.keywords.Common.True);
- //BA.debugLineNum = 166;BA.debugLine="myStart";
-_vv3();
- //BA.debugLineNum = 168;BA.debugLine="End Sub";
+ //BA.debugLineNum = 99;BA.debugLine="myStart";
+_vv4();
+ //BA.debugLineNum = 101;BA.debugLine="End Sub";
+return "";
+}
+public static String  _sftp1_commandcompleted(String _command,boolean _success,String _reply) throws Exception{
+ //BA.debugLineNum = 33;BA.debugLine="Sub SFTP1_CommandCompleted ( Command As String, Su";
+ //BA.debugLineNum = 34;BA.debugLine="FirstTime = False";
+_v7 = anywheresoftware.b4a.keywords.Common.False;
+ //BA.debugLineNum = 35;BA.debugLine="End Sub";
 return "";
 }
 }
