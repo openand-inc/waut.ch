@@ -143,7 +143,7 @@ fi
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 if [ "x$SWAP" != "x" ]; then 
   if [ "$SWAP" -gt "10000" ]; then  
-    SYSCTL vm.swappiness=60
+    SYSCTL vm.swappiness=5
     
 if [ 1 = 0 ]; then
     UPDATE_TABLES GLOBAL transition_animation_scale 0
