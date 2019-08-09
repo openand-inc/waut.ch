@@ -55,36 +55,36 @@ SYSCTL net.ipv4.tcp_fack=1
 SYSCTL net.ipv4.tcp_dsack=1
 SYSCTL net.ipv4.tcp_thin_dupack=1
 SYSCTL net.ipv4.tcp_thin_linear_timeouts=1
-SYSCTL net.ipv4.tcp_ecn=0
+SYSCTL net.ipv4.tcp_ecn=1
 SYSCTL net.ipv4.tcp_no_metrics_save=1
 
-SYSCTL net.core.somaxconn=1024
-SYSCTL net.core.netdev_max_backlog=1024
+SYSCTL net.core.somaxconn=256
+SYSCTL net.core.netdev_max_backlog=256
 
 #SYSCTL net.netfilter.nf_conntrack_tcp_timeout_established=300
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_fin_wait=30
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close_wait=30
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_last_ack=30
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_time_wait=30
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close=30
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_fin_wait=180
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close_wait=180
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_last_ack=180
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_time_wait=180
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close=180
 
 #SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_established=300
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait=30
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait=30
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_last_ack=30
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait=30
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close=30
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait=180
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait=180
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_last_ack=180
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait=180
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close=180
 
-SYSCTL net.ipv4.tcp_fin_timeout=30
+SYSCTL net.ipv4.tcp_fin_timeout=180
 
 SYSCTL net.ipv4.tcp_keepalive_time=180
-SYSCTL net.ipv4.tcp_keepalive_probes=10
+SYSCTL net.ipv4.tcp_keepalive_probes=3
 SYSCTL net.ipv4.tcp_keepalive_intvl=180
 
-SYSCTL net.ipv4.tcp_syn_retries=1
-SYSCTL net.ipv4.tcp_synack_retries=1
+SYSCTL net.ipv4.tcp_syn_retries=0
+SYSCTL net.ipv4.tcp_synack_retries=0
 SYSCTL net.ipv4.tcp_syncookies=0
-SYSCTL net.ipv4.tcp_max_syn_backlog=1
+SYSCTL net.ipv4.tcp_max_syn_backlog=0
 
 SYSCTL net.ipv4.ip_local_port_range='1025 64000'
 
