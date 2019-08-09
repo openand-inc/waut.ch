@@ -42,20 +42,22 @@ done
 	busybox mount -t debugfs -o rw none /sys/kernel/debug 
 
 	if [ -e /sys/kernel/debug/sched_features ]; then
-	  ECHO NORMALIZED_SLEEPERS > /sys/kernel/debug/sched_features 
-	  ECHO GENTLE_FAIR_SLEEPERS > /sys/kernel/debug/sched_features 
-	  ECHO NEW_FAIR_SLEEPERS > /sys/kernel/debug/sched_features 
-	  ECHO FAIR_SLEEPERS > /sys/kernel/debug/sched_features 
-	  ECHO WAKEUP_PREEMPTION > /sys/kernel/debug/sched_features
-	  ECHO AFFINE_WAKEUPS > /sys/kernel/debug/sched_features 
+	  ECHO NO_NORMALIZED_SLEEPERS > /sys/kernel/debug/sched_features 
+	  ECHO NO_GENTLE_FAIR_SLEEPERS > /sys/kernel/debug/sched_features 
+	  ECHO NO_NEW_FAIR_SLEEPERS > /sys/kernel/debug/sched_features 
+	  ECHO NO_FAIR_SLEEPERS > /sys/kernel/debug/sched_features 
+	  ECHO NO_WAKEUP_PREEMPTION > /sys/kernel/debug/sched_features
+	  ECHO NO_AFFINE_WAKEUPS > /sys/kernel/debug/sched_features 
 	fi
 
-
+SYSCTL kernel.sched_latency_ns=600000
+SYSCTL kernel.sched_min_granularity_ns=400000
+	
 	busybox umount /sys/kernel/debug 
 
 	busybox umount -l /sys/kernel/debug 
 
-	/system/xbin/su -mn "busybox umount /sys/kernel/debug"
+	/system/xbin/su -mn -c "busybox umount /sys/kernel/debug"
 
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name read_ahead_kb 2>/dev/null); do ECHO 0 | busybox tee $i; done

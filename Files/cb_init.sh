@@ -143,7 +143,7 @@ fi
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 if [ "x$SWAP" != "x" ]; then 
   if [ "$SWAP" -gt "10000" ]; then  
-    SYSCTL vm.swappiness=5
+    SYSCTL vm.swappiness=10
     
 if [ 1 = 0 ]; then
     UPDATE_TABLES GLOBAL transition_animation_scale 0
@@ -260,7 +260,7 @@ UPDATE_TABLES SECURE install_non_market_apps 0
           busybox mount -o journal_checksum,journal_async_commit,remount$ADD $j 
           busybox mount -o commit=1,remount$ADD $j
           busybox mount -o barrier=0,remount$ADD $j
-		  busybox mount -o discard,remount$ADD $j 
+		  busybox mount -o nodiscard,remount$ADD $j 
         done
 
         for j in $(busybox mount 2>/dev/null | busybox awk '{ print $3 }' 2>/dev/null); do
@@ -273,7 +273,7 @@ UPDATE_TABLES SECURE install_non_market_apps 0
           /system/xbin/su -mn -c "busybox mount -o journal_checksum,journal_async_commit,remount$ADD $j" 
           /system/xbin/su -mn -c "busybox mount -o commit=1,remount$ADD $j"
           /system/xbin/su -mn -c "busybox mount -o barrier=0,remount$ADD $j"
-		  /system/xbin/su -mn -c "busybox mount -o discard,remount$ADD $j" 
+		  /system/xbin/su -mn -c "busybox mount -o nodiscard,remount$ADD $j" 
 		done
 
 #/system/xbin/su -mn -c "busybox mount -o noatime,nodiratime,remount /data"

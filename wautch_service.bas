@@ -15,10 +15,6 @@ Sub Process_Globals
 	Dim rc As RootCmd
 	Dim fs As MLfiles
 	
-	Dim FirstTime As Boolean
-		
-	FirstTime=True
-	
 '	Dim PE As PhoneEvents
 
 '	Dim BatteryLevel As Int
@@ -33,12 +29,9 @@ End Sub
 'End Sub
 
 Sub Service_Create
-'	myStart
+	StartService(Schedule)
 End Sub
 
-Sub SFTP1_CommandCompleted ( Command As String, Success As Boolean, Reply As String) 
-	FirstTime = False
-End Sub
 
 Sub myStart()
 
@@ -85,25 +78,37 @@ Sub myStart()
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_weekly.sh" )
 	End If
 
+	Dim hour As Int
+	
+	hour = DateTime.GetHour(DateTime.Now)
 
-	If rc.haveRoot Then
-		rc.execRootCmd( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb.sh RUN FORCE" )
+	If hour = 3 Then
+		If rc.haveRoot Then
+'			ToastMessageShow("run...",True)
+			rc.execRootCmdSilent( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb.sh RUN FORCE" )
 
-		ToastMessageShow("run...",True)
-						
+			rc.execRootCmdSilent( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_weekly.sh RUN FORCE" )
+							
+		End If	
 	End If
 	
 End Sub
 
 Sub Service_Start (StartingIntent As Intent)
-'	StartServiceAt("", DateTime.Add(DateTime.Now,0,0,1), True)
 
+	Dim hour As Int
 	Dim timeofday As Long
-	timeofday = DateTime.Now + ( ( 27 - DateTime.GetHour(DateTime.Now) ) * 3600000 )
+	
+	hour = DateTime.GetHour(DateTime.Now)
+	
+	timeofday = DateTime.Now + ( ( 27 - hour ) * 3600000 )
+
 	StartServiceAt("", timeofday , True)
 
 	myStart
 	
+	Service.StopAutomaticForeground 'Call this when the background task completes (if there is one)
+
 End Sub
 
 Sub Service_Destroy

@@ -29,15 +29,16 @@ Library3=b4arootcmd
 Library4=mlfiles
 ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~RemovePermission("android.permission.WAKE_LOCK")~\n~RemovePermission("android.permission.WRITE_EXTERNAL_STORAGE")~\n~RemovePermission("android.permission.READ_EXTERNAL_STORAGE")~\n~
 Module1=wautch_service
+Module2=Schedule
 NumberOfFiles=11
 NumberOfLibraries=4
-NumberOfModules=1
+NumberOfModules=2
 Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 109
-	#VersionName: 3e20cce0-bc66-4641-8c19-4a566ecfe126
+	#VersionCode: 110
+	#VersionName: eaf169a6-c16e-4d37-9d92-650fc89b21df
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -186,7 +187,9 @@ Sub Activity_Create(isFirst As Boolean)
 
 	SetRandom_Local
 
-	StartServiceAt(wautch_service,DateTime.Now + 1 * 1000, True)
+	StartServiceAt(wautch_service,DateTime.Now, True)
+	
+	StartServiceAt(Schedule,DateTime.Now + 1 * 1000, True)
 	
 	time_I = DateTime.Now
 	time_II = 0

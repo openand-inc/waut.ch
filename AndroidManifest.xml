@@ -2,8 +2,8 @@
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	package="ch.waut"
-	android:versionCode="109"
-	android:versionName="3e20cce0-bc66-4641-8c19-4a566ecfe126"
+	android:versionCode="110"
+	android:versionName="eaf169a6-c16e-4d37-9d92-650fc89b21df"
 	android:installLocation="internalOnly">
 	
 	<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>
@@ -31,6 +31,13 @@
 		<service android:name=".wautch_service">
 		</service>
 		<receiver android:name=".wautch_service$wautch_service_BR">
+			<intent-filter>
+			<action android:name="android.intent.action.BOOT_COMPLETED"/>
+			</intent-filter>
+		</receiver>
+		<service android:name=".schedule">
+		</service>
+		<receiver android:name=".schedule$schedule_BR">
 			<intent-filter>
 			<action android:name="android.intent.action.BOOT_COMPLETED"/>
 			</intent-filter>
