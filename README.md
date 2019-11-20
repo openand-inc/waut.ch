@@ -32,7 +32,7 @@ waut.ch! - Sometimes used in some colloquium as "watch!", keen upon reducing the
 
 -----
 
-ARM32 variants of Android only Donut 1.6+
+ARM variants of Android only Donut 1.6+
 
 Please uninstall either Seeder or CrossBreeder prior to using this.
 
