@@ -195,8 +195,8 @@ void *fn_sleep (void *ret)
 				  write_file("SLEEPING","1");
 				  sync();
 				  write_file("/proc/sys/vm/drop_caches","1");
-			  	 write_file("/proc/sys/vm/vfs_cache_pressure","999999999");
-//			  	 write_file("/proc/sys/vm/vfs_cache_pressure","100");
+//			  	 write_file("/proc/sys/vm/vfs_cache_pressure","9000000000");
+			  	 write_file("/proc/sys/vm/vfs_cache_pressure","10000");
 				  write_file("/proc/sys/vm/vfs_cache_pressure","0");
 				  write_file("/proc/sys/vm/dirty_ratio","100");
 				  write_file("/proc/sys/vm/dirty_background_ratio","100");
@@ -253,9 +253,9 @@ void *fn_sleep (void *ret)
 //				 set_low_watermark(8);
 //				 set_watermark(320);				
 //				  write_file("/proc/sys/vm/drop_caches","1");
-//			  	 write_file("/proc/sys/vm/vfs_cache_pressure","1");
-			  	 write_file("/proc/sys/vm/vfs_cache_pressure","999999999");
-			  	 write_file("/proc/sys/vm/vfs_cache_pressure","10");
+			  	 write_file("/proc/sys/vm/vfs_cache_pressure","1");
+//			  	 write_file("/proc/sys/vm/vfs_cache_pressure","9000000000");
+			  	 write_file("/proc/sys/vm/vfs_cache_pressure","10000");
 				 write_file("/proc/sys/vm/dirty_ratio","99");
 				 write_file("/proc/sys/vm/dirty_background_ratio","1");
 //				 write_file("/proc/sys/vm/overcommit_ratio","51");
@@ -308,11 +308,8 @@ static struct pparams defaults = {
   .os_rel         = "/proc/sys/kernel/osrelease",
   .pid_file       = PID_DEFAULT,
   .poolsize       = "/proc/sys/kernel/random/poolsize",
-#ifdef __ANDROID__
+//  .random_device  = "/dev/entropy/urandom",
   .random_device  = "/dev/random",
-#else
-  .random_device  = "/dev/random",
-#endif
   .sample_in      = INPUT_DEFAULT,
   .sample_out     = OUTPUT_DEFAULT,
   .verbose        = 0,
@@ -747,7 +744,7 @@ really_carry_on:
 //3
 //   fchmod(random_fd,S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH);
 //   fchmod(random_fd,S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
-//   fchmod(random_fd,S_IRUSR|S_IRGRP|S_IROTH);
+   fchmod(random_fd,S_IRUSR|S_IRGRP|S_IROTH);
 	
   output = (struct rand_pool_info *) h->io_buf;
 
