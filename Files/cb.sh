@@ -25,7 +25,7 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null | busybox cut -d: -f1 2>/dev/null)
 
-if [ "x$(GETPROP cb.a2550dd7.run 2>/dev/null)" = "x" ]; then 
+if [ "x$(GETPROP cb.9fb9675b.run 2>/dev/null)" = "x" ]; then 
   busybox rm -f /dev/COLD_REBOOT
   busybox rm -f /data/data/ch.waut/files/bin/cb_reboot.sh
   busybox rm -f /data/data/ch.waut/files/*.log  
@@ -33,7 +33,7 @@ if [ "x$(GETPROP cb.a2550dd7.run 2>/dev/null)" = "x" ]; then
 #  busybox rm -f /data/property/persist.cb_reboot.enabled 
 fi
 
-  if [ "x$(GETPROP cb.a2550dd7.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
+  if [ "x$(GETPROP cb.9fb9675b.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
     SYSCTL vm.vfs_cache_pressure=999999999
     SYSCTL vm.vfs_cache_pressure=10
 #    SYSCTL vm.vfs_cache_pressure=5
@@ -62,7 +62,7 @@ busybox sysctl -w vm.drop_caches=1
     return 0
   fi
 
-SETPROP cb.a2550dd7.run ${HOUR_NOW} 
+SETPROP cb.9fb9675b.run ${HOUR_NOW} 
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
@@ -96,7 +96,7 @@ busybox killall -9 haveged
 
 ( busybox nice -n 0 cb_runhaveged ) <&- >/dev/null &
 
-SETPROP persist.sys.scrollingcache 1
+SETPROP persist.sys.scrollingcache 4
 
 SETPROP windowsmgr.max_events_per_sec 30
 
