@@ -60,4 +60,6 @@ Havged source code:
 
 https://github.com/Openand-I/haveged
 
-Adhoc Payment URL: https://paypal.me/openand/10
+Adhoc Payment URL to support development efforts : https://paypal.me/openand/10
+
+Frappe ( "free-paid" ) version again to support development efforts : http://waut.ch
