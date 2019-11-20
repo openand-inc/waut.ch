@@ -159,8 +159,8 @@ public static String  _service_create() throws Exception{
 return "";
 }
 public static String  _service_destroy() throws Exception{
- //BA.debugLineNum = 40;BA.debugLine="Sub Service_Destroy";
- //BA.debugLineNum = 42;BA.debugLine="End Sub";
+ //BA.debugLineNum = 41;BA.debugLine="Sub Service_Destroy";
+ //BA.debugLineNum = 43;BA.debugLine="End Sub";
 return "";
 }
 public static String  _service_start(anywheresoftware.b4a.objects.IntentWrapper _startingintent) throws Exception{
@@ -171,7 +171,7 @@ anywheresoftware.b4a.keywords.Common.StartServiceAt(processBA,(Object)(""),(long
 _vv4();
  //BA.debugLineNum = 37;BA.debugLine="Service.StopAutomaticForeground 'Call this when t";
 mostCurrent._service.StopAutomaticForeground();
- //BA.debugLineNum = 38;BA.debugLine="End Sub";
+ //BA.debugLineNum = 39;BA.debugLine="End Sub";
 return "";
 }
 }

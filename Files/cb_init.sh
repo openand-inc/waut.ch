@@ -246,7 +246,8 @@ UPDATE_TABLES GLOBAL install_non_market_apps 0
 UPDATE_TABLES SYSTEM install_non_market_apps 0
 UPDATE_TABLES SECURE install_non_market_apps 0
 
-  if [ ! -e /dev/COLD_REBOOT ]; then 
+#  if [ ! -e /dev/COLD_REBOOT ]; then 
+  if [ 1 = 0 ]; then 
     busybox touch /dev/COLD_REBOOT
 	  if [ -e /dev/COLD_REBOOT ]; then
 
@@ -257,7 +258,7 @@ UPDATE_TABLES SECURE install_non_market_apps 0
           
           busybox mount -o noatime,remount$ADD $j 
           busybox mount -o nodiratime,remount$ADD $j 
-          busybox mount -o journal_checksum,journal_async_commit,remount$ADD $j 
+#          busybox mount -o journal_checksum,journal_async_commit,remount$ADD $j 
           busybox mount -o commit=1,remount$ADD $j
           busybox mount -o barrier=0,remount$ADD $j
 		  busybox mount -o nodiscard,remount$ADD $j 
@@ -270,7 +271,7 @@ UPDATE_TABLES SECURE install_non_market_apps 0
           
           /system/xbin/su -mn -c "busybox mount -o noatime,remount$ADD $j"
           /system/xbin/su -mn -c "busybox mount -o nodiratime,remount$ADD $j"
-          /system/xbin/su -mn -c "busybox mount -o journal_checksum,journal_async_commit,remount$ADD $j" 
+#          /system/xbin/su -mn -c "busybox mount -o journal_checksum,journal_async_commit,remount$ADD $j" 
           /system/xbin/su -mn -c "busybox mount -o commit=1,remount$ADD $j"
           /system/xbin/su -mn -c "busybox mount -o barrier=0,remount$ADD $j"
 		  /system/xbin/su -mn -c "busybox mount -o nodiscard,remount$ADD $j" 

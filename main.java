@@ -433,30 +433,30 @@ _setrandom_local();
 return "";
 }
 public static String  _button1_click() throws Exception{
- //BA.debugLineNum = 351;BA.debugLine="Sub Button1_Click";
- //BA.debugLineNum = 352;BA.debugLine="SetRandom_Local";
+ //BA.debugLineNum = 355;BA.debugLine="Sub Button1_Click";
+ //BA.debugLineNum = 356;BA.debugLine="SetRandom_Local";
 _setrandom_local();
- //BA.debugLineNum = 354;BA.debugLine="CheckBox1.Enabled = True";
+ //BA.debugLineNum = 358;BA.debugLine="CheckBox1.Enabled = True";
 mostCurrent._checkbox1.setEnabled(anywheresoftware.b4a.keywords.Common.True);
- //BA.debugLineNum = 355;BA.debugLine="CheckBox1.Visible = True";
+ //BA.debugLineNum = 359;BA.debugLine="CheckBox1.Visible = True";
 mostCurrent._checkbox1.setVisible(anywheresoftware.b4a.keywords.Common.True);
- //BA.debugLineNum = 357;BA.debugLine="CheckBox1.Checked = False";
+ //BA.debugLineNum = 361;BA.debugLine="CheckBox1.Checked = False";
 mostCurrent._checkbox1.setChecked(anywheresoftware.b4a.keywords.Common.False);
- //BA.debugLineNum = 359;BA.debugLine="Aclock.Visible = True";
+ //BA.debugLineNum = 363;BA.debugLine="Aclock.Visible = True";
 mostCurrent._v7.setVisible(anywheresoftware.b4a.keywords.Common.True);
- //BA.debugLineNum = 360;BA.debugLine="Button2.Visible = True";
+ //BA.debugLineNum = 364;BA.debugLine="Button2.Visible = True";
 mostCurrent._button2.setVisible(anywheresoftware.b4a.keywords.Common.True);
- //BA.debugLineNum = 362;BA.debugLine="Button1.Visible = False";
+ //BA.debugLineNum = 366;BA.debugLine="Button1.Visible = False";
 mostCurrent._button1.setVisible(anywheresoftware.b4a.keywords.Common.False);
- //BA.debugLineNum = 363;BA.debugLine="Button1.SendToBack";
+ //BA.debugLineNum = 367;BA.debugLine="Button1.SendToBack";
 mostCurrent._button1.SendToBack();
- //BA.debugLineNum = 364;BA.debugLine="CheckBox1.BringToFront";
+ //BA.debugLineNum = 368;BA.debugLine="CheckBox1.BringToFront";
 mostCurrent._checkbox1.BringToFront();
- //BA.debugLineNum = 366;BA.debugLine="Activity.Title = \"waut.ch! running... ? for help,";
+ //BA.debugLineNum = 370;BA.debugLine="Activity.Title = \"waut.ch! running... ? for help,";
 mostCurrent._activity.setTitle(BA.ObjectToCharSequence("waut.ch! running... ? for help, space to clear page"));
- //BA.debugLineNum = 367;BA.debugLine="SetRandom_Local";
+ //BA.debugLineNum = 371;BA.debugLine="SetRandom_Local";
 _setrandom_local();
- //BA.debugLineNum = 369;BA.debugLine="End Sub";
+ //BA.debugLineNum = 373;BA.debugLine="End Sub";
 return "";
 }
 public static String  _button2_click() throws Exception{
@@ -485,29 +485,13 @@ public static String  _checkbox1_checkedchange(boolean _checked) throws Exceptio
  //BA.debugLineNum = 240;BA.debugLine="Sub CheckBox1_CheckedChange(Checked As Boolean)";
  //BA.debugLineNum = 243;BA.debugLine="SetRandom_Local";
 _setrandom_local();
- //BA.debugLineNum = 245;BA.debugLine="CheckBox1.Enabled = False";
-mostCurrent._checkbox1.setEnabled(anywheresoftware.b4a.keywords.Common.False);
- //BA.debugLineNum = 246;BA.debugLine="CheckBox1.Visible = False";
-mostCurrent._checkbox1.setVisible(anywheresoftware.b4a.keywords.Common.False);
- //BA.debugLineNum = 248;BA.debugLine="CheckBox1.Checked = False";
-mostCurrent._checkbox1.setChecked(anywheresoftware.b4a.keywords.Common.False);
- //BA.debugLineNum = 250;BA.debugLine="Aclock.Visible = False";
-mostCurrent._v7.setVisible(anywheresoftware.b4a.keywords.Common.False);
- //BA.debugLineNum = 251;BA.debugLine="Button2.Visible = False";
-mostCurrent._button2.setVisible(anywheresoftware.b4a.keywords.Common.False);
- //BA.debugLineNum = 254;BA.debugLine="CheckBox1.Enabled = True";
-mostCurrent._checkbox1.setEnabled(anywheresoftware.b4a.keywords.Common.True);
- //BA.debugLineNum = 256;BA.debugLine="Button1.Visible = True";
-mostCurrent._button1.setVisible(anywheresoftware.b4a.keywords.Common.True);
- //BA.debugLineNum = 257;BA.debugLine="Button1.BringToFront";
-mostCurrent._button1.BringToFront();
- //BA.debugLineNum = 258;BA.debugLine="CheckBox1.SendToBack";
-mostCurrent._checkbox1.SendToBack();
- //BA.debugLineNum = 259;BA.debugLine="Activity.Title = \"waut.ch! running... ! to redraw";
+ //BA.debugLineNum = 261;BA.debugLine="Activity.Title = \"waut.ch! running... ! to redraw";
 mostCurrent._activity.setTitle(BA.ObjectToCharSequence("waut.ch! running... ! to redraw elements"));
- //BA.debugLineNum = 260;BA.debugLine="SetRandom_Local";
+ //BA.debugLineNum = 262;BA.debugLine="SetRandom_Local";
 _setrandom_local();
- //BA.debugLineNum = 262;BA.debugLine="End Sub";
+ //BA.debugLineNum = 264;BA.debugLine="Activity.Finish";
+mostCurrent._activity.Finish();
+ //BA.debugLineNum = 266;BA.debugLine="End Sub";
 return "";
 }
 public static String  _globals() throws Exception{
@@ -592,13 +576,13 @@ return;
 case 0:
 //C
 this.state = 1;
- //BA.debugLineNum = 270;BA.debugLine="Dim random_long As Long";
+ //BA.debugLineNum = 274;BA.debugLine="Dim random_long As Long";
 _random_long = 0L;
- //BA.debugLineNum = 272;BA.debugLine="Dim i,j,k As Int";
+ //BA.debugLineNum = 276;BA.debugLine="Dim i,j,k As Int";
 _i = 0;
 _j = 0;
 _k = 0;
- //BA.debugLineNum = 276;BA.debugLine="If Aclock.Visible = False Then";
+ //BA.debugLineNum = 280;BA.debugLine="If Aclock.Visible = False Then";
 if (true) break;
 
 case 1:
@@ -611,28 +595,28 @@ this.state = 3;
 case 3:
 //C
 this.state = 4;
- //BA.debugLineNum = 278;BA.debugLine="time_IV = DateTime.Now";
+ //BA.debugLineNum = 282;BA.debugLine="time_IV = DateTime.Now";
 parent._time_iv = anywheresoftware.b4a.keywords.Common.DateTime.getNow();
- //BA.debugLineNum = 286;BA.debugLine="If ( time_IV > ( time_III + 15000 ) ) Then";
+ //BA.debugLineNum = 290;BA.debugLine="If ( time_IV > ( time_III + 5000 ) ) Then";
 if (true) break;
 
 case 4:
 //if
 this.state = 7;
-if ((parent._time_iv>(parent._time_iii+15000))) { 
+if ((parent._time_iv>(parent._time_iii+5000))) { 
 this.state = 6;
 }if (true) break;
 
 case 6:
 //C
 this.state = 7;
- //BA.debugLineNum = 287;BA.debugLine="ToastMessageShow( Rnd(1,64) , True )";
+ //BA.debugLineNum = 291;BA.debugLine="ToastMessageShow( Rnd(1,64) , True )";
 anywheresoftware.b4a.keywords.Common.ToastMessageShow(BA.ObjectToCharSequence(anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))),anywheresoftware.b4a.keywords.Common.True);
- //BA.debugLineNum = 290;BA.debugLine="Activity.Finish";
+ //BA.debugLineNum = 294;BA.debugLine="Activity.Finish";
 parent.mostCurrent._activity.Finish();
  if (true) break;
 ;
- //BA.debugLineNum = 294;BA.debugLine="For j = 1 To 64";
+ //BA.debugLineNum = 298;BA.debugLine="For j = 1 To 64";
 
 case 7:
 //for
@@ -658,7 +642,7 @@ if (true) break;
 case 9:
 //C
 this.state = 10;
- //BA.debugLineNum = 296;BA.debugLine="For i = 1 To 64";
+ //BA.debugLineNum = 300;BA.debugLine="For i = 1 To 64";
 if (true) break;
 
 case 10:
@@ -685,9 +669,9 @@ if (true) break;
 case 12:
 //C
 this.state = 13;
- //BA.debugLineNum = 297;BA.debugLine="random_long = Rnd(1,2+Abs(Action)+(Abs(X)*Abs(";
+ //BA.debugLineNum = 301;BA.debugLine="random_long = Rnd(1,2+Abs(Action)+(Abs(X)*Abs(";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (2+anywheresoftware.b4a.keywords.Common.Abs(_action)+(anywheresoftware.b4a.keywords.Common.Abs(_x)*anywheresoftware.b4a.keywords.Common.Abs(_y)))));
- //BA.debugLineNum = 298;BA.debugLine="If(Rnd(1,64) > 30 ) Then";
+ //BA.debugLineNum = 302;BA.debugLine="If(Rnd(1,64) > 30 ) Then";
 if (true) break;
 
 case 13:
@@ -700,13 +684,13 @@ this.state = 15;
 case 15:
 //C
 this.state = 16;
- //BA.debugLineNum = 299;BA.debugLine="random_long = Rnd(1,1+Rnd(1,922337203685477))";
+ //BA.debugLineNum = 303;BA.debugLine="random_long = Rnd(1,1+Rnd(1,922337203685477))";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (1+anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (922337203685477L)))));
- //BA.debugLineNum = 300;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
+ //BA.debugLineNum = 304;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv2()),(int) (9-_vv2())));
- //BA.debugLineNum = 301;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
+ //BA.debugLineNum = 305;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv2()),(int) (9-_vv2())));
- //BA.debugLineNum = 302;BA.debugLine="random_long = random13";
+ //BA.debugLineNum = 306;BA.debugLine="random_long = random13";
 _random_long = (long) (_v0());
  if (true) break;
 
@@ -717,7 +701,7 @@ this.state = 42;
  if (true) break;
 if (true) break;
 ;
- //BA.debugLineNum = 306;BA.debugLine="For i = 1 To 64";
+ //BA.debugLineNum = 310;BA.debugLine="For i = 1 To 64";
 
 case 17:
 //for
@@ -743,9 +727,9 @@ if (true) break;
 case 19:
 //C
 this.state = 20;
- //BA.debugLineNum = 307;BA.debugLine="random_long = Rnd(1,2+Abs(Action)+(Abs(X)*Abs(";
+ //BA.debugLineNum = 311;BA.debugLine="random_long = Rnd(1,2+Abs(Action)+(Abs(X)*Abs(";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (2+anywheresoftware.b4a.keywords.Common.Abs(_action)+(anywheresoftware.b4a.keywords.Common.Abs(_x)*anywheresoftware.b4a.keywords.Common.Abs(_y)))));
- //BA.debugLineNum = 308;BA.debugLine="If(Rnd(1,64) < 30 ) Then";
+ //BA.debugLineNum = 312;BA.debugLine="If(Rnd(1,64) < 30 ) Then";
 if (true) break;
 
 case 20:
@@ -758,13 +742,13 @@ this.state = 22;
 case 22:
 //C
 this.state = 23;
- //BA.debugLineNum = 309;BA.debugLine="random_long = Rnd(1,1+Rnd(1,922337203685477))";
+ //BA.debugLineNum = 313;BA.debugLine="random_long = Rnd(1,1+Rnd(1,922337203685477))";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (1+anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (922337203685477L)))));
- //BA.debugLineNum = 310;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
+ //BA.debugLineNum = 314;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv2()),(int) (9-_vv2())));
- //BA.debugLineNum = 311;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
+ //BA.debugLineNum = 315;BA.debugLine="random_long = Rnd(1+random12,9-random12)";
 _random_long = (long) (anywheresoftware.b4a.keywords.Common.Rnd((int) (1+_vv2()),(int) (9-_vv2())));
- //BA.debugLineNum = 312;BA.debugLine="random_long = random13";
+ //BA.debugLineNum = 316;BA.debugLine="random_long = random13";
 _random_long = (long) (_v0());
  if (true) break;
 
@@ -779,11 +763,11 @@ case 24:
 //C
 this.state = 40;
 ;
- //BA.debugLineNum = 318;BA.debugLine="Label1.TextSize = 18 - random13";
+ //BA.debugLineNum = 322;BA.debugLine="Label1.TextSize = 18 - random13";
 parent.mostCurrent._label1.setTextSize((float) (18-_v0()));
- //BA.debugLineNum = 319;BA.debugLine="S2";
+ //BA.debugLineNum = 323;BA.debugLine="S2";
 _vv3();
- //BA.debugLineNum = 320;BA.debugLine="Sleep(30)";
+ //BA.debugLineNum = 324;BA.debugLine="Sleep(30)";
 anywheresoftware.b4a.keywords.Common.Sleep(mostCurrent.activityBA,this,(int) (30));
 this.state = 45;
 return;
@@ -791,7 +775,7 @@ case 45:
 //C
 this.state = 40;
 ;
- //BA.debugLineNum = 321;BA.debugLine="Label1.Text = Rnd(1,64)";
+ //BA.debugLineNum = 325;BA.debugLine="Label1.Text = Rnd(1,64)";
 parent.mostCurrent._label1.setText(BA.ObjectToCharSequence(anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))));
  if (true) break;
 if (true) break;
@@ -800,9 +784,9 @@ case 25:
 //C
 this.state = 26;
 ;
- //BA.debugLineNum = 325;BA.debugLine="k = 40";
-_k = (int) (40);
- //BA.debugLineNum = 327;BA.debugLine="If Activity.Height > 1000 Then k = 75";
+ //BA.debugLineNum = 329;BA.debugLine="k = 50";
+_k = (int) (50);
+ //BA.debugLineNum = 331;BA.debugLine="If Activity.Height > 1000 Then k = 85";
 if (true) break;
 
 case 26:
@@ -815,14 +799,14 @@ this.state = 28;
 case 28:
 //C
 this.state = 31;
-_k = (int) (75);
+_k = (int) (85);
 if (true) break;
 
 case 31:
 //C
 this.state = 32;
 ;
- //BA.debugLineNum = 329;BA.debugLine="If Activity.Width > 1000 Then k = 75";
+ //BA.debugLineNum = 333;BA.debugLine="If Activity.Width > 1000 Then k = 85";
 if (true) break;
 
 case 32:
@@ -835,30 +819,30 @@ this.state = 34;
 case 34:
 //C
 this.state = 37;
-_k = (int) (75);
+_k = (int) (85);
 if (true) break;
 
 case 37:
 //C
 this.state = 38;
 ;
- //BA.debugLineNum = 331;BA.debugLine="i = random13";
+ //BA.debugLineNum = 335;BA.debugLine="i = random13";
 _i = _v0();
- //BA.debugLineNum = 332;BA.debugLine="j = random13";
+ //BA.debugLineNum = 336;BA.debugLine="j = random13";
 _j = _v0();
- //BA.debugLineNum = 335;BA.debugLine="Label1.Top = Activity.Height / 2 + 3*k - (i+j)*k";
+ //BA.debugLineNum = 339;BA.debugLine="Label1.Top = Activity.Height / 2 + 3*k - (i+j)*k";
 parent.mostCurrent._label1.setTop((int) (parent.mostCurrent._activity.getHeight()/(double)2+3*_k-(_i+_j)*_k));
- //BA.debugLineNum = 337;BA.debugLine="i = random13";
+ //BA.debugLineNum = 341;BA.debugLine="i = random13";
 _i = _v0();
- //BA.debugLineNum = 338;BA.debugLine="j = random13";
+ //BA.debugLineNum = 342;BA.debugLine="j = random13";
 _j = _v0();
- //BA.debugLineNum = 339;BA.debugLine="Label1.Left = Activity.Width / 2 + 3*k - (i+j)*k";
+ //BA.debugLineNum = 343;BA.debugLine="Label1.Left = Activity.Width / 2 + 3*k - (i+j)*k";
 parent.mostCurrent._label1.setLeft((int) (parent.mostCurrent._activity.getWidth()/(double)2+3*_k-(_i+_j)*_k));
- //BA.debugLineNum = 341;BA.debugLine="Label1.TextSize = 22 - 2*random13";
+ //BA.debugLineNum = 345;BA.debugLine="Label1.TextSize = 22 - 2*random13";
 parent.mostCurrent._label1.setTextSize((float) (22-2*_v0()));
- //BA.debugLineNum = 343;BA.debugLine="S2";
+ //BA.debugLineNum = 347;BA.debugLine="S2";
 _vv3();
- //BA.debugLineNum = 344;BA.debugLine="Sleep(30)";
+ //BA.debugLineNum = 348;BA.debugLine="Sleep(30)";
 anywheresoftware.b4a.keywords.Common.Sleep(mostCurrent.activityBA,this,(int) (30));
 this.state = 46;
 return;
@@ -866,7 +850,7 @@ case 46:
 //C
 this.state = 38;
 ;
- //BA.debugLineNum = 345;BA.debugLine="Label1.Text = Rnd(1,64)";
+ //BA.debugLineNum = 349;BA.debugLine="Label1.Text = Rnd(1,64)";
 parent.mostCurrent._label1.setText(BA.ObjectToCharSequence(anywheresoftware.b4a.keywords.Common.Rnd((int) (1),(int) (64))));
  if (true) break;
 
@@ -874,7 +858,7 @@ case 38:
 //C
 this.state = -1;
 ;
- //BA.debugLineNum = 349;BA.debugLine="End Sub";
+ //BA.debugLineNum = 353;BA.debugLine="End Sub";
 if (true) break;
 
             }
@@ -954,7 +938,7 @@ return;
 case 0:
 //C
 this.state = -1;
- //BA.debugLineNum = 265;BA.debugLine="Sleep(30)";
+ //BA.debugLineNum = 269;BA.debugLine="Sleep(30)";
 anywheresoftware.b4a.keywords.Common.Sleep(mostCurrent.activityBA,this,(int) (30));
 this.state = 1;
 return;
@@ -962,7 +946,7 @@ case 1:
 //C
 this.state = -1;
 ;
- //BA.debugLineNum = 266;BA.debugLine="End Sub";
+ //BA.debugLineNum = 270;BA.debugLine="End Sub";
 if (true) break;
 
             }

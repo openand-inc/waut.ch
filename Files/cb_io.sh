@@ -35,9 +35,11 @@ MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ p
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name scheduler 2>/dev/null); do 
   busybox chmod 666 $i
-  ECHO noop | busybox tee $i ; 
+  ECHO noop | busybox tee $i 
 #  busybox chmod 444 $i
 done
+
+if [ 1 = 0 ]; then 
 
 	busybox mount -t debugfs -o rw none /sys/kernel/debug 
 
@@ -59,24 +61,40 @@ SYSCTL kernel.sched_min_granularity_ns=400000
 
 	/system/xbin/su -mn -c "busybox umount /sys/kernel/debug"
 
+fi
 
-for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name read_ahead_kb 2>/dev/null); do ECHO 0 | busybox tee $i; done
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name read_ahead_kb 2>/dev/null); do   
+  busybox chmod 666 $i
+  ECHO 0 | busybox tee $i
+done
 
-#for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do ECHO 128 | busybox tee $i ; done
-for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do ECHO 1024 | busybox tee $i ; done
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do 
+  busybox chmod 666 $i
+  ECHO 256 | busybox tee $i
+done
 
-for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name rq_affinity 2>/dev/null); do ECHO 1 | busybox tee $i ; done
+#for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do ECHO 64 | busybox tee $i ; done
+
+if [ 1 = 0]; then
+
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name rq_affinity 2>/dev/null); do ECHO 2 | busybox tee $i ; done
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name rotational 2>/dev/null); do ECHO 0 | busybox tee $i ; done
-for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nomerges 2>/dev/null); do ECHO 1 | busybox tee $i ; done
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nomerges 2>/dev/null); do ECHO 2 | busybox tee $i ; done
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name iostats 2>/dev/null); do ECHO 0 | busybox tee $i ; done
 
-for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name low_latency 2>/dev/null); do ECHO 1 | busybox tee $i ; done
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name low_latency 2>/dev/null); do ECHO 0 | busybox tee $i ; done
 
 #for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name discard_max_bytes 2>/dev/null); do ECHO 4096 | busybox tee $i ; done
 
 # Skip for md devices.
 
 #for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name fifo_batch 2>/dev/null); do ECHO 1 | busybox tee $i ; done
+
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name slice_idle 2>/dev/null); do ECHO 0 | busybox tee $i ; done
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name quantum 2>/dev/null); do ECHO 64 | busybox tee $i ; done
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name group_idle 2>/dev/null); do ECHO 1 | busybox tee $i ; done
+
+fi
 
 if [ ! -e /sys/devices/system/cpu/cpufreq/interactive ]; then 
   busybox chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor 

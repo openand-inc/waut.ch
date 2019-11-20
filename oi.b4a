@@ -37,8 +37,8 @@ Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 110
-	#VersionName: eaf169a6-c16e-4d37-9d92-650fc89b21df
+	#VersionCode: 112
+	#VersionName: a2550dd7-e4d0-484d-a11e-1c55bb6186e1
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -279,22 +279,26 @@ Sub CheckBox1_CheckedChange(Checked As Boolean)
 '	ToastMessageShow(Rnd(0,9) & Rnd(0,9) & Rnd(0,9) & Rnd(0,9) & Rnd(0,9) & Rnd(0,9), True )
 	SetRandom_Local
 '	ToastMessageShow("check",False)
-	CheckBox1.Enabled = False
-	CheckBox1.Visible = False
+
+'	CheckBox1.Enabled = False
+'	CheckBox1.Visible = False
 	
-    CheckBox1.Checked = False
+'    CheckBox1.Checked = False
 	
-	Aclock.Visible = False
-	Button2.Visible = False
+'	Aclock.Visible = False
+'	Button2.Visible = False
 	
-'	CheckBox1.Visible = True
-	CheckBox1.Enabled = True
+'''''	CheckBox1.Visible = True
+'	CheckBox1.Enabled = True
 	
-	Button1.Visible = True
-	Button1.BringToFront
-	CheckBox1.SendToBack
+'	Button1.Visible = True
+'	Button1.BringToFront
+'	CheckBox1.SendToBack
+	
 	Activity.Title = "waut.ch! running... ! to redraw elements"
 	SetRandom_Local
+	
+	Activity.Finish
 	
 End Sub
 
@@ -320,7 +324,7 @@ Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
 '			Return 0
 '		End If
 		
-		If ( time_IV > ( time_III + 15000 ) ) Then
+		If ( time_IV > ( time_III + 5000 ) ) Then
 			ToastMessageShow( Rnd(1,64) , True )
 '			ToastMessageShow( DateTime.Date(DateTime.Now) , False )
 '			time_III = DateTime.Now
@@ -359,11 +363,11 @@ Sub Panel1_Touch (Action As Int, X As Float, Y As Float)
 		
 		Next
 
-		k = 40 
+		k = 50 
 		
-		If Activity.Height > 1000 Then k = 75
+		If Activity.Height > 1000 Then k = 85
 
-		If Activity.Width > 1000 Then k = 75
+		If Activity.Width > 1000 Then k = 85
 		 
 		i = random13
 		j = random13

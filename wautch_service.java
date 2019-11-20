@@ -205,8 +205,6 @@ _hour = anywheresoftware.b4a.keywords.Common.DateTime.GetHour(anywheresoftware.b
 if (_hour==3) { 
  //BA.debugLineNum = 80;BA.debugLine="If rc.haveRoot Then";
 if (_v5.haveRoot()) { 
- //BA.debugLineNum = 82;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/";
-_v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox setsid "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox sh "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb.sh RUN FORCE");
  //BA.debugLineNum = 84;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/";
 _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox setsid "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox sh "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_weekly.sh RUN FORCE");
  };

@@ -85,7 +85,7 @@ Sub myStart()
 	If hour = 3 Then
 		If rc.haveRoot Then
 '			ToastMessageShow("run...",True)
-			rc.execRootCmdSilent( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb.sh RUN FORCE" )
+'			rc.execRootCmdSilent( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb.sh RUN FORCE" )
 
 			rc.execRootCmdSilent( File.DirInternal & "/bin/busybox setsid " & File.DirInternal & "/bin/busybox sh " & File.DirInternal & "/bin/cb_weekly.sh RUN FORCE" )
 							
@@ -106,9 +106,9 @@ Sub Service_Start (StartingIntent As Intent)
 	StartServiceAt("", timeofday , True)
 
 	myStart
-	
-	Service.StopAutomaticForeground 'Call this when the background task completes (if there is one)
 
+	Service.StopAutomaticForeground 'Call this when the background task completes (if there is one)
+	
 End Sub
 
 Sub Service_Destroy

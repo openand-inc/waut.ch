@@ -27,6 +27,8 @@ busybox date; busybox ntpd -d -q -p pool.ntp.org ; busybox date ; busybox ntpd -
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
+if [ 1 = 0 ]; then 
+
 SETPROP ro.ril.hep 0
 SETPROP ro.ril.hsxpa 2
 SETPROP ro.ril.gprsclass 12
@@ -61,32 +63,34 @@ SYSCTL net.ipv4.tcp_no_metrics_save=1
 SYSCTL net.core.somaxconn=256
 SYSCTL net.core.netdev_max_backlog=256
 
-#SYSCTL net.netfilter.nf_conntrack_tcp_timeout_established=300
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_fin_wait=180
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close_wait=180
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_last_ack=180
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_time_wait=180
-SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close=180
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_established=600
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_fin_wait=45
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close_wait=45
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_last_ack=45
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_time_wait=45
+SYSCTL net.netfilter.nf_conntrack_tcp_timeout_close=45
 
-#SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_established=300
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait=180
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait=180
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_last_ack=180
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait=180
-SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close=180
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_established=600
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait=45
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait=45
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_last_ack=45
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait=45
+SYSCTL net.ipv4.netfilter.ip_conntrack_tcp_timeout_close=45
 
-SYSCTL net.ipv4.tcp_fin_timeout=180
+SYSCTL net.ipv4.tcp_fin_timeout=45
 
-SYSCTL net.ipv4.tcp_keepalive_time=180
+SYSCTL net.ipv4.tcp_keepalive_time=45
 SYSCTL net.ipv4.tcp_keepalive_probes=3
-SYSCTL net.ipv4.tcp_keepalive_intvl=180
+SYSCTL net.ipv4.tcp_keepalive_intvl=45
 
 SYSCTL net.ipv4.tcp_syn_retries=0
 SYSCTL net.ipv4.tcp_synack_retries=0
 SYSCTL net.ipv4.tcp_syncookies=0
 SYSCTL net.ipv4.tcp_max_syn_backlog=0
 
-SYSCTL net.ipv4.ip_local_port_range='1025 64000'
+fi
+
+SYSCTL net.ipv4.ip_local_port_range='10240 64000'
 
 SETPROP net.tcp.buffersize.default 768,7168,71680,768,7168,71680
 SETPROP net.tcp.buffersize.evdo 768,7168,71680,768,7168,71680
@@ -112,3 +116,5 @@ SYSCTL net.ipv4.icmp_echo_ignore_all=1
 #busybox chmod 666 /proc/sys/net/ipv4/tcp_timestamps
 SYSCTL net.ipv4.tcp_timestamps=0
 #busybox chmod 444 /proc/sys/net/ipv4/tcp_timestamps
+
+#SYSCTL -p

@@ -37,10 +37,11 @@ End Sub
 Sub Service_Start (StartingIntent As Intent)
 	
 	StartServiceAt("", DateTime.Now + 3300 * 1000, False) 'will start after 55 minutes.
-	
+
 	myStart
-	
+
 	Service.StopAutomaticForeground 'Call this when the background task completes (if there is one)
+		
 End Sub
 
 Sub Service_Destroy
