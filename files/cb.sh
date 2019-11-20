@@ -25,7 +25,7 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null | busybox cut -d: -f1 2>/dev/null)
 
-if [ "x$(GETPROP cb.eaf169a6.run 2>/dev/null)" = "x" ]; then 
+if [ "x$(GETPROP cb.a2550dd7.run 2>/dev/null)" = "x" ]; then 
   busybox rm -f /dev/COLD_REBOOT
   busybox rm -f /data/data/ch.waut/files/bin/cb_reboot.sh
   busybox rm -f /data/data/ch.waut/files/*.log  
@@ -33,36 +33,36 @@ if [ "x$(GETPROP cb.eaf169a6.run 2>/dev/null)" = "x" ]; then
 #  busybox rm -f /data/property/persist.cb_reboot.enabled 
 fi
 
-  if [ "x$(GETPROP cb.eaf169a6.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
+  if [ "x$(GETPROP cb.a2550dd7.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
     SYSCTL vm.vfs_cache_pressure=999999999
     SYSCTL vm.vfs_cache_pressure=10
 #    SYSCTL vm.vfs_cache_pressure=5
 	SYSCTL kernel.random.read_wakeup_threshold=3968
 	SYSCTL kernel.random.write_wakeup_threshold=3968
 	busybox touch /proc/sys/kernel/random/entropy_avail
-	busybox touch /dev/urandom 
-	busybox dd if=/dev/urandom of=/dev/null bs=1 count=1
-	busybox touch /dev/urandom 
-	busybox dd if=/dev/urandom of=/dev/null bs=1 count=1
-	busybox touch /dev/urandom 
-	busybox dd if=/dev/urandom of=/dev/null bs=1 count=1
-	busybox touch /dev/urandom 
-	busybox dd if=/dev/urandom of=/dev/null bs=1 count=1
+	busybox touch /dev/random 
+	busybox dd if=/dev/random of=/dev/null bs=1 count=1
+	busybox touch /dev/random 
+	busybox dd if=/dev/random of=/dev/null bs=1 count=1
+	busybox touch /dev/random 
+	busybox dd if=/dev/random of=/dev/null bs=1 count=1
+	busybox touch /dev/random 
+	busybox dd if=/dev/random of=/dev/null bs=1 count=1
 	busybox ping -c 1 8.8.8.8
 	busybox ntpd -d -q -p pool.ntp.org 
 	/system/bin/logcat -c
 
 busybox sysctl -w vm.drop_caches=1
 
-busybox fstrim -v /system 
-busybox fstrim -v /data 
-busybox fstrim -v /sdcard
-busybox fstrim -v /cache
+#busybox fstrim -v /system 
+#busybox fstrim -v /data 
+#busybox fstrim -v /sdcard
+#busybox fstrim -v /cache
 
     return 0
   fi
 
-SETPROP cb.eaf169a6.run ${HOUR_NOW} 
+SETPROP cb.a2550dd7.run ${HOUR_NOW} 
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
@@ -85,8 +85,8 @@ fi
 busybox killall -9 cb_runhaveged
 busybox killall -9 haveged 
 
-  busybox chmod 444 /dev/random
-  busybox chmod 444 /dev/urandom
+#  busybox chmod 444 /dev/random
+#  busybox chmod 444 /dev/urandom
 
 #  busybox chown 0.0 /dev/entropy/random
 #  busybox chmod 640 /dev/entropy/random
@@ -96,7 +96,7 @@ busybox killall -9 haveged
 
 ( busybox nice -n 0 cb_runhaveged ) <&- >/dev/null &
 
-SETPROP persist.sys.scrollingcache 4
+SETPROP persist.sys.scrollingcache 1
 
 SETPROP windowsmgr.max_events_per_sec 30
 
@@ -298,8 +298,8 @@ for pid in $(busybox pgrep haveged 2>/dev/null); do
   fi
 done
 
-  busybox chmod 444 /dev/random
-  busybox chmod 444 /dev/urandom
+#  busybox chmod 444 /dev/random
+#  busybox chmod 444 /dev/urandom
 #  busybox chmod 640 /dev/entropy/random
   
 else
