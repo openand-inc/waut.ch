@@ -37,8 +37,8 @@ Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 113
-	#VersionName: 9fb9675b-dc88-4707-8d01-6b966e091e0a
+	#VersionCode: 114
+	#VersionName: 080c0a30-9544-49d3-93a3-09d1174ce488
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -181,6 +181,8 @@ Sub Activity_Create(isFirst As Boolean)
 	If rc_main.haveRoot = False Then
 '		fs_main.GetRoot
 		ToastMessageShow("root not found...",True)
+	Else
+		ToastMessageShow("running in background...",True)		
 	End If
 		
 	SetRandom_Local
@@ -253,7 +255,7 @@ Sub Button2_Click
 	SetRandom_Local
 				
 	If ( time_I > ( time_II + 1500 ) ) Then
-		ToastMessageShow( "utility for background calibration, curation and tuning of the device towards an intuitive interface. subsystems being battery, entropy, encryption, disk, cpu, memory, filesystem, ui, scheduler, and network, all safe and open source technology. presented in this gaming metric format with infinite feedback and an interestingly assymetric chance. scribble anywhere, check in some stress, or find the 8!", True )
+		ToastMessageShow( "utility for background calibration, curation and tuning of the device towards an intuitive interface. subsystems being battery, entropy, encryption, disk, cpu, memory, filesystem, ui, scheduler, and network, all safe and open source technology. presented in this gaming metric format with infinite feedback and an interestingly assymetric chance. click the number, find the difference!", True )
 		time_II = DateTime.Now
 	End If
 	

@@ -114,7 +114,7 @@ done
 SYSCTL net.ipv4.icmp_echo_ignore_all=1
 
 #busybox chmod 666 /proc/sys/net/ipv4/tcp_timestamps
-SYSCTL net.ipv4.tcp_timestamps=0
+#SYSCTL net.ipv4.tcp_timestamps=0
 #busybox chmod 444 /proc/sys/net/ipv4/tcp_timestamps
 
 #SYSCTL -p
