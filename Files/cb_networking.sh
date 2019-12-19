@@ -27,8 +27,6 @@ busybox date; busybox ntpd -d -q -p pool.ntp.org ; busybox date ; busybox ntpd -
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
-if [ 1 = 0 ]; then 
-
 SETPROP ro.ril.hep 0
 SETPROP ro.ril.hsxpa 2
 SETPROP ro.ril.gprsclass 12
@@ -49,7 +47,7 @@ SETPROP persist.telephony.support.ipv4 1
 SYSCTL net.ipv4.tcp_tw_recycle=1
 SYSCTL net.ipv4.tcp_tw_reuse=1
 SYSCTL net.ipv4.tcp_moderate_rcvbuf=1
-SYSCTL net.ipv4.tcp_low_latency=0
+SYSCTL net.ipv4.tcp_low_latency=1
 SYSCTL net.ipv4.tcp_slow_start_after_idle=0
 SYSCTL net.ipv4.tcp_window_scaling=1
 SYSCTL net.ipv4.tcp_sack=1
@@ -57,10 +55,13 @@ SYSCTL net.ipv4.tcp_fack=1
 SYSCTL net.ipv4.tcp_dsack=1
 SYSCTL net.ipv4.tcp_thin_dupack=1
 SYSCTL net.ipv4.tcp_thin_linear_timeouts=1
-SYSCTL net.ipv4.tcp_ecn=1
+SYSCTL net.ipv4.tcp_ecn=0
 SYSCTL net.ipv4.tcp_no_metrics_save=1
 
-SYSCTL net.core.somaxconn=256
+SYSCTL net.core.somaxconn=512
+
+if [ 1 = 0 ]; then 
+
 SYSCTL net.core.netdev_max_backlog=256
 
 SYSCTL net.netfilter.nf_conntrack_tcp_timeout_established=600
@@ -90,7 +91,9 @@ SYSCTL net.ipv4.tcp_max_syn_backlog=0
 
 fi
 
-SYSCTL net.ipv4.ip_local_port_range='10240 64000'
+SYSCTL net.core.somaxconn=512
+
+SYSCTL net.ipv4.ip_local_port_range='1025 64000'
 
 SETPROP net.tcp.buffersize.default 768,7168,71680,768,7168,71680
 SETPROP net.tcp.buffersize.evdo 768,7168,71680,768,7168,71680
@@ -114,7 +117,7 @@ done
 SYSCTL net.ipv4.icmp_echo_ignore_all=1
 
 #busybox chmod 666 /proc/sys/net/ipv4/tcp_timestamps
-#SYSCTL net.ipv4.tcp_timestamps=0
+SYSCTL net.ipv4.tcp_timestamps=0
 #busybox chmod 444 /proc/sys/net/ipv4/tcp_timestamps
 
 #SYSCTL -p

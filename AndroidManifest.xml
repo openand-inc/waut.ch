@@ -2,8 +2,8 @@
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	package="ch.waut"
-	android:versionCode="114"
-	android:versionName="080c0a30-9544-49d3-93a3-09d1174ce488"
+	android:versionCode="116"
+	android:versionName="c68a1d59-2eca-475e-9596-28ccaf9a65e2"
 	android:installLocation="internalOnly">
 	
 	<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>
