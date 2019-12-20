@@ -23,7 +23,7 @@ alias SETPROP='/system/bin/setprop '
 alias GETPROP='/system/bin/getprop '
 if [ "$(GETPROP persist.cb_networking.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
-busybox date; busybox ntpd -d -q -p pool.ntp.org ; busybox date ; busybox ntpd -d -q -p pool.ntp.org ; busybox date ; busybox ntpd -d -q -p pool.ntp.org ; busybox date 
+#busybox date; busybox ntpd -d -q -p pool.ntp.org ; busybox date ; busybox ntpd -d -q -p pool.ntp.org ; busybox date ; busybox ntpd -d -q -p pool.ntp.org ; busybox date 
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
