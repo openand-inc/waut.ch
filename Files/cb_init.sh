@@ -50,13 +50,23 @@ UPDATE_TABLES() {
   fi
 }
 
-UPDATE_TABLES GLOBAL transition_animation_scale 0
-UPDATE_TABLES GLOBAL window_animation_scale 0
-UPDATE_TABLES GLOBAL animator_duration_scale 0
+if [ 1 = 0 ]; then 
 
 GLOBAL_WINDOW_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from GLOBAL where name='window_animation_scale';" 2>/dev/null)
 GLOBAL_TRANSITION_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from GLOBAL where name='transition_animation_scale';" 2>/dev/null)
 GLOBAL_ANIMATOR_DURATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from GLOBAL where name='animator_duration_scale';" 2>/dev/null)
+
+if [ "x${GLOBAL_TRANSITION_ANIMATION_SCALE}" != "x0" ]; then 
+  UPDATE_TABLES GLOBAL transition_animation_scale 0
+fi
+if [ "x${GLOBAL_WINDOW_ANIMATION_SCALE}" != "x0" ]; then 
+  UPDATE_TABLES GLOBAL window_animation_scale 0
+fi
+if [ "x${GLOBAL_ANIMATOR_DURATION_SCALE}" != "x0" ]; then 
+  UPDATE_TABLES GLOBAL animator_duration_scale 0
+fi
+
+if [ 1 = 0 ]; then 
 
 if [ "x${GLOBAL_WINDOW_ANIMATION_SCALE}" = "x" ]; then 
   sqlite3 ${SETTINGS_DB} "insert into GLOBAL values(null, 'window_animation_scale', '0');"
@@ -70,13 +80,23 @@ if [ "x${GLOBAL_ANIMATOR_DURATION_SCALE}" = "x" ]; then
   sqlite3 ${SETTINGS_DB} "insert into GLOBAL values(null, 'animator_duration_scale', '0');"
 fi
 
-UPDATE_TABLES SYSTEM transition_animation_scale 0
-UPDATE_TABLES SYSTEM window_animation_scale 0
-UPDATE_TABLES SYSTEM animator_duration_scale 0
+fi
 
 SYSTEM_WINDOW_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SYSTEM where name='window_animation_scale';" 2>/dev/null)
 SYSTEM_TRANSITION_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SYSTEM where name='transition_animation_scale';" 2>/dev/null)
 SYSTEM_ANIMATOR_DURATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SYSTEM where name='animator_duration_scale';" 2>/dev/null)
+
+if [ "x${SYSTEM_TRANSITION_ANIMATION_SCALE}" != "x0" ]; then 
+  UPDATE_TABLES SYSTEM transition_animation_scale 0
+fi
+if [ "x${SYSTEM_WINDOW_ANIMATION_SCALE}" != "x0" ]; then 
+  UPDATE_TABLES SYSTEM window_animation_scale 0
+fi
+if [ "x${SYSTEM_ANIMATOR_DURATION_SCALE}" != "x0" ]; then 
+  UPDATE_TABLES SYSTEM animator_duration_scale 0
+fi
+
+if [ 1 = 0 ]; then 
 
 if [ "x${SYSTEM_WINDOW_ANIMATION_SCALE}" = "x" ]; then 
   sqlite3 ${SETTINGS_DB} "insert into SYSTEM values(null, 'window_animation_scale', '0');"
@@ -90,13 +110,23 @@ if [ "x${SYSTEM_ANIMATOR_DURATION_SCALE}" = "x" ]; then
   sqlite3 ${SETTINGS_DB} "insert into SYSTEM values(null, 'animator_duration_scale', '0');"
 fi
 
-UPDATE_TABLES SECURE transition_animation_scale 0
-UPDATE_TABLES SECURE window_animation_scale 0
-UPDATE_TABLES SECURE animator_duration_scale 0
+fi
 
 SECURE_WINDOW_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SECURE where name='window_animation_scale';" 2>/dev/null)
 SECURE_TRANSITION_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SECURE where name='transition_animation_scale';" 2>/dev/null)
 SECURE_ANIMATOR_DURATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SECURE where name='animator_duration_scale';" 2>/dev/null)
+
+if [ "x${SECURE_TRANSITION_ANIMATION_SCALE}" != "x0" ]; then 
+  UPDATE_TABLES SECURE transition_animation_scale 0
+fi
+if [ "x${SECURE_WINDOW_ANIMATION_SCALE}" != "x0" ]; then 
+  UPDATE_TABLES SECURE window_animation_scale 0
+fi
+if [ "x${SECURE_ANIMATOR_DURATION_SCALE}" != "x0" ]; then 
+  UPDATE_TABLES SECURE animator_duration_scale 0
+fi
+
+if [ 1 = 0 ]; then 
 
 if [ "x${SECURE_WINDOW_ANIMATION_SCALE}" = "x" ]; then 
   sqlite3 ${SETTINGS_DB} "insert into SECURE values(null, 'window_animation_scale', '0');"
@@ -110,7 +140,7 @@ if [ "x${SECURE_ANIMATOR_DURATION_SCALE}" = "x" ]; then
   sqlite3 ${SETTINGS_DB} "insert into SECURE values(null, 'animator_duration_scale', '0');"
 fi
 
-if [ 1 = 0 ]; then 
+fi
 
 if [ "x$VERSION" != "x" ]; then 
     if [ "$VERSION" -ge "5" ]; then 
@@ -213,16 +243,16 @@ SETPROP wifi.supplicant_scan_interval 45
 #SETPROP debug.performance.tuning 0
 #SETPROP video.accelerate.hw 0
 
-#SETPROP debug.composition.type cpu
-#SETPROP persist.sys.composition.type cpu
+SETPROP debug.composition.type cpu
+SETPROP persist.sys.composition.type cpu
 
 SETPROP persist.sys.ui.hw true
 SETPROP debug.sf.hw 1
 SETPROP debug.performance.tuning 1
 SETPROP video.accelerate.hw 1
 
-SETPROP debug.composition.type gpu
-SETPROP persist.sys.composition.type gpu
+#SETPROP debug.composition.type gpu
+#SETPROP persist.sys.composition.type gpu
 
 SETPROP ro.media.dec.jpeg.memcap 8000000
 SETPROP ro.media.enc.hprof.vid.bps 8000000

@@ -1,7 +1,5 @@
-Version Name: a2550dd7-e4d0-484d-a11e-1c55bb6186e1
+Version Name: 541b2ce1-3b64-48a7-a40f-fed728d0521a
 
-haveged: read and write thresholds set same just under 4000
-haveged: now uses /dev/random
-havegecollect: uses a 64-bit uint_64
-
-
+Hardware acceleration set to cpu
+Animation unchanged
+ntp disabled due to large jump concerns
