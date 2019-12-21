@@ -2,8 +2,8 @@
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	package="ch.waut"
-	android:versionCode="117"
-	android:versionName="541b2ce1-3b64-48a7-a40f-fed728d0521a"
+	android:versionCode="118"
+	android:versionName="b5777073-06c5-4f18-8fe7-ffb0c0e882cb"
 	android:installLocation="internalOnly">
 	
 	<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>
@@ -13,6 +13,7 @@
 	    android:anyDensity="true"/>
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 	<uses-permission android:name="android.permission.ACCESS_SUPERUSER"/>
+	<uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
 	<application
 		android:icon="@drawable/icon"
 		android:label="waut.ch!">

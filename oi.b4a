@@ -27,7 +27,7 @@ Library1=core
 Library2=clocks
 Library3=b4arootcmd
 Library4=mlfiles
-ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~RemovePermission("android.permission.WAKE_LOCK")~\n~RemovePermission("android.permission.WRITE_EXTERNAL_STORAGE")~\n~RemovePermission("android.permission.READ_EXTERNAL_STORAGE")~\n~
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~AddPermission("android.permission.WRITE_SECURE_SETTINGS")~\n~RemovePermission("android.permission.WAKE_LOCK")~\n~RemovePermission("android.permission.WRITE_EXTERNAL_STORAGE")~\n~RemovePermission("android.permission.READ_EXTERNAL_STORAGE")~\n~
 Module1=wautch_service
 Module2=Schedule
 NumberOfFiles=11
@@ -37,8 +37,8 @@ Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 117
-	#VersionName: 541b2ce1-3b64-48a7-a40f-fed728d0521a
+	#VersionCode: 118
+	#VersionName: b5777073-06c5-4f18-8fe7-ffb0c0e882cb
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False

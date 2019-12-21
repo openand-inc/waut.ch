@@ -1,5 +1,7 @@
-Version Name: 541b2ce1-3b64-48a7-a40f-fed728d0521a
+Version Number: 118
+Version Name: b5777073-06c5-4f18-8fe7-ffb0c0e882cb
 
-Hardware acceleration set to cpu
-Animation unchanged
-ntp disabled due to large jump concerns
+max events per seconds set to prime 29
+animations set to 0.1
+gpu enabled
+

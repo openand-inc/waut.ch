@@ -37,132 +37,138 @@ UPDATE_TABLES() {
   
   sqlite3 $SETTINGS_DB 'update '"$TABLE"' set value="'"$VALUE"'" where name="'"$VARIABLE"'";'
 
-# if [ -e /system/bin/settings ]; then 
-  if [ 1 = 0 ]; then
+}
+
+INSERT_TABLES() {
+  TABLE="$1"
+  VARIABLE="$2"
+  VALUE="$3"
+  
+ if [ -e /system/bin/settings ]; then 
     STRING=$(PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings get $TABLE $VARIABLE 2>/dev/null)
-    if [ "x$STRING" = "xnull" ]; then return 0; fi
+    if [ "x$STRING" != "xnull" ]; then
 
     if [ "x$VALUE" = "x" ]; then 
       PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put $TABLE $VARIABLE ""
     else
       PATH=/data/data/ch.waut/files/bin:/system/bin busybox sh /system/bin/settings put $TABLE $VARIABLE $VALUE
     fi
+	
+	fi
   fi
 }
-
-if [ 1 = 0 ]; then 
 
 GLOBAL_WINDOW_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from GLOBAL where name='window_animation_scale';" 2>/dev/null)
 GLOBAL_TRANSITION_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from GLOBAL where name='transition_animation_scale';" 2>/dev/null)
 GLOBAL_ANIMATOR_DURATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from GLOBAL where name='animator_duration_scale';" 2>/dev/null)
 
-if [ "x${GLOBAL_TRANSITION_ANIMATION_SCALE}" != "x0" ]; then 
-  UPDATE_TABLES GLOBAL transition_animation_scale 0
+if [ "x${GLOBAL_TRANSITION_ANIMATION_SCALE}" != "x0.1" ]; then 
+  UPDATE_TABLES GLOBAL transition_animation_scale 0.1
 fi
-if [ "x${GLOBAL_WINDOW_ANIMATION_SCALE}" != "x0" ]; then 
-  UPDATE_TABLES GLOBAL window_animation_scale 0
+if [ "x${GLOBAL_WINDOW_ANIMATION_SCALE}" != "x0.1" ]; then 
+  UPDATE_TABLES GLOBAL window_animation_scale 0.1
 fi
-if [ "x${GLOBAL_ANIMATOR_DURATION_SCALE}" != "x0" ]; then 
-  UPDATE_TABLES GLOBAL animator_duration_scale 0
+if [ "x${GLOBAL_ANIMATOR_DURATION_SCALE}" != "x0.1" ]; then 
+  UPDATE_TABLES GLOBAL animator_duration_scale 0.1
 fi
-
-if [ 1 = 0 ]; then 
 
 if [ "x${GLOBAL_WINDOW_ANIMATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into GLOBAL values(null, 'window_animation_scale', '0');"
+  sqlite3 ${SETTINGS_DB} "insert into GLOBAL values(null, 'window_animation_scale', '0.1');"
+  INSERT_TABLES GLOBAL window_animation_scale 0.1
 fi
 
 if [ "x${GLOBAL_TRANSITION_ANIMATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into GLOBAL values(null, 'transition_animation_scale', '0');"
+  sqlite3 ${SETTINGS_DB} "insert into GLOBAL values(null, 'transition_animation_scale', '0.1');"
+  INSERT_TABLES GLOBAL transition_animation_scale 0.1
 fi
 
 if [ "x${GLOBAL_ANIMATOR_DURATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into GLOBAL values(null, 'animator_duration_scale', '0');"
+  sqlite3 ${SETTINGS_DB} "insert into GLOBAL values(null, 'animator_duration_scale', '0.1');"
+  INSERT_TABLES GLOBAL animator_duration_scale 0.1
 fi
-
-fi
-
+  
 SYSTEM_WINDOW_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SYSTEM where name='window_animation_scale';" 2>/dev/null)
 SYSTEM_TRANSITION_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SYSTEM where name='transition_animation_scale';" 2>/dev/null)
 SYSTEM_ANIMATOR_DURATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SYSTEM where name='animator_duration_scale';" 2>/dev/null)
 
-if [ "x${SYSTEM_TRANSITION_ANIMATION_SCALE}" != "x0" ]; then 
-  UPDATE_TABLES SYSTEM transition_animation_scale 0
+if [ "x${SYSTEM_TRANSITION_ANIMATION_SCALE}" != "x0.1" ]; then 
+  UPDATE_TABLES SYSTEM transition_animation_scale 0.1
 fi
-if [ "x${SYSTEM_WINDOW_ANIMATION_SCALE}" != "x0" ]; then 
-  UPDATE_TABLES SYSTEM window_animation_scale 0
+if [ "x${SYSTEM_WINDOW_ANIMATION_SCALE}" != "x0.1" ]; then 
+  UPDATE_TABLES SYSTEM window_animation_scale 0.1
 fi
-if [ "x${SYSTEM_ANIMATOR_DURATION_SCALE}" != "x0" ]; then 
-  UPDATE_TABLES SYSTEM animator_duration_scale 0
+if [ "x${SYSTEM_ANIMATOR_DURATION_SCALE}" != "x0.1" ]; then 
+  UPDATE_TABLES SYSTEM animator_duration_scale 0.1
 fi
-
-if [ 1 = 0 ]; then 
 
 if [ "x${SYSTEM_WINDOW_ANIMATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into SYSTEM values(null, 'window_animation_scale', '0');"
+  sqlite3 ${SETTINGS_DB} "insert into SYSTEM values(null, 'window_animation_scale', '0.1');"
+  INSERT_TABLES SYSTEM window_animation_scale 0.1
 fi
 
 if [ "x${SYSTEM_TRANSITION_ANIMATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into SYSTEM values(null, 'transition_animation_scale', '0');"
+  sqlite3 ${SETTINGS_DB} "insert into SYSTEM values(null, 'transition_animation_scale', '0.1');"
+  INSERT_TABLES SYSTEM transition_animation_scale 0.1
 fi
 
 if [ "x${SYSTEM_ANIMATOR_DURATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into SYSTEM values(null, 'animator_duration_scale', '0');"
+  sqlite3 ${SETTINGS_DB} "insert into SYSTEM values(null, 'animator_duration_scale', '0.1');"
+  INSERT_TABLES SYSTEM animator_duration_scale 0.1
 fi
-
-fi
-
+  
 SECURE_WINDOW_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SECURE where name='window_animation_scale';" 2>/dev/null)
 SECURE_TRANSITION_ANIMATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SECURE where name='transition_animation_scale';" 2>/dev/null)
 SECURE_ANIMATOR_DURATION_SCALE=$(sqlite3 ${SETTINGS_DB} "select value from SECURE where name='animator_duration_scale';" 2>/dev/null)
 
-if [ "x${SECURE_TRANSITION_ANIMATION_SCALE}" != "x0" ]; then 
-  UPDATE_TABLES SECURE transition_animation_scale 0
+if [ "x${SECURE_TRANSITION_ANIMATION_SCALE}" != "x0.1" ]; then 
+  UPDATE_TABLES SECURE transition_animation_scale 0.1
 fi
-if [ "x${SECURE_WINDOW_ANIMATION_SCALE}" != "x0" ]; then 
-  UPDATE_TABLES SECURE window_animation_scale 0
+if [ "x${SECURE_WINDOW_ANIMATION_SCALE}" != "x0.1" ]; then 
+  UPDATE_TABLES SECURE window_animation_scale 0.1
 fi
-if [ "x${SECURE_ANIMATOR_DURATION_SCALE}" != "x0" ]; then 
-  UPDATE_TABLES SECURE animator_duration_scale 0
+if [ "x${SECURE_ANIMATOR_DURATION_SCALE}" != "x0.1" ]; then 
+  UPDATE_TABLES SECURE animator_duration_scale 0.1
 fi
-
-if [ 1 = 0 ]; then 
 
 if [ "x${SECURE_WINDOW_ANIMATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into SECURE values(null, 'window_animation_scale', '0');"
+  sqlite3 ${SETTINGS_DB} "insert into SECURE values(null, 'window_animation_scale', '0.1');"
+  INSERT_TABLES SECURE window_animation_scale 0.1
 fi
 
 if [ "x${SECURE_TRANSITION_ANIMATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into SECURE values(null, 'transition_animation_scale', '0');"
+  sqlite3 ${SETTINGS_DB} "insert into SECURE values(null, 'transition_animation_scale', '0.1');"
+  INSERT_TABLES SECURE transition_animation_scale 0.1
 fi
 
 if [ "x${SECURE_ANIMATOR_DURATION_SCALE}" = "x" ]; then 
-  sqlite3 ${SETTINGS_DB} "insert into SECURE values(null, 'animator_duration_scale', '0');"
+  sqlite3 ${SETTINGS_DB} "insert into SECURE values(null, 'animator_duration_scale', '0.1');"
+  INSERT_TABLES SECURE animator_duration_scale 0.1
 fi
 
-fi
+
+if [ 1 = 0 ]; then 
 
 if [ "x$VERSION" != "x" ]; then 
     if [ "$VERSION" -ge "5" ]; then 
         if [ "x$MEM" != "x" ]; then 
           if [ "$MEM" -gt "800000" ]; then        
             
-            UPDATE_TABLES GLOBAL transition_animation_scale 0
-            UPDATE_TABLES GLOBAL window_animation_scale 0
-            UPDATE_TABLES GLOBAL animator_duration_scale 0
+            UPDATE_TABLES GLOBAL transition_animation_scale 0.1
+            UPDATE_TABLES GLOBAL window_animation_scale 0.1
+            UPDATE_TABLES GLOBAL animator_duration_scale 0.1
 
-            UPDATE_TABLES SYSTEM transition_animation_scale 0
-            UPDATE_TABLES SYSTEM window_animation_scale 0
-            UPDATE_TABLES SYSTEM animator_duration_scale 0
+            UPDATE_TABLES SYSTEM transition_animation_scale 0.1
+            UPDATE_TABLES SYSTEM window_animation_scale 0.1
+            UPDATE_TABLES SYSTEM animator_duration_scale 0.1
           else        
           
-            UPDATE_TABLES GLOBAL transition_animation_scale 0
-            UPDATE_TABLES GLOBAL window_animation_scale 0
-            UPDATE_TABLES GLOBAL animator_duration_scale 0
+            UPDATE_TABLES GLOBAL transition_animation_scale 0.1
+            UPDATE_TABLES GLOBAL window_animation_scale 0.1
+            UPDATE_TABLES GLOBAL animator_duration_scale 0.1
 
-            UPDATE_TABLES SYSTEM transition_animation_scale 0
-            UPDATE_TABLES SYSTEM window_animation_scale 0
-            UPDATE_TABLES SYSTEM animator_duration_scale 0
+            UPDATE_TABLES SYSTEM transition_animation_scale 0.1
+            UPDATE_TABLES SYSTEM window_animation_scale 0.1
+            UPDATE_TABLES SYSTEM animator_duration_scale 0.1
           fi
         fi
     fi
@@ -238,21 +244,21 @@ SETPROP wifi.supplicant_scan_interval 45
 
 # Put outgoing only IPSEC logic here
 
-#SETPROP persist.sys.ui.hw false
-#SETPROP debug.sf.hw 0
-#SETPROP debug.performance.tuning 0
-#SETPROP video.accelerate.hw 0
+#SETPROP debug.composition.type cpu
+#SETPROP persist.sys.composition.type cpu
 
-SETPROP debug.composition.type cpu
-SETPROP persist.sys.composition.type cpu
+SETPROP persist.sys.ui.hw false
+SETPROP debug.sf.hw 0
+SETPROP debug.performance.tuning 0
+SETPROP video.accelerate.hw 0
+
+SETPROP debug.composition.type gpu
+SETPROP persist.sys.composition.type gpu
 
 SETPROP persist.sys.ui.hw true
 SETPROP debug.sf.hw 1
 SETPROP debug.performance.tuning 1
 SETPROP video.accelerate.hw 1
-
-#SETPROP debug.composition.type gpu
-#SETPROP persist.sys.composition.type gpu
 
 SETPROP ro.media.dec.jpeg.memcap 8000000
 SETPROP ro.media.enc.hprof.vid.bps 8000000
