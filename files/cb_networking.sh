@@ -23,7 +23,7 @@ alias SETPROP='/system/bin/setprop '
 alias GETPROP='/system/bin/getprop '
 if [ "$(GETPROP persist.cb_networking.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
-#busybox date; busybox ntpd -d -q -p pool.ntp.org ; busybox date ; busybox ntpd -d -q -p pool.ntp.org ; busybox date ; busybox ntpd -d -q -p pool.ntp.org ; busybox date 
+busybox date; busybox ntpd -d -q -p pool.ntp.org ; busybox date ; busybox ntpd -d -q -p pool.ntp.org ; busybox date ; busybox ntpd -d -q -p pool.ntp.org ; busybox date 
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
@@ -59,10 +59,9 @@ SYSCTL net.ipv4.tcp_ecn=0
 SYSCTL net.ipv4.tcp_no_metrics_save=1
 
 SYSCTL net.core.somaxconn=512
+SYSCTL net.core.netdev_max_backlog=65536
 
 if [ 1 = 0 ]; then 
-
-SYSCTL net.core.netdev_max_backlog=256
 
 SYSCTL net.netfilter.nf_conntrack_tcp_timeout_established=600
 SYSCTL net.netfilter.nf_conntrack_tcp_timeout_fin_wait=45
@@ -92,6 +91,7 @@ SYSCTL net.ipv4.tcp_max_syn_backlog=0
 fi
 
 SYSCTL net.core.somaxconn=512
+SYSCTL net.core.netdev_max_backlog=65536
 
 SYSCTL net.ipv4.ip_local_port_range='1025 64000'
 
