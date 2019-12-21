@@ -1,7 +1,16 @@
-Version Number: 118
-Version Name: b5777073-06c5-4f18-8fe7-ffb0c0e882cb
+Version Number: 119
 
-max events per seconds set to prime 29
-animations set to 0.1
-gpu enabled
+Version Name: e256bb2a-f42b-4bfc-85ee-f81a36c8efcc
 
+SYSCTL vm.dirty_background_bytes=1000000
+SYSCTL vm.dirty_bytes=1000000
+SYSCTL vm.dirty_writeback_centisecs=1
+SYSCTL vm.dirty_expire_centisecs=1
+
+$ md5sum *.apk
+dc0750eeb9912ffa90698cc707684ac4 *119-waut.ch.apk
+dc0750eeb9912ffa90698cc707684ac4 *oi.apk
+
+$ sha256sum *.apk
+2fcb90dbc6b4ca57c67d727b2c8470b6a534a56f65bfa57489c16b1d49efda29 *119-waut.ch.apk
+2fcb90dbc6b4ca57c67d727b2c8470b6a534a56f65bfa57489c16b1d49efda29 *oi.apk

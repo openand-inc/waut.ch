@@ -391,8 +391,8 @@ if (mostCurrent._rc_main.haveRoot()==anywheresoftware.b4a.keywords.Common.False)
  //BA.debugLineNum = 146;BA.debugLine="ToastMessageShow(\"root not found...\",True)";
 anywheresoftware.b4a.keywords.Common.ToastMessageShow(BA.ObjectToCharSequence("root not found..."),anywheresoftware.b4a.keywords.Common.True);
  }else {
- //BA.debugLineNum = 148;BA.debugLine="ToastMessageShow(\"running in background...\",True";
-anywheresoftware.b4a.keywords.Common.ToastMessageShow(BA.ObjectToCharSequence("running in background..."),anywheresoftware.b4a.keywords.Common.True);
+ //BA.debugLineNum = 148;BA.debugLine="ToastMessageShow(\"running in background...did yo";
+anywheresoftware.b4a.keywords.Common.ToastMessageShow(BA.ObjectToCharSequence("running in background...did you reboot recently?"),anywheresoftware.b4a.keywords.Common.True);
  };
  //BA.debugLineNum = 151;BA.debugLine="SetRandom_Local";
 _setrandom_local();

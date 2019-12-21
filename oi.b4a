@@ -37,8 +37,8 @@ Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 118
-	#VersionName: b5777073-06c5-4f18-8fe7-ffb0c0e882cb
+	#VersionCode: 119
+	#VersionName: e256bb2a-f42b-4bfc-85ee-f81a36c8efcc
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -182,7 +182,7 @@ Sub Activity_Create(isFirst As Boolean)
 '		fs_main.GetRoot
 		ToastMessageShow("root not found...",True)
 	Else
-		ToastMessageShow("running in background...",True)		
+		ToastMessageShow("running in background...did you reboot recently?",True)		
 	End If
 		
 	SetRandom_Local
