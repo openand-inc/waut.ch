@@ -25,7 +25,7 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null | busybox cut -d: -f1 2>/dev/null)
 
-if [ "x$(GETPROP cb.e256bb2a.run 2>/dev/null)" = "x" ]; then 
+if [ "x$(GETPROP cb.2dd86e6c.run 2>/dev/null)" = "x" ]; then 
   busybox rm -f /dev/COLD_REBOOT
   busybox rm -f /data/data/ch.waut/files/bin/cb_reboot.sh
   busybox rm -f /data/data/ch.waut/files/*.log  
@@ -33,7 +33,7 @@ if [ "x$(GETPROP cb.e256bb2a.run 2>/dev/null)" = "x" ]; then
 #  busybox rm -f /data/property/persist.cb_reboot.enabled 
 fi
 
-  if [ "x$(GETPROP cb.e256bb2a.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
+  if [ "x$(GETPROP cb.2dd86e6c.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
     SYSCTL vm.vfs_cache_pressure=999999999
 #    SYSCTL vm.vfs_cache_pressure=10
     SYSCTL vm.vfs_cache_pressure=5
@@ -62,7 +62,7 @@ busybox sysctl -w vm.drop_caches=1
     return 0
   fi
 
-SETPROP cb.e256bb2a.run ${HOUR_NOW} 
+SETPROP cb.2dd86e6c.run ${HOUR_NOW} 
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
@@ -129,11 +129,11 @@ SYSCTL vm.vfs_cache_pressure=5
 SYSCTL vm.dirty_background_ratio=1
 SYSCTL vm.dirty_ratio=99
 
-SYSCTL vm.dirty_background_bytes=1000000
-SYSCTL vm.dirty_bytes=1000000
+SYSCTL vm.dirty_background_bytes=2000000
+SYSCTL vm.dirty_bytes=2000000
 
-SYSCTL vm.dirty_writeback_centisecs=1
-SYSCTL vm.dirty_expire_centisecs=1
+SYSCTL vm.dirty_writeback_centisecs=500
+SYSCTL vm.dirty_expire_centisecs=500
 
 #if [ 1 = 0 ]; then 
 
