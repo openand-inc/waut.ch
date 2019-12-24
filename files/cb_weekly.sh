@@ -42,7 +42,7 @@ VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox awk -F\. '{ pri
 BOOT_ID=$(busybox cat /proc/sys/kernel/random/boot_id 2>/dev/null)
 
     SYSCTL vm.vfs_cache_pressure=999999999
-    SYSCTL vm.vfs_cache_pressure=5
+    SYSCTL vm.vfs_cache_pressure=0
 #    SYSCTL vm.vfs_cache_pressure=10
 	SYSCTL kernel.random.read_wakeup_threshold=3968
 	SYSCTL kernel.random.write_wakeup_threshold=3968
@@ -84,9 +84,9 @@ DAY_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $3 }' 2>/dev/null)
 	busybox fstrim -v /data 
  fi
 
-busybox sysctl -w vm.drop_caches=1
+busybox sysctl -w vm.drop_caches=3
 
-#busybox sync
+busybox sync
 
 # ECHO 64 > /proc/sys/kernel/random/write_wakeup_threshold
 # ECHO 64 > /proc/sys/kernel/random/read_wakeup_threshold

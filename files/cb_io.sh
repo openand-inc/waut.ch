@@ -64,13 +64,11 @@ SYSCTL kernel.sched_min_granularity_ns=400000
 fi
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name read_ahead_kb 2>/dev/null); do   
-  busybox chmod 666 $i
   ECHO 0 | busybox tee $i
 done
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do 
-  busybox chmod 666 $i
-  ECHO 32 | busybox tee $i
+  ECHO 48 | busybox tee $i
 done
 
 #for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do ECHO 64 | busybox tee $i ; done
