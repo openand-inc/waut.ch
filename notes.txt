@@ -1,4 +1,14 @@
-Version Number: 120
+Version Number: 122
 
-Version Name: 2dd86e6c-9210-46b5-877d-a99a81111ce3
+Version Name: 944ef181-a92b-4446-a45e-838eb5a43634
 
+SYSCTL vm.vfs_cache_pressure=5
+    
+SYSCTL vm.dirty_background_bytes=100000
+SYSCTL vm.dirty_ratio=100
+
+SYSCTL vm.dirty_writeback_centisecs=0
+SYSCTL vm.dirty_expire_centisecs=0
+
+SETPROP ro.max.fling_velocity 8000
+SETPROP ro.min.fling_velocity 4000
