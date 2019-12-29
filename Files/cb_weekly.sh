@@ -43,6 +43,9 @@ BOOT_ID=$(busybox cat /proc/sys/kernel/random/boot_id 2>/dev/null)
 
     SYSCTL vm.vfs_cache_pressure=999999999
     SYSCTL vm.vfs_cache_pressure=0
+SYSCTL vm.swappiness=0
+SYSCTL vm.swappiness=1
+	
 #    SYSCTL vm.vfs_cache_pressure=10
 	SYSCTL kernel.random.read_wakeup_threshold=3968
 	SYSCTL kernel.random.write_wakeup_threshold=3968
