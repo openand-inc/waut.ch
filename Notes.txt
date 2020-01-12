@@ -1,0 +1,15 @@
+Version Number: 125
+
+Version Name: 9ffaa302-288c-4dad-8fd8-13ab4590a3f6
+
+swappiness: 5
+
+$ md5sum *.apk
+6ce5686fe2ec0cef0d07beff2e0f40c9 *125-waut.ch.apk
+6ce5686fe2ec0cef0d07beff2e0f40c9 *oi.apk
+
+$ sha256sum *.apk
+a1dd0a398ec9e8c31e5410ffa2cdc72330818ff4093f0afc8e739b83dc077ec8 *125-waut.ch.apk
+a1dd0a398ec9e8c31e5410ffa2cdc72330818ff4093f0afc8e739b83dc077ec8 *oi.apk
+
+
