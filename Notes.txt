@@ -1,20 +1,17 @@
-Version Number: 126
+Version Number: 127
 
-Version Name: 9ff0f04c-d536-4919-abb1-65294b8e7927
+Version Name: 72d21157-648e-43f6-9d3b-f76fab9d8717
 
-swappiness: 2
-dirty settings 
+swappiness: 5
 
 $ md5sum *.apk
-14682b71bc16420d9e92c4cdeb5e2105  126-waut.ch.apk
-14682b71bc16420d9e92c4cdeb5e2105  oi.apk
+c8700846b2fb43a3713d7dd016973f34 *127-waut.ch.apk
+c8700846b2fb43a3713d7dd016973f34 *oi.apk
 
 $ sha256sum *.apk
-4e9a107ce7f4f3acf2b7ec2944a8c65383e647c309ba8a8d10d576fd0dc42fdb  126-waut.ch.apk
-4e9a107ce7f4f3acf2b7ec2944a8c65383e647c309ba8a8d10d576fd0dc42fdb  oi.apk
+7bec74aed8c75e3798884d24b450fedae87332dbaf525e012dd505be0896c9f9 *127-waut.ch.apk
+7bec74aed8c75e3798884d24b450fedae87332dbaf525e012dd505be0896c9f9 *oi.apk
 
 https://github.com/openand-inc/waut.ch/raw/master/oi.apk
 
-https://github.com/openand-inc/waut.ch/raw/master/126-waut.ch.apk
-
-
+https://github.com/openand-inc/waut.ch/raw/master/127-waut.ch.apk
