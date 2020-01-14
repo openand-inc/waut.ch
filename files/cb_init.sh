@@ -179,8 +179,8 @@ fi
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 if [ "x$SWAP" != "x" ]; then 
   if [ "$SWAP" -gt "10000" ]; then  
-    SYSCTL vm.swappiness=0
-    SYSCTL vm.swappiness=2
+    SYSCTL vm.swappiness=1
+    SYSCTL vm.swappiness=5
   fi
 fi
 
