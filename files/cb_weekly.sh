@@ -48,7 +48,8 @@ SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{
 
 if [ "x$SWAP" != "x" ]; then 
   if [ "$SWAP" -gt "10000" ]; then  
-    SYSCTL vm.swappiness=0
+    SYSCTL vm.swappiness=1
+    SYSCTL vm.swappiness=2
   fi
 fi
 	
@@ -87,9 +88,9 @@ for DB in $(busybox timeout -t 15 -s KILL busybox find /data/data -name *.db 2>/
 
 done
 
-DAY_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $3 }' 2>/dev/null)
+DAY_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null)
 
- if [ "x$DAY_NOW" = "x15" ]; then 
+ if [ "x$DAY_NOW" = "xTue" ]; then 
 	busybox fstrim -v /data 
  fi
 
