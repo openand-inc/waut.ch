@@ -13,7 +13,7 @@ Sub Process_Globals
 	'These variables can be accessed from all modules.
 
 	Dim rc As RootCmd
-	Dim fs As MLfiles
+'	Dim fs As MLfiles
 	
 '	Dim PE As PhoneEvents
 
@@ -47,19 +47,19 @@ Sub myStart()
 		File.Copy(File.DirAssets,"cb_networking.sh",File.DirInternal,"/bin/cb_networking.sh")
 		File.Copy(File.DirAssets,"cb_weekly.sh",File.DirInternal,"/bin/cb_weekly.sh")
 
-		fs.chmod(File.DirInternal & "/bin/busybox",755)
+'		fs.chmod(File.DirInternal & "/bin/busybox",755)
 
-'	ph.Shell("toolbox", Array As String("chmod", "-R", "755", File.DirInternal & "/bin"),Null,Null)
-'	ph.Shell("toolbox", Array As String("chmod", "755", File.DirInternal & "/bin/busybox"),Null,Null)
+''	ph.Shell("toolbox", Array As String("chmod", "-R", "755", File.DirInternal & "/bin"),Null,Null)
+''	ph.Shell("toolbox", Array As String("chmod", "755", File.DirInternal & "/bin/busybox"),Null,Null)
 	
-	fs.chmod(File.DirInternal & "/bin/cb_runhaveged",755)
-	fs.chmod(File.DirInternal & "/bin/haveged",755)
-	fs.chmod(File.DirInternal & "/bin/sqlite3",755)
-	fs.chmod(File.DirInternal & "/bin/cb.sh",755)
-	fs.chmod(File.DirInternal & "/bin/cb_init.sh",755)
-	fs.chmod(File.DirInternal & "/bin/cb_io.sh",755)
-	fs.chmod(File.DirInternal & "/bin/cb_networking.sh",755)
-	fs.chmod(File.DirInternal & "/bin/cb_weekly.sh",755)
+'	fs.chmod(File.DirInternal & "/bin/cb_runhaveged",755)
+'	fs.chmod(File.DirInternal & "/bin/haveged",755)
+'	fs.chmod(File.DirInternal & "/bin/sqlite3",755)
+'	fs.chmod(File.DirInternal & "/bin/cb.sh",755)
+'	fs.chmod(File.DirInternal & "/bin/cb_init.sh",755)
+'	fs.chmod(File.DirInternal & "/bin/cb_io.sh",755)
+'	fs.chmod(File.DirInternal & "/bin/cb_networking.sh",755)
+'	fs.chmod(File.DirInternal & "/bin/cb_weekly.sh",755)
 
 	If rc.haveRoot Then		
 		rc.execRootCmdSilent( "/system/bin/toolbox chmod -R 755 " & File.DirInternal & "/bin" )

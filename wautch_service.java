@@ -126,10 +126,9 @@ public class wautch_service extends  android.app.Service{
 		return null;
 	}public anywheresoftware.b4a.keywords.Common __c = null;
 public static ice.rootcmd.RootCmd _v5 = null;
-public static MLfiles.Fileslib.MLfiles _v6 = null;
-public ch.waut.main _vv5 = null;
-public ch.waut.schedule _vv1 = null;
-public static String  _vv4() throws Exception{
+public ch.waut.main _vv4 = null;
+public ch.waut.schedule _v0 = null;
+public static String  _vv3() throws Exception{
 int _hour = 0;
  //BA.debugLineNum = 30;BA.debugLine="Sub myStart()";
  //BA.debugLineNum = 32;BA.debugLine="File.MakeDir(File.DirInternal, \"bin\")";
@@ -152,24 +151,6 @@ anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Com
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_networking.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_networking.sh");
  //BA.debugLineNum = 42;BA.debugLine="File.Copy(File.DirAssets,\"cb_weekly.sh\",File.Dir";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cb_weekly.sh",anywheresoftware.b4a.keywords.Common.File.getDirInternal(),"/bin/cb_weekly.sh");
- //BA.debugLineNum = 44;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/busybox\",755)";
-_v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox",BA.NumberToString(755));
- //BA.debugLineNum = 49;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_runhaveged\",";
-_v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_runhaveged",BA.NumberToString(755));
- //BA.debugLineNum = 50;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/haveged\",755)";
-_v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/haveged",BA.NumberToString(755));
- //BA.debugLineNum = 51;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/sqlite3\",755)";
-_v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/sqlite3",BA.NumberToString(755));
- //BA.debugLineNum = 52;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb.sh\",755)";
-_v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb.sh",BA.NumberToString(755));
- //BA.debugLineNum = 53;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_init.sh\",755";
-_v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_init.sh",BA.NumberToString(755));
- //BA.debugLineNum = 54;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_io.sh\",755)";
-_v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_io.sh",BA.NumberToString(755));
- //BA.debugLineNum = 55;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_networking.s";
-_v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_networking.sh",BA.NumberToString(755));
- //BA.debugLineNum = 56;BA.debugLine="fs.chmod(File.DirInternal & \"/bin/cb_weekly.sh\",7";
-_v6.chmod(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb_weekly.sh",BA.NumberToString(755));
  //BA.debugLineNum = 58;BA.debugLine="If rc.haveRoot Then";
 if (_v5.haveRoot()) { 
  //BA.debugLineNum = 59;BA.debugLine="rc.execRootCmdSilent( \"/system/bin/toolbox chmod";
@@ -216,15 +197,13 @@ public static String  _process_globals() throws Exception{
  //BA.debugLineNum = 5;BA.debugLine="Sub Process_Globals";
  //BA.debugLineNum = 9;BA.debugLine="Dim rc As RootCmd";
 _v5 = new ice.rootcmd.RootCmd();
- //BA.debugLineNum = 10;BA.debugLine="Dim fs As MLfiles";
-_v6 = new MLfiles.Fileslib.MLfiles();
  //BA.debugLineNum = 17;BA.debugLine="End Sub";
 return "";
 }
 public static String  _service_create() throws Exception{
  //BA.debugLineNum = 25;BA.debugLine="Sub Service_Create";
  //BA.debugLineNum = 26;BA.debugLine="StartService(Schedule)";
-anywheresoftware.b4a.keywords.Common.StartService(processBA,(Object)(mostCurrent._vv1.getObject()));
+anywheresoftware.b4a.keywords.Common.StartService(processBA,(Object)(mostCurrent._v0.getObject()));
  //BA.debugLineNum = 27;BA.debugLine="End Sub";
 return "";
 }
@@ -248,7 +227,7 @@ _timeofday = (long) (anywheresoftware.b4a.keywords.Common.DateTime.getNow()+((27
  //BA.debugLineNum = 100;BA.debugLine="StartServiceAt(\"\", timeofday , True)";
 anywheresoftware.b4a.keywords.Common.StartServiceAt(processBA,(Object)(""),_timeofday,anywheresoftware.b4a.keywords.Common.True);
  //BA.debugLineNum = 102;BA.debugLine="myStart";
-_vv4();
+_vv3();
  //BA.debugLineNum = 104;BA.debugLine="Service.StopAutomaticForeground 'Call this when t";
 mostCurrent._service.StopAutomaticForeground();
  //BA.debugLineNum = 106;BA.debugLine="End Sub";

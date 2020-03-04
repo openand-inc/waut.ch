@@ -130,6 +130,13 @@ fi
 
 cd ${APP}
 
+for i in `busybox ls /sys/class/scsi_disk/`; do
+  busybox cat /sys/class/scsi_disk/$i/write_protect 2>/dev/null | busybox grep 1 >/dev/null
+  if [ $? -eq 0 ]; then
+    ECHO 'temporary none' | busybox tee /sys/class/scsi_disk/$i/cache_type
+  fi
+done
+
 #SYSCTL vm.overcommit_ratio=50
 #ECHO 50 | busybox tee /proc/sys/vm/overcommit_ratio
 

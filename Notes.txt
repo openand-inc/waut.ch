@@ -1,18 +1,17 @@
-Version Number: 128
+Version Number: 129
 
-Version Name: 7e7cd8d9-3198-4c90-8d68-e1a300b5a9a8
+Version Name: 144c0854-b910-4bec-a2b2-8fe2b0113e43
 
-swappiness: 2
-nr_requests: 32
-read_ahead_kb: 32
-trim: scheduled weekly
+ntp: disabled 
+disk caching: disabled
 
 $ sha256sum *.apk
-03c255d2b0174b01125f02aba0582eddd20bdf3ef824e4dc2a2086b247a52955 *128-waut.ch.apk
-03c255d2b0174b01125f02aba0582eddd20bdf3ef824e4dc2a2086b247a52955 *oi.apk
+0590bed9b2f5d5362e17c0f9c99d74e632c9f9cb241242063f2f0c21f843c704 *129-waut.ch.apk
+0590bed9b2f5d5362e17c0f9c99d74e632c9f9cb241242063f2f0c21f843c704 *oi.apk
 
 $ md5sum *.apk
-73b82e3dccea8fb44def9bfa2aa556f2 *128-waut.ch.apk
-73b82e3dccea8fb44def9bfa2aa556f2 *oi.apk
+96357e0bb40d7feb8f3e8abe81ac2cce *129-waut.ch.apk
+96357e0bb40d7feb8f3e8abe81ac2cce *oi.apk
+
 
  
