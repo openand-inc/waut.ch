@@ -25,7 +25,7 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null | busybox cut -d: -f1 2>/dev/null)
 
-if [ "x$(GETPROP cb.7e7cd8d9.run 2>/dev/null)" = "x" ]; then 
+if [ "x$(GETPROP cb.144c0854.run 2>/dev/null)" = "x" ]; then 
   busybox rm -f /dev/COLD_REBOOT
   busybox rm -f /data/data/ch.waut/files/bin/cb_reboot.sh
   busybox rm -f /data/data/ch.waut/files/*.log  
@@ -35,7 +35,7 @@ fi
 
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
-  if [ "x$(GETPROP cb.7e7cd8d9.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
+  if [ "x$(GETPROP cb.144c0854.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
     SYSCTL vm.vfs_cache_pressure=999999999
     SYSCTL vm.vfs_cache_pressure=1000
 #    SYSCTL vm.vfs_cache_pressure=10
@@ -52,7 +52,7 @@ SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{
 	busybox touch /dev/random 
 	busybox dd if=/dev/random of=/dev/null bs=1 count=1
 	busybox ping -c 1 8.8.8.8
-	busybox ntpd -d -q -p pool.ntp.org 
+#	busybox ntpd -d -q -p pool.ntp.org 
 	/system/bin/logcat -c
 
 SYSCTL vm.drop_caches=1
@@ -72,7 +72,7 @@ fi
     return 0
   fi
 
-SETPROP cb.7e7cd8d9.run ${HOUR_NOW} 
+SETPROP cb.144c0854.run ${HOUR_NOW} 
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
