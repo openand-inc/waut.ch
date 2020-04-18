@@ -44,6 +44,8 @@ SETPROP ro.ril.disable.power.collapse 0
 SETPROP persist.telephony.support.ipv6 1
 SETPROP persist.telephony.support.ipv4 1
 
+if [ 1 = 0 ]; then 
+
 SYSCTL net.ipv4.tcp_tw_recycle=1
 SYSCTL net.ipv4.tcp_tw_reuse=1
 SYSCTL net.ipv4.tcp_moderate_rcvbuf=1
@@ -60,8 +62,6 @@ SYSCTL net.ipv4.tcp_no_metrics_save=1
 
 SYSCTL net.core.somaxconn=512
 SYSCTL net.core.netdev_max_backlog=65536
-
-if [ 1 = 0 ]; then 
 
 SYSCTL net.netfilter.nf_conntrack_tcp_timeout_established=600
 SYSCTL net.netfilter.nf_conntrack_tcp_timeout_fin_wait=45
@@ -88,12 +88,12 @@ SYSCTL net.ipv4.tcp_synack_retries=0
 SYSCTL net.ipv4.tcp_syncookies=0
 SYSCTL net.ipv4.tcp_max_syn_backlog=0
 
-fi
-
 SYSCTL net.core.somaxconn=512
 SYSCTL net.core.netdev_max_backlog=65536
 
 SYSCTL net.ipv4.ip_local_port_range='1025 64000'
+
+fi
 
 SETPROP net.tcp.buffersize.default 768,7168,71680,768,7168,71680
 SETPROP net.tcp.buffersize.evdo 768,7168,71680,768,7168,71680
