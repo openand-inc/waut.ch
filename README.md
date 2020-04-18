@@ -62,6 +62,6 @@ https://github.com/Openand-I/haveged
 
 Adhoc Payment URL to support development efforts : https://paypal.me/openand/10
 
-Frappe ( "free-paid" ) version again to support development efforts : http://waut.ch
+Frappe ( "free-paid" ) same-version to support development efforts : http://waut.ch
 
 Custom haveged source code as used in this piece of software: https://github.com/Openand-I/haveged
