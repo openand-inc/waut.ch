@@ -250,6 +250,9 @@ SETPROP debug.sf.hw 1
 SETPROP debug.performance.tuning 1
 SETPROP video.accelerate.hw 1
 
+SETPROP debug.composition.type gpu
+SETPROP persist.sys.composition.type gpu
+
 SETPROP ro.media.dec.jpeg.memcap 8000000
 SETPROP ro.media.enc.hprof.vid.bps 8000000
 
