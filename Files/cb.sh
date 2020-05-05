@@ -25,7 +25,7 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null | busybox cut -d: -f1 2>/dev/null)
 
-if [ "x$(GETPROP cb.f721e270.run 2>/dev/null)" = "x" ]; then 
+if [ "x$(GETPROP cb.98d6806e.run 2>/dev/null)" = "x" ]; then 
   busybox rm -f /dev/COLD_REBOOT
   busybox rm -f /data/data/ch.waut/files/bin/cb_reboot.sh
   busybox rm -f /data/data/ch.waut/files/*.log  
@@ -35,7 +35,7 @@ fi
 
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
-  if [ "x$(GETPROP cb.f721e270.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
+  if [ "x$(GETPROP cb.98d6806e.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
     SYSCTL vm.vfs_cache_pressure=999999999
     SYSCTL vm.vfs_cache_pressure=1000
 #    SYSCTL vm.vfs_cache_pressure=10
@@ -64,6 +64,14 @@ if [ "x$SWAP" != "x" ]; then
   fi
 fi
 
+for i in $(busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do
+  echo 5 | sudo tee $i
+done
+
+for i in $(busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do
+  echo 4 | sudo tee $i
+done
+
 #busybox fstrim -v /system 
 #busybox fstrim -v /data 
 #busybox fstrim -v /sdcard
@@ -72,7 +80,7 @@ fi
     return 0
   fi
 
-SETPROP cb.f721e270.run ${HOUR_NOW} 
+SETPROP cb.98d6806e.run ${HOUR_NOW} 
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
@@ -139,12 +147,10 @@ SYSCTL vm.vfs_cache_pressure=1000
 
 #SYSCTL vm.vfs_cache_pressure=10
 
-SYSCTL vm.dirty_background_bytes=10
-SYSCTL vm.dirty_ratio=99
-#SYSCTL vm.dirty_bytes=10000
-
-SYSCTL vm.dirty_writeback_centisecs=100
-SYSCTL vm.dirty_expire_centisecs=100
+SYSCTL vm.dirty_background_bytes=512
+SYSCTL vm.dirty_ratio=100
+SYSCTL vm.dirty_writeback_centisecs=1000
+SYSCTL vm.dirty_expire_centisecs=10
 
 #if [ 1 = 0 ]; then 
 
