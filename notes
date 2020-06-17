@@ -1,0 +1,12 @@
+Version Name: 36b5981b-dab2-4d59-a992-c1982dae2ab1
+
+nr_requests: 4
+
+$ md5sum *.apk
+cd018f86f948d86b04de23ab39edd710  139-waut.ch.apk
+cd018f86f948d86b04de23ab39edd710  oi.apk
+
+$ sha256sum *.apk
+994a2fce9acd02c591e5d709ec710771e2b89d4983dfc96b8816ec266d57fe92  139-waut.ch.apk
+994a2fce9acd02c591e5d709ec710771e2b89d4983dfc96b8816ec266d57fe92  oi.apk
+ 
