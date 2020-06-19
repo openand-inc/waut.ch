@@ -1,4 +1,11 @@
-Version Name: 5e189e6c-9a44-4c64-8efd-1ccb4acfa051
+Version Name: 1c2a5ce4-2539-4e1b-8b4a-85865d8d9dfd
 
-nr_requests: 1024
-havegecollect: thread_time counter used for time less cpu
+read_ahead: 128
+
+$ md5sum *.apk
+ccf227d0d52890e87725ad4528b69865 *140-waut.ch.apk
+ccf227d0d52890e87725ad4528b69865 *oi.apk
+
+$ sha256sum *.apk
+75372b6c7de963001a79d85c490b6b6512313eb5e5a9b47a7fa975c6c3c5efba *140-waut.ch.apk                                                                                                    k
+75372b6c7de963001a79d85c490b6b6512313eb5e5a9b47a7fa975c6c3c5efba *oi.apk
