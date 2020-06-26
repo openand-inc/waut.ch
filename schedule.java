@@ -130,48 +130,48 @@ public ch.waut.main _vv4 = null;
 public ch.waut.wautch_service _wautch_service = null;
 public static String  _vv3() throws Exception{
 int _hour = 0;
- //BA.debugLineNum = 17;BA.debugLine="Sub myStart()";
- //BA.debugLineNum = 19;BA.debugLine="Dim hour As Int";
+ //BA.debugLineNum = 16;BA.debugLine="Sub myStart()";
+ //BA.debugLineNum = 18;BA.debugLine="Dim hour As Int";
 _hour = 0;
- //BA.debugLineNum = 21;BA.debugLine="hour = DateTime.GetHour(DateTime.Now)";
+ //BA.debugLineNum = 20;BA.debugLine="hour = DateTime.GetHour(DateTime.Now)";
 _hour = anywheresoftware.b4a.keywords.Common.DateTime.GetHour(anywheresoftware.b4a.keywords.Common.DateTime.getNow());
- //BA.debugLineNum = 23;BA.debugLine="If hour <> 3 Then";
+ //BA.debugLineNum = 22;BA.debugLine="If hour <> 3 Then";
 if (_hour!=3) { 
- //BA.debugLineNum = 24;BA.debugLine="If rc.haveRoot Then";
+ //BA.debugLineNum = 23;BA.debugLine="If rc.haveRoot Then";
 if (_v5.haveRoot()) { 
- //BA.debugLineNum = 25;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/";
+ //BA.debugLineNum = 24;BA.debugLine="rc.execRootCmdSilent( File.DirInternal & \"/bin/";
 _v5.execRootCmdSilent(anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox setsid "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/busybox sh "+anywheresoftware.b4a.keywords.Common.File.getDirInternal()+"/bin/cb.sh RUN FORCE");
  };
  };
- //BA.debugLineNum = 29;BA.debugLine="End Sub";
+ //BA.debugLineNum = 28;BA.debugLine="End Sub";
 return "";
 }
 public static String  _process_globals() throws Exception{
- //BA.debugLineNum = 6;BA.debugLine="Sub Process_Globals";
- //BA.debugLineNum = 9;BA.debugLine="Dim rc As RootCmd";
+ //BA.debugLineNum = 5;BA.debugLine="Sub Process_Globals";
+ //BA.debugLineNum = 8;BA.debugLine="Dim rc As RootCmd";
 _v5 = new ice.rootcmd.RootCmd();
- //BA.debugLineNum = 11;BA.debugLine="End Sub";
+ //BA.debugLineNum = 10;BA.debugLine="End Sub";
 return "";
 }
 public static String  _service_create() throws Exception{
- //BA.debugLineNum = 13;BA.debugLine="Sub Service_Create";
- //BA.debugLineNum = 15;BA.debugLine="End Sub";
+ //BA.debugLineNum = 12;BA.debugLine="Sub Service_Create";
+ //BA.debugLineNum = 14;BA.debugLine="End Sub";
 return "";
 }
 public static String  _service_destroy() throws Exception{
- //BA.debugLineNum = 41;BA.debugLine="Sub Service_Destroy";
- //BA.debugLineNum = 43;BA.debugLine="End Sub";
+ //BA.debugLineNum = 40;BA.debugLine="Sub Service_Destroy";
+ //BA.debugLineNum = 42;BA.debugLine="End Sub";
 return "";
 }
 public static String  _service_start(anywheresoftware.b4a.objects.IntentWrapper _startingintent) throws Exception{
- //BA.debugLineNum = 31;BA.debugLine="Sub Service_Start (StartingIntent As Intent)";
- //BA.debugLineNum = 33;BA.debugLine="StartServiceAt(\"\", DateTime.Now + 3300 * 1000, Fa";
+ //BA.debugLineNum = 30;BA.debugLine="Sub Service_Start (StartingIntent As Intent)";
+ //BA.debugLineNum = 32;BA.debugLine="StartServiceAt(\"\", DateTime.Now + 3300 * 1000, Fa";
 anywheresoftware.b4a.keywords.Common.StartServiceAt(processBA,(Object)(""),(long) (anywheresoftware.b4a.keywords.Common.DateTime.getNow()+3300*1000),anywheresoftware.b4a.keywords.Common.False);
- //BA.debugLineNum = 35;BA.debugLine="myStart";
+ //BA.debugLineNum = 34;BA.debugLine="myStart";
 _vv3();
- //BA.debugLineNum = 37;BA.debugLine="Service.StopAutomaticForeground 'Call this when t";
+ //BA.debugLineNum = 36;BA.debugLine="Service.StopAutomaticForeground 'Call this when t";
 mostCurrent._service.StopAutomaticForeground();
- //BA.debugLineNum = 39;BA.debugLine="End Sub";
+ //BA.debugLineNum = 38;BA.debugLine="End Sub";
 return "";
 }
 }

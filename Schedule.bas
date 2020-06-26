@@ -6,7 +6,6 @@ Version=8.3
 @EndOfDesignText@
 #Region  Service Attributes 
 	#StartAtBoot: True
-	
 #End Region
 
 Sub Process_Globals
