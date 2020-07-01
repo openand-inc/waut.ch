@@ -41,7 +41,7 @@ VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox awk -F\. '{ pri
 
 BOOT_ID=$(busybox cat /proc/sys/kernel/random/boot_id 2>/dev/null)
 
-    SYSCTL vm.vfs_cache_pressure=999999999
+    SYSCTL vm.vfs_cache_pressure=1000
     SYSCTL vm.vfs_cache_pressure=0
 
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
@@ -49,7 +49,7 @@ SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{
 if [ "x$SWAP" != "x" ]; then 
   if [ "$SWAP" -gt "10000" ]; then  
     SYSCTL vm.swappiness=1
-    SYSCTL vm.swappiness=3
+    SYSCTL vm.swappiness=2
   fi
 fi
 	
@@ -101,8 +101,8 @@ busybox sync
 # ECHO 64 > /proc/sys/kernel/random/write_wakeup_threshold
 # ECHO 64 > /proc/sys/kernel/random/read_wakeup_threshold
 # ECHO 10 > /proc/sys/vm/vfs_cache_pressure
-# ECHO 100 > /proc/sys/vm/dirty_ratio
-# ECHO 100 > /proc/sys/vm/dirty_background_ratio
+ECHO 100 > /proc/sys/vm/dirty_ratio
+ECHO 99 > /proc/sys/vm/dirty_background_ratio
 # ECHO 49 > /proc/sys/vm/overcommit_ratio
 # ECHO 1 > /proc/sys/vm/overcommit_memory
 # busybox chmod 666 /proc/sys/net/ipv4/icmp_echo_ignore_all
