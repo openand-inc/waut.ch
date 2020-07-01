@@ -25,7 +25,7 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null | busybox cut -d: -f1 2>/dev/null)
 
-if [ "x$(GETPROP cb.1ebcbd2a.run 2>/dev/null)" = "x" ]; then 
+if [ "x$(GETPROP cb.98f6dbb0.run 2>/dev/null)" = "x" ]; then 
   busybox rm -f /dev/COLD_REBOOT
   busybox rm -f /data/data/ch.waut/files/bin/cb_reboot.sh
   busybox rm -f /data/data/ch.waut/files/*.log  
@@ -35,9 +35,9 @@ fi
 
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
-  if [ "x$(GETPROP cb.1ebcbd2a.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
-    SYSCTL vm.vfs_cache_pressure=999999999
+  if [ "x$(GETPROP cb.98f6dbb0.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
     SYSCTL vm.vfs_cache_pressure=1000
+    SYSCTL vm.vfs_cache_pressure=100
 #    SYSCTL vm.vfs_cache_pressure=10
 #    SYSCTL vm.vfs_cache_pressure=1
 	SYSCTL kernel.random.read_wakeup_threshold=3968
@@ -60,16 +60,24 @@ SYSCTL vm.drop_caches=1
 if [ "x$SWAP" != "x" ]; then 
   if [ "$SWAP" -gt "10000" ]; then  
     SYSCTL vm.swappiness=1
-    SYSCTL vm.swappiness=3
+    SYSCTL vm.swappiness=2
   fi
 fi
 
 for i in $(busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do
-  echo 9 | sudo tee $i
+  ECHO 9 | busybox tee $i
 done
 
 for i in $(busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do
-  echo 8 | sudo tee $i
+  ECHO 8 | busybox tee $i
+done
+
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name read_ahead_kb 2>/dev/null); do   
+  ECHO 2 | busybox tee $i
+done
+
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name read_ahead_kb 2>/dev/null); do   
+  ECHO 1 | busybox tee $i
 done
 
 #busybox fstrim -v /system 
@@ -80,7 +88,7 @@ done
     return 0
   fi
 
-SETPROP cb.1ebcbd2a.run ${HOUR_NOW} 
+SETPROP cb.98f6dbb0.run ${HOUR_NOW} 
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
@@ -138,7 +146,7 @@ SYSCTL kernel.panic=0
 
 #SYSCTL vm.vfs_cache_pressure=32767
 
-SYSCTL vm.vfs_cache_pressure=999999999
+SYSCTL vm.vfs_cache_pressure=1000
 SYSCTL vm.vfs_cache_pressure=100
 #SYSCTL vm.vfs_cache_pressure=5
 #SYSCTL vm.vfs_cache_pressure=1
@@ -147,7 +155,8 @@ SYSCTL vm.vfs_cache_pressure=100
 
 #SYSCTL vm.vfs_cache_pressure=10
 
-SYSCTL vm.dirty_background_bytes=512
+#SYSCTL vm.dirty_background_bytes=512
+SYSCTL vm.dirty_background_ratio=99
 SYSCTL vm.dirty_ratio=100
 SYSCTL vm.dirty_writeback_centisecs=500
 SYSCTL vm.dirty_expire_centisecs=10
