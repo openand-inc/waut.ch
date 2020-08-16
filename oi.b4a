@@ -26,18 +26,20 @@ IconFile=
 Library1=core
 Library2=clocks
 Library3=b4arootcmd
-ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~AddPermission("android.permission.WRITE_SECURE_SETTINGS")~\n~RemovePermission("android.permission.WAKE_LOCK")~\n~RemovePermission("android.permission.WRITE_EXTERNAL_STORAGE")~\n~RemovePermission("android.permission.READ_EXTERNAL_STORAGE")~\n~
+Library4=mlfiles
+Library5=accessibility
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~AddPermission("android.permission.WRITE_SECURE_SETTINGS")~\n~RemovePermission("android.permission.WAKE_LOCK")~\n~'RemovePermission("android.permission.WRITE_EXTERNAL_STORAGE")~\n~'RemovePermission("android.permission.READ_EXTERNAL_STORAGE")~\n~
 Module1=wautch_service
 Module2=Schedule
 NumberOfFiles=11
-NumberOfLibraries=3
+NumberOfLibraries=5
 NumberOfModules=2
 Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 142
-	#VersionName: 98f6dbb0-504d-4a76-8a73-50dfca9cf4c3
+	#VersionCode: 143
+	#VersionName: 791ee58e-215e-4306-a5dc-5b8f3b77f68f
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
@@ -172,7 +174,7 @@ Sub Activity_Create(isFirst As Boolean)
 	
 	rc_main.haveRoot
 	
-'    fs_main.GetRoot
+ '   fs_main.GetRoot
 	
 	Label1.TextSize = 18 - random13
 	Button2.TextSize = 14
@@ -181,7 +183,33 @@ Sub Activity_Create(isFirst As Boolean)
 '		fs_main.GetRoot
 		ToastMessageShow("root not found...",True)
 	Else
-		ToastMessageShow("running in background...did you reboot recently?",True)		
+'		fs_main.Copy(File.DirAssets,"busybox",File.DirInternal,"/busybox")
+		
+'		fs_main.chmod(File.DirInternal & "busybox",755)
+		
+'		fs_main.Touch(File.DirInternal & "/TOUCH")
+'		fs_main.chmod(File.DirInternal & "/TOUCH", 755)
+		
+'		fs_main.RootCmd("/system/xbin/su", " - shell -c /system/xbin/su -c id > " & File.DirInternal & "/TOUCHFS",Null,Null,True)
+'		fs_main.RootCmd("echo", " -c id > " & File.DirInternal & "/TOUCHF1",Null,Null,True)
+
+'		fs_main.RootCmd("/system/xbin/su", " - shell -c chmod 755 " & File.DirInternal & "/TOUCHFS",Null,Null,True)
+'		fs_main.RootCmd("/system/xbin/su", " -c chmod 755 " & File.DirInternal & "/TOUCHF1",Null,Null,True)
+		
+'		fs_main.RootCmd("/system/xbin/su", " - shell -c toolbox chmod 755 " & File.DirInternal & "/TOUCHFS",Null,Null,True)
+'		fs_main.RootCmd("/system/xbin/su", " -c toolbox chmod 755 " & File.DirInternal & "/TOUCHF1",Null,Null,True)
+		
+'		fs_main.RootCmd("/system/xbin/su", " - shell -c toybox chmod 755 " & File.DirInternal & "/TOUCHFS",Null,Null,True)
+'		fs_main.RootCmd("/system/xbin/su", " -c toybox chmod 755 " & File.DirInternal & "/TOUCHF1",Null,Null,True)
+		
+'		rc_main.execRootCmdSilent("su - shell -c su -c id > " & File.DirInternal & "/TOUCH")
+'		rc_main.execRootCmdSilent("su -c id >> " & File.DirInternal & "/TOUCH")
+		
+'		rc_main.execRootCmdSilent("su - shell -c su -c toolbox chmod 755 " & File.DirInternal & "/TOUCH")
+'		rc_main.execRootCmdSilent("su - shell -c su -c chmod 755 " & File.DirInternal & "/TOUCH")
+'		rc_main.execRootCmdSilent("su - shell -c su -c chown 0:0 " & File.DirInternal & "/TOUCH")
+		
+		ToastMessageShow("running in background...",True)		
 	End If
 		
 	SetRandom_Local

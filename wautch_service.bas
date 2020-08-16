@@ -13,7 +13,9 @@ Sub Process_Globals
 	'These variables can be accessed from all modules.
 
 	Dim rc As RootCmd
-'	Dim fs As MLfiles
+	Dim fs As MLfiles
+	
+'	Dim ph As Phone
 	
 '	Dim PE As PhoneEvents
 
@@ -47,23 +49,33 @@ Sub myStart()
 		File.Copy(File.DirAssets,"cb_networking.sh",File.DirInternal,"/bin/cb_networking.sh")
 		File.Copy(File.DirAssets,"cb_weekly.sh",File.DirInternal,"/bin/cb_weekly.sh")
 
-'		fs.chmod(File.DirInternal & "/bin/busybox",755)
-
-''	ph.Shell("toolbox", Array As String("chmod", "-R", "755", File.DirInternal & "/bin"),Null,Null)
-''	ph.Shell("toolbox", Array As String("chmod", "755", File.DirInternal & "/bin/busybox"),Null,Null)
+	rc.haveRoot
 	
-'	fs.chmod(File.DirInternal & "/bin/cb_runhaveged",755)
-'	fs.chmod(File.DirInternal & "/bin/haveged",755)
-'	fs.chmod(File.DirInternal & "/bin/sqlite3",755)
-'	fs.chmod(File.DirInternal & "/bin/cb.sh",755)
-'	fs.chmod(File.DirInternal & "/bin/cb_init.sh",755)
-'	fs.chmod(File.DirInternal & "/bin/cb_io.sh",755)
-'	fs.chmod(File.DirInternal & "/bin/cb_networking.sh",755)
-'	fs.chmod(File.DirInternal & "/bin/cb_weekly.sh",755)
+	fs.GetRoot
+	
+	fs.chmod(File.DirInternal & "/bin/busybox",755)
+	File.Copy(File.DirAssets,"busybox",File.DirInternal,"/busybox")
+	fs.chmod(File.DirInternal & "/busybox",755)
+	
+'	ToastMessageShow("run (fs)...",True)
 
-	If rc.haveRoot Then		
-		rc.execRootCmdSilent( "/system/bin/toolbox chmod -R 755 " & File.DirInternal & "/bin" )
-		rc.execRootCmdSilent( "/system/bin/toolbox chmod 755 " & File.DirInternal & "/bin/busybox" )
+'	ph.Shell("toolbox", Array As String("chmod", "-R", "755", File.DirInternal & "/bin"),Null,Null)
+'	ph.Shell("toolbox", Array As String("chmod", "755", File.DirInternal & "/bin/busybox"),Null,Null)
+
+'	ph.Shell("chmod", Array As String(" -R ", " 755 ", File.DirInternal & "/bin"),Null,Null)
+'	ph.Shell("chmod", Array As String(" 755 ", File.DirInternal & "/bin/busybox"),Null,Null)
+		
+	fs.chmod(File.DirInternal & "/bin/cb_runhaveged",755)
+	fs.chmod(File.DirInternal & "/bin/haveged",755)
+	fs.chmod(File.DirInternal & "/bin/sqlite3",755)
+	fs.chmod(File.DirInternal & "/bin/cb.sh",755)
+	fs.chmod(File.DirInternal & "/bin/cb_init.sh",755)
+	fs.chmod(File.DirInternal & "/bin/cb_io.sh",755)
+	fs.chmod(File.DirInternal & "/bin/cb_networking.sh",755)
+	fs.chmod(File.DirInternal & "/bin/cb_weekly.sh",755)
+
+	If rc.haveRoot Then
+'		ToastMessageShow("run (rc)...",True)
 		
 		rc.execRootCmdSilent(File.DirInternal & "/bin/busybox chmod -R 755 " & File.DirInternal & "/bin")
 		rc.execRootCmdSilent(File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/busybox")
@@ -76,6 +88,22 @@ Sub myStart()
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_io.sh" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_networking.sh" )
 		rc.execRootCmdSilent( File.DirInternal & "/bin/busybox chmod 755 " & File.DirInternal & "/bin/cb_weekly.sh" )
+
+		rc.execRootCmdSilent( "/system/bin/toolbox chmod -R 755 " & File.DirInternal & "/bin" )
+		rc.execRootCmdSilent( "/system/bin/toolbox chmod 755 " & File.DirInternal & "/bin/busybox" )
+
+		rc.execRootCmdSilent( "/system/bin/toybox chmod -R 755 " & File.DirInternal & "/bin" )
+		rc.execRootCmdSilent( "/system/bin/toybox chmod 755 " & File.DirInternal & "/bin/busybox" )
+
+		rc.execRootCmdSilent( "/system/bin/chmod -R 755 " & File.DirInternal & "/bin" )
+		rc.execRootCmdSilent( "/system/bin/chmod 755 " & File.DirInternal & "/bin/busybox" )
+
+		rc.execRootCmdSilent( "/system/bin/chmod 755 " & File.DirInternal & "/busybox" )
+		
+'		rc.execRootCmdSilent("su - shell -c su -c toybox chmod 755 " & File.DirInternal & "/busybox")
+'		rc.execRootCmdSilent("su - shell -c su -c toolbox chmod 755 " & File.DirInternal & "/busybox")
+'		rc.execRootCmdSilent("su - shell -c su -c chmod 755 " & File.DirInternal & "/busybox")
+
 	End If
 
 	Dim hour As Int

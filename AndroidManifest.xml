@@ -2,8 +2,8 @@
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	package="ch.waut"
-	android:versionCode="142"
-	android:versionName="98f6dbb0-504d-4a76-8a73-50dfca9cf4c3"
+	android:versionCode="143"
+	android:versionName="791ee58e-215e-4306-a5dc-5b8f3b77f68f"
 	android:installLocation="internalOnly">
 	
 	<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>
@@ -11,6 +11,7 @@
 	    android:normalScreens="true" 
 	    android:smallScreens="true" 
 	    android:anyDensity="true"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 	<uses-permission android:name="android.permission.ACCESS_SUPERUSER"/>
 	<uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>

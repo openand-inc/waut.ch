@@ -126,9 +126,9 @@ public class schedule extends  android.app.Service{
 		return null;
 	}public anywheresoftware.b4a.keywords.Common __c = null;
 public static ice.rootcmd.RootCmd _v5 = null;
-public ch.waut.main _vv4 = null;
+public ch.waut.main _vv5 = null;
 public ch.waut.wautch_service _wautch_service = null;
-public static String  _vv3() throws Exception{
+public static String  _vv4() throws Exception{
 int _hour = 0;
  //BA.debugLineNum = 16;BA.debugLine="Sub myStart()";
  //BA.debugLineNum = 18;BA.debugLine="Dim hour As Int";
@@ -168,7 +168,7 @@ public static String  _service_start(anywheresoftware.b4a.objects.IntentWrapper 
  //BA.debugLineNum = 32;BA.debugLine="StartServiceAt(\"\", DateTime.Now + 3300 * 1000, Fa";
 anywheresoftware.b4a.keywords.Common.StartServiceAt(processBA,(Object)(""),(long) (anywheresoftware.b4a.keywords.Common.DateTime.getNow()+3300*1000),anywheresoftware.b4a.keywords.Common.False);
  //BA.debugLineNum = 34;BA.debugLine="myStart";
-_vv3();
+_vv4();
  //BA.debugLineNum = 36;BA.debugLine="Service.StopAutomaticForeground 'Call this when t";
 mostCurrent._service.StopAutomaticForeground();
  //BA.debugLineNum = 38;BA.debugLine="End Sub";
