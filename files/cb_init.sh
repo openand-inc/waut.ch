@@ -265,6 +265,8 @@ UPDATE_TABLES SECURE adb_enabled 0
 SETPROP logcat.live disable
 busybox rm -f /dev/log/main
 
+setprop ctl.stop adbd
+
 /system/bin/stop adbd
 
 /system/bin/logcat -b main -b system -b crash -G 64Kb
