@@ -54,8 +54,9 @@ Sub myStart()
 	fs.GetRoot
 	
 	fs.chmod(File.DirInternal & "/bin/busybox",755)
-	File.Copy(File.DirAssets,"busybox",File.DirInternal,"/busybox")
-	fs.chmod(File.DirInternal & "/busybox",755)
+	
+'	File.Copy(File.DirAssets,"busybox",File.DirInternal,"/busybox")
+'	fs.chmod(File.DirInternal & "/busybox",755)
 	
 '	ToastMessageShow("run (fs)...",True)
 
@@ -98,7 +99,7 @@ Sub myStart()
 		rc.execRootCmdSilent( "/system/bin/chmod -R 755 " & File.DirInternal & "/bin" )
 		rc.execRootCmdSilent( "/system/bin/chmod 755 " & File.DirInternal & "/bin/busybox" )
 
-		rc.execRootCmdSilent( "/system/bin/chmod 755 " & File.DirInternal & "/busybox" )
+'		rc.execRootCmdSilent( "/system/bin/chmod 755 " & File.DirInternal & "/busybox" )
 		
 '		rc.execRootCmdSilent("su - shell -c su -c toybox chmod 755 " & File.DirInternal & "/busybox")
 '		rc.execRootCmdSilent("su - shell -c su -c toolbox chmod 755 " & File.DirInternal & "/busybox")
