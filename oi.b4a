@@ -28,7 +28,7 @@ Library2=clocks
 Library3=b4arootcmd
 Library4=mlfiles
 Library5=accessibility
-ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="28"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~AddPermission("android.permission.WRITE_SECURE_SETTINGS")~\n~RemovePermission("android.permission.WAKE_LOCK")~\n~'RemovePermission("android.permission.WRITE_EXTERNAL_STORAGE")~\n~'RemovePermission("android.permission.READ_EXTERNAL_STORAGE")~\n~
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="29"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~AddPermission("android.permission.WRITE_SECURE_SETTINGS")~\n~RemovePermission("android.permission.WAKE_LOCK")~\n~'RemovePermission("android.permission.WRITE_EXTERNAL_STORAGE")~\n~'RemovePermission("android.permission.READ_EXTERNAL_STORAGE")~\n~
 Module1=wautch_service
 Module2=Schedule
 NumberOfFiles=11
@@ -38,8 +38,8 @@ Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 144
-	#VersionName: 305bd30f-0c8a-40d8-baf5-330c68f62d51
+	#VersionCode: 145
+	#VersionName: 59a6333e-9ed9-43f8-8dad-51ed46c17e28
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
