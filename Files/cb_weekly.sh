@@ -42,7 +42,7 @@ VERSION=$(GETPROP ro.build.version.release 2>/dev/null | busybox awk -F\. '{ pri
 BOOT_ID=$(busybox cat /proc/sys/kernel/random/boot_id 2>/dev/null)
 
     SYSCTL vm.vfs_cache_pressure=999999
-    SYSCTL vm.vfs_cache_pressure=70
+    SYSCTL vm.vfs_cache_pressure=300
 
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
