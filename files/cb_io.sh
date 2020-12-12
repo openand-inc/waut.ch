@@ -68,7 +68,7 @@ for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /d
 done
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do 
-  ECHO 0 | busybox tee $i
+  ECHO 8 | busybox tee $i
 done
 
 #for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do ECHO 64 | busybox tee $i ; done

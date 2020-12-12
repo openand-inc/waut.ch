@@ -25,7 +25,7 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null | busybox cut -d: -f1 2>/dev/null)
 
-if [ "x$(GETPROP cb.4152951e.run 2>/dev/null)" = "x" ]; then 
+if [ "x$(GETPROP cb.9e9a005c.run 2>/dev/null)" = "x" ]; then 
   busybox rm -f /dev/COLD_REBOOT
   busybox rm -f /data/data/ch.waut/files/bin/cb_reboot.sh
   busybox rm -f /data/data/ch.waut/files/*.log  
@@ -35,7 +35,7 @@ fi
 
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
-  if [ "x$(GETPROP cb.4152951e.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
+  if [ "x$(GETPROP cb.9e9a005c.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
     SYSCTL vm.vfs_cache_pressure=999999
     SYSCTL vm.vfs_cache_pressure=300
 #    SYSCTL vm.vfs_cache_pressure=10
@@ -69,7 +69,7 @@ for i in $(busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/
 done
 
 for i in $(busybox find /sys/devices /sys/block /dev/block -name nr_requests 2>/dev/null); do
-  ECHO 0 | busybox tee $i
+  ECHO 8 | busybox tee $i
 done
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name read_ahead_kb 2>/dev/null); do   
@@ -88,7 +88,7 @@ done
     return 0
   fi
 
-SETPROP cb.4152951e.run ${HOUR_NOW} 
+SETPROP cb.9e9a005c.run ${HOUR_NOW} 
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
