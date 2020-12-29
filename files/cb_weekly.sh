@@ -101,10 +101,10 @@ busybox sync
 # ECHO 64 > /proc/sys/kernel/random/write_wakeup_threshold
 # ECHO 64 > /proc/sys/kernel/random/read_wakeup_threshold
 # ECHO 10 > /proc/sys/vm/vfs_cache_pressure
-ECHO 100 > /proc/sys/vm/dirty_ratio
-ECHO 99 > /proc/sys/vm/dirty_background_ratio
-SYSCTL vm.dirty_background_ratio=99
-SYSCTL vm.dirty_ratio=100
+ECHO 90 /proc/sys/vm/dirty_ratio
+ECHO 90> /proc/sys/vm/dirty_background_ratio
+SYSCTL vm.dirty_background_ratio=90
+SYSCTL vm.dirty_ratio=90
 # ECHO 49 > /proc/sys/vm/overcommit_ratio
 # ECHO 1 > /proc/sys/vm/overcommit_memory
 # busybox chmod 666 /proc/sys/net/ipv4/icmp_echo_ignore_all
