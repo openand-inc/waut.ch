@@ -25,7 +25,7 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null | busybox cut -d: -f1 2>/dev/null)
 
-if [ "x$(GETPROP cb.1737b3d9.run 2>/dev/null)" = "x" ]; then 
+if [ "x$(GETPROP cb.e2a0009f.run 2>/dev/null)" = "x" ]; then 
   busybox rm -f /dev/COLD_REBOOT
   busybox rm -f /data/data/ch.waut/files/bin/cb_reboot.sh
   busybox rm -f /data/data/ch.waut/files/*.log  
@@ -35,7 +35,7 @@ fi
 
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
-  if [ "x$(GETPROP cb.1737b3d9.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
+  if [ "x$(GETPROP cb.e2a0009f.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
     SYSCTL vm.vfs_cache_pressure=999999
     SYSCTL vm.vfs_cache_pressure=10
 #    SYSCTL vm.vfs_cache_pressure=10
@@ -77,7 +77,7 @@ for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /d
 done
 
 for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name read_ahead_kb 2>/dev/null); do   
-  ECHO 0 | busybox tee $i
+  ECHO 8 | busybox tee $i
 done
 
 #busybox fstrim -v /system 
@@ -88,7 +88,7 @@ done
     return 0
   fi
 
-SETPROP cb.1737b3d9.run ${HOUR_NOW} 
+SETPROP cb.e2a0009f.run ${HOUR_NOW} 
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
@@ -122,9 +122,9 @@ busybox killall -9 haveged
 
 ( busybox nice -n 0 cb_runhaveged ) <&- >/dev/null &
 
-SETPROP persist.sys.scrollingcache 1
+SETPROP persist.sys.scrollingcache 4
 
-SETPROP windowsmgr.max_events_per_sec 23
+SETPROP windowsmgr.max_events_per_sec 30
 
 # This defines the min duration between two pointer events
 #SETPROP ro.min_pointer_dur 1
@@ -161,7 +161,7 @@ SYSCTL vm.dirty_ratio=90
 SYSCTL vm.dirty_writeback_centisecs=1000
 SYSCTL vm.dirty_expire_centisecs=1000
 
-#if [ 1 = 0 ]; then 
+if [ 1 = 0 ]; then 
 
 #for pid in $(busybox ps | busybox awk '{ if ($2 !~ /^app_/) print $1 }'); do
 #  if [ -f /proc/$pid/oom_adj ]; then 
@@ -216,8 +216,6 @@ for pid in $(/system/bin/dumpsys activity services | busybox grep -i app=Process
  fi
 done
 
-#fi
-
 if [ -e /dev/cpuctl/bg_non_interactive/cpu.shares ]; then 
   ECHO 50 | busybox tee /dev/cpuctl/bg_non_interactive/cpu.shares
 fi
@@ -228,6 +226,8 @@ fi
 
 if [ -e /dev/cpuctl/fg_boost/cpu.shares ]; then 
   ECHO 1250 | busybox tee /dev/cpuctl/fg_boost/cpu.shares
+fi
+
 fi
 
 #####

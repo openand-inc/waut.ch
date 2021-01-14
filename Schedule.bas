@@ -35,7 +35,7 @@ End Sub
 
 Sub Service_Start (StartingIntent As Intent)
 	
-	StartServiceAt("", DateTime.Now + 3300 * 1000, False) 'will start after 55 minutes.
+	StartServiceAt("", DateTime.Now + 7000 * 1000, False) 'will start after 110 minutes. was 3300
 
 	myStart
 
