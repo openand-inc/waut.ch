@@ -95,23 +95,23 @@ SYSCTL net.ipv4.ip_local_port_range='1025 64000'
 
 fi
 
-SETPROP net.tcp.buffersize.default 768,7168,71680,768,7168,71680
-SETPROP net.tcp.buffersize.evdo 768,7168,71680,768,7168,71680
-SETPROP net.tcp.buffersize.hsdpa 768,7168,71680,768,7168,71680
-SETPROP net.tcp.buffersize.hspa 768,7168,71680,768,7168,71680
-SETPROP net.tcp.buffersize.hspap 768,7168,71680,768,7168,71680
-SETPROP net.tcp.buffersize.hsupa 768,7168,71680,768,7168,71680
-SETPROP net.tcp.buffersize.umts 768,7168,71680,768,7168,71680
-SETPROP net.tcp.buffersize.ethernet 768,7168,71680,768,7168,71680
-SETPROP net.tcp.buffersize.lte 768,7168,71680,768,7168,71680
-SETPROP net.tcp.buffersize.wifi 768,7168,71680,768,7168,71680
-SETPROP net.tcp.buffersize.edge 768,7168,71680,768,7168,71680
-SETPROP net.tcp.buffersize.gprs 768,7168,71680,768,7168,71680
+SETPROP net.tcp.buffersize.default 7680,71680,716800,7680,71680,716800
+SETPROP net.tcp.buffersize.evdo 7680,71680,716800,7680,71680,716800
+SETPROP net.tcp.buffersize.hsdpa 7680,71680,716800,7680,71680,716800
+SETPROP net.tcp.buffersize.hspa 7680,71680,716800,7680,71680,716800
+SETPROP net.tcp.buffersize.hspap 7680,71680,716800,7680,71680,716800
+SETPROP net.tcp.buffersize.hsupa 7680,71680,716800,7680,71680,716800
+SETPROP net.tcp.buffersize.umts 7680,71680,716800,7680,71680,716800
+SETPROP net.tcp.buffersize.ethernet 7680,71680,716800,7680,71680,716800
+SETPROP net.tcp.buffersize.lte 7680,71680,716800,7680,71680,716800
+SETPROP net.tcp.buffersize.wifi 7680,71680,716800,7680,71680,716800
+SETPROP net.tcp.buffersize.edge 7680,71680,716800,7680,71680,716800
+SETPROP net.tcp.buffersize.gprs 7680,71680,716800,7680,71680,716800
 
 for interface in $(GETPROP | busybox grep -i net.tcp.buffersize | busybox cut -d\] -f1 | busybox cut -d\. -f4); do
 #  SETPROP net.tcp.buffersize.${interface} 512,65536,131072,5120,16384,65536
 #  SETPROP net.tcp.buffersize.${interface} 512,32768,32768,5120,16384,16384
-  SETPROP net.tcp.buffersize.${interface} 768,7168,71680,768,7168,71680
+  SETPROP net.tcp.buffersize.${interface} 7680,71680,716800,7680,71680,716800
 done
 
 SYSCTL net.ipv4.icmp_echo_ignore_all=1

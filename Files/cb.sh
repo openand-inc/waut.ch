@@ -25,7 +25,7 @@ if [ "$(GETPROP persist.cb.enabled 2>/dev/null)" = "FALSE" ]; then return 0; fi
 
 HOUR_NOW=$(busybox date -u 2>/dev/null | busybox awk '{ print $4 }' 2>/dev/null | busybox cut -d: -f1 2>/dev/null)
 
-if [ "x$(GETPROP cb.e2a0009f.run 2>/dev/null)" = "x" ]; then 
+if [ "x$(GETPROP cb.1a33d189.run 2>/dev/null)" = "x" ]; then 
   busybox rm -f /dev/COLD_REBOOT
   busybox rm -f /data/data/ch.waut/files/bin/cb_reboot.sh
   busybox rm -f /data/data/ch.waut/files/*.log  
@@ -35,7 +35,7 @@ fi
 
 SWAP=$(busybox free 2>/dev/null | busybox grep Swap 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
-  if [ "x$(GETPROP cb.e2a0009f.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
+  if [ "x$(GETPROP cb.1a33d189.run 2>/dev/null)" = "x${HOUR_NOW}" ]; then 
     SYSCTL vm.vfs_cache_pressure=999999
     SYSCTL vm.vfs_cache_pressure=10
 #    SYSCTL vm.vfs_cache_pressure=10
@@ -88,7 +88,7 @@ done
     return 0
   fi
 
-SETPROP cb.e2a0009f.run ${HOUR_NOW} 
+SETPROP cb.1a33d189.run ${HOUR_NOW} 
 
 MEM=$(busybox free 2>/dev/null | busybox grep Mem 2>/dev/null | busybox awk '{ print $2 }' 2>/dev/null)
 
@@ -124,7 +124,7 @@ busybox killall -9 haveged
 
 SETPROP persist.sys.scrollingcache 4
 
-SETPROP windowsmgr.max_events_per_sec 30
+SETPROP windowsmgr.max_events_per_sec 60
 
 # This defines the min duration between two pointer events
 #SETPROP ro.min_pointer_dur 1
@@ -315,7 +315,7 @@ POOLSIZE=3968
    SYSCTL kernel.random.write_wakeup_threshold="${POOLSIZE}"
 #fi
 
-for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name add_random -print 2>/dev/null); do ECHO 1 | busybox tee $i; done 
+for i in $(busybox timeout -t 15 -s KILL busybox find /sys/devices /sys/block /dev/block -name add_random -print 2>/dev/null); do ECHO 0 | busybox tee $i; done 
 
 #for pid in $(busybox ps -o pid,args 2>/dev/null | busybox grep -i haveged 2>/dev/null | busybox awk '{ print $1 }' 2>/dev/null); do
 for pid in $(busybox pgrep haveged 2>/dev/null); do
