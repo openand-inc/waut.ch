@@ -1,18 +1,26 @@
 ﻿Build1=Default,ch.waut
 File1=20160813_151619_ii.jpg
-File10=Main.bal
-File11=sqlite3
+File10=haveged
+File11=haveged-COPYING
+File12=Main.bal
+File13=NOLICENSE
+File14=sqlite3
+File15=sqlite-LICENSE.md
 File2=busybox
-File3=cb.sh
-File4=cb_init.sh
-File5=cb_io.sh
-File6=cb_networking.sh
-File7=cb_runhaveged
-File8=cb_weekly.sh
-File9=haveged
+File3=busybox-LICENSE
+File4=cb.sh
+File5=cb_init.sh
+File6=cb_io.sh
+File7=cb_networking.sh
+File8=cb_runhaveged
+File9=cb_weekly.sh
 FileGroup1=Default Group
 FileGroup10=Default Group
 FileGroup11=Default Group
+FileGroup12=Default Group
+FileGroup13=Default Group
+FileGroup14=Default Group
+FileGroup15=Default Group
 FileGroup2=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
@@ -31,15 +39,15 @@ Library5=accessibility
 ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="29"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~AddPermission("android.permission.ACCESS_SUPERUSER")~\n~AddPermission("android.permission.WRITE_SECURE_SETTINGS")~\n~RemovePermission("android.permission.WAKE_LOCK")~\n~'RemovePermission("android.permission.WRITE_EXTERNAL_STORAGE")~\n~'RemovePermission("android.permission.READ_EXTERNAL_STORAGE")~\n~
 Module1=wautch_service
 Module2=Schedule
-NumberOfFiles=11
+NumberOfFiles=15
 NumberOfLibraries=5
 NumberOfModules=2
 Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 161
-	#VersionName: 1a33d189-8d8b-4765-a2c5-285ca648d771
+	#VersionCode: 163
+	#VersionName: 1c3e5a23-68a3-4557-ad61-bae2e5b56878
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
