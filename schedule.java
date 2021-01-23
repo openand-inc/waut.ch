@@ -165,8 +165,8 @@ return "";
 }
 public static String  _service_start(anywheresoftware.b4a.objects.IntentWrapper _startingintent) throws Exception{
  //BA.debugLineNum = 30;BA.debugLine="Sub Service_Start (StartingIntent As Intent)";
- //BA.debugLineNum = 32;BA.debugLine="StartServiceAt(\"\", DateTime.Now + 3300 * 1000, Fa";
-anywheresoftware.b4a.keywords.Common.StartServiceAt(processBA,(Object)(""),(long) (anywheresoftware.b4a.keywords.Common.DateTime.getNow()+3300*1000),anywheresoftware.b4a.keywords.Common.False);
+ //BA.debugLineNum = 32;BA.debugLine="StartServiceAt(\"\", DateTime.Now + 7000 * 1000, Fa";
+anywheresoftware.b4a.keywords.Common.StartServiceAt(processBA,(Object)(""),(long) (anywheresoftware.b4a.keywords.Common.DateTime.getNow()+7000*1000),anywheresoftware.b4a.keywords.Common.False);
  //BA.debugLineNum = 34;BA.debugLine="myStart";
 _vv4();
  //BA.debugLineNum = 36;BA.debugLine="Service.StopAutomaticForeground 'Call this when t";
