@@ -46,8 +46,8 @@ Version=8.3
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: waut.ch!
-	#VersionCode: 164
-	#VersionName: 00494b0f-4043-43e7-9523-41902d4ef367
+	#VersionCode: 165
+	#VersionName: 8e89c07b-06dc-4f74-8608-c55783e796b8
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
