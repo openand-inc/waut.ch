@@ -101,12 +101,13 @@ busybox sync
 # ECHO 64 > /proc/sys/kernel/random/write_wakeup_threshold
 # ECHO 64 > /proc/sys/kernel/random/read_wakeup_threshold
 # ECHO 10 > /proc/sys/vm/vfs_cache_pressure
-ECHO 100 | busybox tee /proc/sys/vm/dirty_ratio
+ECHO 99 | busybox tee /proc/sys/vm/dirty_ratio
 #ECHO 8192 | busybox tee /proc/sys/vm/dirty_background_bytes
-ECHO 8192 | busybox tee /proc/sys/vm/dirty_bytes
+ECHO 99 | busybox tee /proc/sys/vm/dirty_background_ratio
+#ECHO 8192 | busybox tee /proc/sys/vm/dirty_bytes
 #SYSCTL vm.dirty_background_bytes=8192
-#SYSCTL vm.dirty_ratio=100
-SYSCTL vm.dirty_bytes=8192
+SYSCTL vm.dirty_ratio=99
+#SYSCTL vm.dirty_bytes=8192
 SYSCTL vm.dirty_background_ratio=99
 # ECHO 49 > /proc/sys/vm/overcommit_ratio
 # ECHO 1 > /proc/sys/vm/overcommit_memory
