@@ -256,6 +256,8 @@ SETPROP persist.sys.composition.type gpu
 SETPROP ro.media.dec.jpeg.memcap 8000000
 SETPROP ro.media.enc.hprof.vid.bps 8000000
 
+/system/bin/service call SurfaceFlinger 1008 i32 1
+
 SETPROP persist.service.adb.enable 0
 
 UPDATE_TABLES GLOBAL adb_enabled 0
